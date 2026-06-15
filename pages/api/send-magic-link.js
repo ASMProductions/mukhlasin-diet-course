@@ -41,7 +41,7 @@ export default async function handler(req, res) {
   });
 
   // Send magic link email via HostGator SMTP
-  const magicLink = `https://www.masterylevelfasting.com/magic-link?token=${token}`;
+  const magicLink = `https://mukhlasin-diet-course.vercel.app/magic-link?token=${token}`;
 
   const transporter = nodemailer.createTransport({
     host: "gator3251.hostgator.com",
