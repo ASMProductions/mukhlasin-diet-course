@@ -13,6 +13,83 @@ const MASTERY_COVER = "/mastery-cover.jpg";
 
 const BIO = `Amin Shabazz Muhammad was born and raised in St. Paul, Minnesota. In 1982 he founded Minnesota's first Hip-Hop B-Boy crew and was instrumental in promoting peace in the Twin Cities through culture rather than conflict. A community activist, martial artist, self-taught multi-instrumentalist, singer-songwriter, multi-linguist, and world traveler — he has dedicated his life to the upliftment of his people through knowledge of self. He assisted major recording artist Prince in his pursuit of spiritual and political consciousness, and has instructed many thousands more in the disciplines of martial arts, diet, language, history, culture, and self-knowledge. For over 30 years — now entering his fourth decade of practice — he has lived what others only study. What you see in his face at 57 years old is not a claim. It is a testimony.`;
 
+const COURSE_MODULES = [
+  {
+    id: 1, title: "Introduction & Medical Disclaimer",
+    slides: [
+      { title: "Medical Disclaimer", body: "The information presented in this course is for educational purposes only. It is not intended as medical advice and should not replace consultation with a qualified healthcare professional. Before beginning any fasting or dietary practice, consult your physician — especially if you have a chronic medical condition, are pregnant, or are taking prescription medications.\n\nThe author bears witness to his own 30+ years of personal practice. Individual results will vary. Proceed with wisdom, patience, and self-awareness." },
+      { title: "Who This Course Is For", body: "This course is for the sincere seeker — regardless of religious background, cultural tradition, or prior experience with fasting.\n\nThe Mukhlasin discipline is ancient. It predates any single religion or culture. Its principles are found in the teachings of the Quran, the Bible, the Hadith, and the Ancient Mystery Systems of Asia.\n\nIf you are drawn to this practice, you belong here. Welcome." },
+      { title: "How to Use This Course", body: "Move through each module in sequence. Do not skip ahead.\n\nThe discipline has levels — and each level must be mastered before ascending to the next. This course mirrors that structure.\n\nTake notes. Return to sections that challenge you. Practice what you learn before moving to the next module.\n\nThe greatest desire of any Teacher is the success of the student." },
+    ]
+  },
+  {
+    id: 2, title: "The Foundation — What Is the Mukhlasin Diet?",
+    slides: [
+      { title: "The Meaning of Mukhlasin", body: "The word Mukhlasin — الْمُخْلَصِينَ — refers to those who have been purified. Not merely cleansed of physical impurity, but elevated in consciousness, refined in character, and liberated from the enslavement of appetite.\n\nThe Quran speaks of the Mukhlasin as those whom Satan himself declared he could not lead astray. This is a physiological and spiritual state — achieved through the disciplined practice of dietary restriction." },
+      { title: "The Origin of the Discipline", body: "This discipline is not new. It is thousands of years old.\n\nThe Ancient Mystery Systems of Asia preserved and practiced these principles. The Prophets practiced extended fasting as a standard of spiritual life. The Most Honorable Elijah Muhammad documented the prescription for modern practitioners in How To Eat To Live.\n\nAmin Shabazz Muhammad has practiced and refined these principles for over 30 years. What you are learning is living testimony — not theory." },
+      { title: "The Three Levels", body: "The Mukhlasin Diet has three ascending levels of practice:\n\n1. OMAD — One Meal A Day\nThe foundation. The minimum standard for health and longevity.\n\n2. OME2D — One Meal Every Two Days\nThe intermediate level. Slows aging. Heightens perception.\n\n3. OME3D — One Meal Every Three Days\nThe master level. Reverses apparent age. Elevates consciousness.\n\nEach level must be mastered before ascending. There are no shortcuts." },
+    ]
+  },
+  {
+    id: 3, title: "Level One — One Meal A Day (OMAD)",
+    slides: [
+      { title: "Why One Meal A Day?", body: "The human digestive system requires a minimum of 24 hours to fully process a properly composed meal and extract its nutritional value.\n\nWhen we introduce new food before the previous meal has been fully processed, we create a condition of chronic digestive stress. Over time, this stress manifests as disease.\n\nOMAD eliminates this stress entirely. The body is given the time it needs to fully digest, absorb, and eliminate. The results are immediate and unmistakable." },
+      { title: "What to Eat", body: "The meal at OMAD should be a proper, full meal — not a snack, not a light eating, but a complete and nutritious meal that provides all the nutrients the body requires for the following 24 hours.\n\nPrioritize: fresh vegetables, whole grains, legumes, fruits, and clean proteins.\n\nAvoid: processed foods, refined sugars, artificial ingredients, and anything your great-grandmother would not recognize as food.\n\nBetween meals: water and coffee only. Nothing else." },
+      { title: "When to Eat", body: "The timing of the meal matters.\n\nThe digestive fires are strongest in the afternoon and early evening. Ideally, take your one meal between 2pm and 7pm.\n\nThis aligns with the natural circadian rhythm of the digestive system and maximizes the efficiency of nutrient extraction and waste elimination.\n\nThe morning hours are best used for productivity, prayer, study, and light movement — not eating." },
+      { title: "The First 30 Days", body: "The first 30 days of OMAD are the most challenging — and the most important.\n\nYour body will resist. The appetite will demand its old patterns. This is normal. This is exactly where the discipline begins.\n\nDo not negotiate with the lower self. The appetite is not your master. You are.\n\nBy day 30, most practitioners report that OMAD has become entirely natural. What once seemed extreme now seems obvious. This is the first victory." },
+    ]
+  },
+  {
+    id: 4, title: "The Physical Transformation",
+    slides: [
+      { title: "The Glow", body: "Every practitioner of the Mukhlasin Diet, without exception, eventually experiences what has been called The Glow.\n\nThe Glow is a brightness upon the face and countenance — a visible luminescence that is unmistakable to all who encounter the practitioner.\n\nIt is not cosmetic. It cannot be manufactured. It is the natural luminescence of a purified vessel — the outward expression of an inward transformation.\n\nPrince once said of Amin Shabazz Muhammad: 'He always looks like he's standing under a spotlight.' He saw the Glow. He was so inspired that he became a vegan." },
+      { title: "Weight Normalization", body: "The Mukhlasin Diet does not produce weight loss in the conventional sense. It produces weight normalization.\n\nThe body finds its natural, optimal weight and maintains it with remarkable stability. The practitioner does not obsess over calories or macros. They simply eat one proper meal per day and allow the body's intelligence to do the rest.\n\nThis is the natural state of the human body. Excess weight is the aberration. The Mukhlasin Diet corrects the aberration." },
+      { title: "Pain and Inflammation", body: "One of the most dramatic and immediate benefits of OMAD is the reduction of chronic pain and inflammation.\n\nAmin Shabazz Muhammad suffered from Osteoid Osteoma — an extremely painful bone tumor — for years before discovering this practice. During his very first three-day fast, on the first three days of 1994, he was completely pain-free for the first time in years.\n\nThe mechanism is simple: inflammation requires fuel. When the digestive system is at rest, the body redirects that energy toward healing. Fasting is the most powerful anti-inflammatory tool available." },
+      { title: "Mental Clarity", body: "The mind becomes FAST.\n\nNot merely quick in thought, but rapid in discernment — swift in perception, clear in judgment. Problems that previously required extended deliberation resolve themselves almost instantaneously.\n\nThe enteric nervous system — the second brain — contains over 100 million nerve cells. When the digestive system is at rest, this second brain communicates more efficiently with the primary brain.\n\nThe result is a state of heightened cognitive function that ancient practitioners described as spiritual ascension." },
+    ]
+  },
+  {
+    id: 5, title: "The Spiritual Dimensions",
+    slides: [
+      { title: "Fasting in the Sacred Traditions", body: "Every major spiritual tradition has recognized fasting as a gateway to higher consciousness.\n\nThe Prophet Muhammad (PBUH) fasted regularly and described it as a shield. The Prophet Jesus fasted for 40 days in the wilderness before beginning his ministry. The Prophet David fasted one day out of every two. The Buddha spent six years practicing various degrees of fasting as a means of purification.\n\nThis convergence is not coincidence. The ancient teachers understood what modern science is only beginning to confirm: the purified body is the doorway to elevated consciousness." },
+      { title: "Diet and Spiritual State", body: "The accumulation of toxins in the body is not merely a physical phenomenon. It is a spiritual one.\n\nThe foods we consume, the thoughts we entertain, the behaviors we engage in — all leave residues in the body and spirit that, over time, accumulate into a burden that dims the Light of the practitioner.\n\nThe practice of the Mukhlasin Diet is, in part, a practice of toxicity reduction. As the body becomes lighter and cleaner, the spirit becomes correspondingly clearer and more luminous." },
+      { title: "Forgiveness as Fasting", body: "No discipline of the spirit can reach its fullest expression without the practice of forgiveness.\n\nUnforgiveness produces a chronic state of stress in the body that undermines every other effort at self-improvement. The toxicity of unforgiveness is as real and as harmful as the toxicity of processed food.\n\nForgiveness does not mean condoning what was done. It means releasing the toxin of resentment from your own system — not for the sake of the one who wronged you, but for the sake of your own health and freedom.\n\nThe practice of forgiveness is a form of fasting." },
+    ]
+  },
+  {
+    id: 6, title: "Level Two — One Meal Every Two Days (OME2D)",
+    slides: [
+      { title: "Ascending to OME2D", body: "One Meal Every Two Days is the intermediate level of the Mukhlasin practice.\n\nDo not attempt this level until you have mastered OMAD for a minimum of 90 days. The body must be prepared. The will must be trained. The foundation must be solid.\n\nWhen you are ready, the transition to OME2D will feel natural — almost inevitable. The practitioner who has truly mastered OMAD will find that extending to 48 hours requires less effort than the first week of OMAD did." },
+      { title: "What Changes at OME2D", body: "At One Meal Every Two Days, the transformation accelerates dramatically.\n\nThe speed of reflexes increases. Sensory perception heightens. The Glow intensifies. Sleep requirements decrease while sleep quality improves.\n\nThe aging process begins to visibly slow. Practitioners consistently appear significantly younger than their chronological age. The body's cellular repair mechanisms — including the process of autophagy — operate at maximum efficiency." },
+      { title: "Preparing the OME2D Meal", body: "At OME2D, the meal must now sustain the practitioner for 48 hours.\n\nDouble the quality. Double the care in preparation. Organic food at the highest quality you can afford. Fresh vegetables, whole grains, clean proteins, and plenty of water-rich foods.\n\nThe meal should be eaten slowly, with full attention and gratitude. This is not merely eating. This is the refueling of a high-performance vessel.\n\nRoom temperature water between meals. Nothing else." },
+    ]
+  },
+  {
+    id: 7, title: "Level Three — One Meal Every Three Days (OME3D)",
+    slides: [
+      { title: "The Master Level", body: "One Meal Every Three Days is the level of complete Self Mastery.\n\nThis discipline will increase the lifespan of the practitioner, reverse the apparent age of the person, and elevate them into the highest degree of consciousness and self-awareness available to the human being.\n\nDo not attempt this level until you have mastered OME2D for a minimum of 90 days. The ascent must be gradual. Be kind to yourself." },
+      { title: "What the Masters Practiced", body: "The Prophet David practiced One Meal Every Two Days.\n\nThe Prophet Jesus fasted for 40 days in the wilderness.\n\nThe Buddha spent six years practicing various degrees of fasting as a means of purification.\n\nThe ancient masters of the Eastern Mystery Systems practiced One Meal Every Three Days as their standard discipline — and were known to live into extreme old age, maintaining youthful appearance, mental agility, and the brightness of the Glow.\n\nYou are not pioneering something new. You are returning to something ancient." },
+      { title: "Life at OME3D", body: "At One Meal Every Three Days, changes occur that are difficult to describe to those who have not experienced them.\n\nSleep requirements decrease to four to six hours per night — not from deprivation, but from the body's increased efficiency. Mental acuity increases dramatically. The sense of time changes. The practitioner operates from a fundamentally different plane of awareness.\n\nOrdinary concerns lose their grip. Clarity becomes the default state. The Glow is unmistakable and permanent.\n\nThis is what the ancients called enlightenment. It is not a mystical abstraction. It is a physiological reality available to any who would walk the path." },
+    ]
+  },
+  {
+    id: 8, title: "The Monthly 72-Hour Community Fast",
+    slides: [
+      { title: "Fasting Together", body: "Every first Friday through Sunday of the month, members of this platform fast together.\n\nThis is not merely a dietary practice. It is a community practice — a shared discipline that creates real bonds between practitioners who may never meet in person but who are united by a common commitment to the highest standard of self-mastery.\n\nPost your experience. Read others'. Ask questions. Offer encouragement. This is what separates a subscription from a practice." },
+      { title: "The 72-Hour Protocol", body: "Begin Friday morning. Take your last meal Thursday evening.\n\nDrink room temperature water throughout the fast. Coffee is permitted in small amounts.\n\nDo not engage in strenuous physical activity during the fast. Rest, pray, study, and reflect.\n\nBreak the fast Sunday with a small, easily digestible meal. Fresh fruit, light soup, or vegetables. Do not break a 72-hour fast with a heavy meal.\n\nRecord your experience. Note the clarity, the dreams, the emotional shifts. These are data points on your journey." },
+      { title: "What to Expect", body: "First-time fasters will experience hunger, irritability, and mental fog in the first 24 hours. This is normal. Push through.\n\nBy hour 36, most practitioners enter a state of unusual calm and clarity. The hunger recedes. The mind sharpens.\n\nBy hour 60, the practitioner is operating at a fundamentally elevated level. This is the gift that awaits on the other side of the discomfort.\n\nBy Sunday, you will understand why the ancients made this their standard practice." },
+    ]
+  },
+  {
+    id: 9, title: "Conclusion — The Testimony",
+    slides: [
+      { title: "The Witness", body: "I did not invent this discipline. I only bear witness to its power.\n\nFor over 30 years, I have practiced what I have taught in this course. I have documented my successes and my failures. I have refined my understanding through decades of direct experience.\n\nWhat you see in my face at 57 years old is not a claim. It is a testimony. The Glow is not mine alone. It is the birthright of every human being who is willing to do what is required to receive it." },
+      { title: "Your Journey Begins", body: "You now have everything you need to begin.\n\nStart with OMAD. Master it completely before ascending. Be patient with yourself. Be ruthless with your appetite.\n\nJoin the monthly community fast. Read the books. Book a consultation if you need personal guidance.\n\nThe Light that is in me is also in you. It simply needs the proper cultivation to grow.\n\nAs salaam alaikum. Go in peace — and in discipline." },
+      { title: "Your Certificate Awaits", body: "You have completed The Mukhlasin Diet Course.\n\nThis is not the end. It is the beginning of your practice.\n\nYour Master of Fasting certificate will be issued upon completion of this final module. It is a record of your commitment — a declaration that you have received the teaching and accepted the discipline.\n\nWear it with humility. The real certificate is written on your face." },
+    ]
+  },
+];
+
 const BOOKS = [
   {
     id: "mukhlasin", cover: MUKHLASIN_COVER,
@@ -21,18 +98,18 @@ const BOOKS = [
     tagline: "Celebrating 30+ years of Fasting",
     description: "The foundational text of the Mukhlasin discipline — drawing on the Quran, Bible, Hadith, ancient Kemetic tradition, medical studies, and atmospheric science.",
     chapters: [
-      { id: 1, title: "Instruction", content: "This book is not merely a dietary guide. It is a witness account of a discipline practiced for thousands of years — one that purifies the mind, body, and spirit of the practitioner.\n\nThe Most Honorable Elijah Muhammad wrote in How To Eat To Live that we should eat once per day, or once every two to three days. These are not suggestions. They are prescriptions for a long and healthy life, drawn from divine revelation and confirmed by over thirty years of personal practice.\n\nWhat you hold in your hands is not theory. It is testimony.\n\nI did not invent this discipline. I only bear witness to its power. The practice of the Mukhlasin Diet has its roots in the Ancient Mystery Systems of Asia — traditions that predate modern medicine by millennia.\n\nTo the believer who approaches with an open heart: welcome. This is a journey into the highest Self. Let us begin." },
-      { id: 2, title: "The Mukhlasin — The Purified Ones", content: "The word Mukhlasin refers to those who have been purified — not merely cleansed of physical impurity, but elevated in consciousness, refined in character, and liberated from the enslavement of appetite.\n\nThe Quran speaks of the Mukhlasin as those who have been selected and drawn near — those whom Satan himself declared he could not lead astray. This is not a metaphor. It is a description of a physiological and spiritual state achieved through the disciplined practice of dietary restriction.\n\nThe Mukhlasin are not born. They are made — through discipline, patience, and an unwavering commitment to the natural laws of creation. The path is available to any who would walk it. The reward is written on the face of every practitioner who has walked it faithfully." },
-      { id: 3, title: "Ramadan", content: "Ramadan is the ninth month of the Islamic lunar calendar, observed by Muslims worldwide as a month of fasting, prayer, reflection, and community.\n\nBut the significance of Ramadan extends far beyond religious observance. It is, at its core, a month-long training in the discipline of appetite control. The practitioner learns to subordinate the demands of the body to the commands of the will. This is the foundation of all mastery.\n\nThe Mukhlasin Diet uses Ramadan not as an endpoint but as a beginning — a gateway into a deeper and more sustained practice of dietary discipline.\n\nRamadan is not the ceiling. It is the floor." },
-      { id: 4, title: "Personal Experiences", content: "I have been asked many times how I came to this practice. The answer is not a pleasant one, but it is an honest one.\n\nI was dying.\n\nAt nineteen years old, my health was ruined. I had broken my leg repeatedly. The pain was diagnosed as Osteoid Osteoma — an extremely painful bone tumor.\n\nIt was in this state that I encountered the discipline that would change my life. I went after it with my whole being. I changed everything — my shopping habits, the people around me, how and when I ate.\n\nThirty years later, I look and feel younger than those who are ten to twenty years my junior. This section is written to humbly demonstrate the power of the Will." },
-      { id: 5, title: "Our Natural Beauty Appearance", content: "The discipline of the Mukhlasin Diet produces a visible and unmistakable effect upon the physical appearance of the practitioner. This is not cosmetic. It is biological.\n\nWhen the body is freed from the constant labor of processing excess food, it redirects its energy toward cellular repair, lymphatic cleansing, and the elimination of toxins. The result is what has been called The Glow — a brightness upon the face and countenance that is visible to all who encounter the practitioner.\n\nPrince once said of me that I always looked like I was standing under a spotlight. He saw the Glow. He was so inspired by it that he became a vegan.\n\nThis is what the Mukhlasin Diet offers: not the appearance of health, but actual health — visible, radiant, and undeniable." },
-      { id: 6, title: "Clarity", content: "One of the most consistent and immediate benefits reported by practitioners of the Mukhlasin Diet is a profound and unmistakable clarity of mind.\n\nWhen the body is not engaged in the energy-intensive process of digesting heavy meals multiple times per day, the energy that would otherwise be consumed by digestion is redirected to the brain.\n\nI have described this as the mind becoming FAST — not merely quick in thought, but rapid in discernment, swift in perception, and clear in judgment.\n\nClarity is not a side effect of the Mukhlasin Diet. It is one of its primary gifts." },
-      { id: 7, title: "Depression", content: "Depression is one of the most prevalent and debilitating conditions in the modern world. It is also one of the most misunderstood.\n\nThe Mukhlasin Diet takes a fundamentally different view. Depression, from the perspective of this discipline, is largely a consequence of toxicity — the accumulation of toxic substances in the body and mind that cloud perception, distort emotion, and suppress the natural luminescence of the human spirit.\n\nWhen the body is engaged in the continuous process of eliminating these toxins through fasting, the fog of depression begins to lift." },
-      { id: 8, title: "Self Talk", content: "The quality of our inner dialogue determines the quality of our life. This is not a motivational platitude. It is a physiological fact.\n\nThe practice of the Mukhlasin Diet is, among other things, a practice of mastering the inner voice. The discipline of refusing food when the appetite demands it trains the practitioner to subordinate impulse to intention.\n\nThe practitioner who has learned to tell the stomach 'not yet' has also learned to tell the mind 'not that thought.' These are the same skill, practiced in different arenas." },
-      { id: 9, title: "Forgiveness", content: "No discipline of the spirit can reach its fullest expression without the practice of forgiveness. This is not merely a spiritual truth. It is a physiological one.\n\nUnforgiveness produces a chronic state of stress in the body that undermines every other effort at self-improvement. The toxicity of unforgiveness is as real and as harmful as the toxicity of processed food.\n\nForgiveness does not mean condoning what was done. It means releasing the toxin of resentment from your own system — not for the sake of the one who wronged you, but for the sake of your own health and freedom." },
-      { id: 10, title: "Exercise", content: "Exercise is an essential component of the Mukhlasin lifestyle, but it must be understood in its proper context and proportion.\n\nWhen the diet is properly disciplined, the body's natural tendency toward health and vitality expresses itself naturally. The practitioner is not fighting excess weight. They are cultivating strength, flexibility, and endurance in a body that is already functioning at a high level.\n\nAt One Meal Every Three Days, exercise becomes almost unnecessary in the conventional sense. The practitioner's heightened state of physiological efficiency means that ordinary movement provides sufficient maintenance of the physical form." },
+      { id: 1, title: "Instruction", content: "This book is not merely a dietary guide. It is a witness account of a discipline practiced for thousands of years — one that purifies the mind, body, and spirit of the practitioner.\n\nThe Most Honorable Elijah Muhammad wrote in How To Eat To Live that we should eat once per day, or once every two to three days. These are not suggestions. They are prescriptions for a long and healthy life, drawn from divine revelation and confirmed by over thirty years of personal practice.\n\nWhat you hold in your hands is not theory. It is testimony.\n\nI did not invent this discipline. I only bear witness to its power.\n\nTo the believer who approaches with an open heart: welcome. This is a journey into the highest Self. Let us begin." },
+      { id: 2, title: "The Mukhlasin — The Purified Ones", content: "The word Mukhlasin refers to those who have been purified — not merely cleansed of physical impurity, but elevated in consciousness, refined in character, and liberated from the enslavement of appetite.\n\nThe Quran speaks of the Mukhlasin as those who have been selected and drawn near — those whom Satan himself declared he could not lead astray. This is not a metaphor. It is a description of a physiological and spiritual state achieved through the disciplined practice of dietary restriction.\n\nThe Mukhlasin are not born. They are made — through discipline, patience, and an unwavering commitment to the natural laws of creation." },
+      { id: 3, title: "Ramadan", content: "Ramadan is the ninth month of the Islamic lunar calendar, observed by Muslims worldwide as a month of fasting, prayer, reflection, and community.\n\nBut the significance of Ramadan extends far beyond religious observance. It is, at its core, a month-long training in the discipline of appetite control.\n\nThe Mukhlasin Diet uses Ramadan not as an endpoint but as a beginning — a gateway into a deeper and more sustained practice of dietary discipline.\n\nRamadan is not the ceiling. It is the floor." },
+      { id: 4, title: "Personal Experiences", content: "I have been asked many times how I came to this practice. The answer is not a pleasant one, but it is an honest one.\n\nI was dying.\n\nAt nineteen years old, my health was ruined. I had broken my leg repeatedly. The pain was diagnosed as Osteoid Osteoma — an extremely painful bone tumor.\n\nThirty years later, I look and feel younger than those who are ten to twenty years my junior. This is written to humbly demonstrate the power of the Will." },
+      { id: 5, title: "Our Natural Beauty Appearance", content: "The discipline of the Mukhlasin Diet produces a visible and unmistakable effect upon the physical appearance of the practitioner. This is not cosmetic. It is biological.\n\nWhen the body is freed from the constant labor of processing excess food, it redirects its energy toward cellular repair, lymphatic cleansing, and the elimination of toxins. The result is what has been called The Glow.\n\nPrince once said of me that I always looked like I was standing under a spotlight. He saw the Glow. He was so inspired by it that he became a vegan." },
+      { id: 6, title: "Clarity", content: "One of the most consistent and immediate benefits reported by practitioners of the Mukhlasin Diet is a profound and unmistakable clarity of mind.\n\nI have described this as the mind becoming FAST — not merely quick in thought, but rapid in discernment, swift in perception, and clear in judgment.\n\nClarity is not a side effect of the Mukhlasin Diet. It is one of its primary gifts." },
+      { id: 7, title: "Depression", content: "Depression is one of the most prevalent and debilitating conditions in the modern world. It is also one of the most misunderstood.\n\nThe Mukhlasin Diet takes a fundamentally different view. Depression, from the perspective of this discipline, is largely a consequence of toxicity — the accumulation of toxic substances in the body and mind.\n\nWhen the body is engaged in the continuous process of eliminating these toxins through fasting, the fog of depression begins to lift." },
+      { id: 8, title: "Self Talk", content: "The quality of our inner dialogue determines the quality of our life. This is not a motivational platitude. It is a physiological fact.\n\nThe practice of the Mukhlasin Diet is, among other things, a practice of mastering the inner voice. The discipline of refusing food when the appetite demands it trains the practitioner to subordinate impulse to intention.\n\nThe practitioner who has learned to tell the stomach 'not yet' has also learned to tell the mind 'not that thought.'" },
+      { id: 9, title: "Forgiveness", content: "No discipline of the spirit can reach its fullest expression without the practice of forgiveness.\n\nUnforgiveness produces a chronic state of stress in the body that undermines every other effort at self-improvement. The toxicity of unforgiveness is as real and as harmful as the toxicity of processed food.\n\nForgiveness does not mean condoning what was done. It means releasing the toxin of resentment from your own system." },
+      { id: 10, title: "Exercise", content: "Exercise is an essential component of the Mukhlasin lifestyle, but it must be understood in its proper context.\n\nWhen the diet is properly disciplined, the body's natural tendency toward health and vitality expresses itself naturally. At One Meal A Day, moderate exercise is appropriate and beneficial. Walking, swimming, yoga, and martial arts are particularly well-suited to the practitioner's lifestyle." },
       { id: 11, title: "Rest", content: "Rest is not the absence of activity. It is an active and essential component of the Mukhlasin practice.\n\nPractitioners consistently report changes in their sleep patterns as they progress. At One Meal A Day, sleep tends to deepen and become more restorative. Many practitioners find that they require less sleep — not because they are sleeping poorly, but because the quality of their sleep has increased significantly.\n\nHonor your rest. It is not laziness. It is preparation." },
-      { id: 12, title: "Cumulative Effects of Toxicity", content: "The ancient teachers understood something that modern medicine is only beginning to rediscover: the accumulation of toxins in the body is not merely a physical phenomenon. It is a spiritual one.\n\nThe practice of the Mukhlasin Diet is, in part, a practice of toxicity reduction. As the body becomes lighter and cleaner through the discipline of restricted eating, the spirit becomes correspondingly clearer and more luminous.\n\nThis is the cumulative effect of the practice: not merely a healthier body, but a more refined and elevated human being." },
+      { id: 12, title: "Cumulative Effects of Toxicity", content: "The ancient teachers understood something that modern medicine is only beginning to rediscover: the accumulation of toxins in the body is not merely a physical phenomenon. It is a spiritual one.\n\nAs the body becomes lighter and cleaner through the discipline of restricted eating, the spirit becomes correspondingly clearer and more luminous.\n\nThis is the cumulative effect of the practice: not merely a healthier body, but a more refined and elevated human being." },
       { id: 13, title: "Waste Elimination", content: "The efficient elimination of waste is among the most important — and most neglected — aspects of human health.\n\nThe practice of One Meal A Day dramatically improves the efficiency of waste elimination. During extended fasting periods, the body enters a state of deep cellular cleansing — a process of autophagy recognized with the 2016 Nobel Prize in Physiology or Medicine.\n\nThe ancient practitioners knew what modern science is now confirming: the empty vessel cleanses itself." },
     ]
   },
@@ -43,13 +120,13 @@ const BOOKS = [
     tagline: "Intermittent Fasting · Caloric Restriction · OMAD · OME2-3D",
     description: "A step-by-step guide through the ascending levels of fasting discipline — from Intermittent Fasting through One Meal Every Three Days. Written from 30 years of personal practice.",
     chapters: [
-      { id: 1, title: "Defining Fasting", content: "A great part of undertaking any form of discipline is clear definition.\n\nFast: means to move or produce at a high rate of speed.\n\nIntermittent: means occurring at irregular intervals; not continuous or steady.\n\nCaloric Restriction: means to impose a limit on nutrition by withholding food.\n\nOMAD (One Meal A Day): means to eat one meal within a 24-hour period, with NOTHING between meals but water or coffee.\n\nOME2D (One Meal Every Two Days): means to eat one meal within a 48-hour period.\n\nOME3D (One Meal Every Three Days): means to eat one meal within a 72-hour period.\n\nThere is no human being that has good health and longevity in irregular, and unregulated eating habits." },
-      { id: 2, title: "Caloric Restriction", content: "US Funded Studies into Caloric Restriction on Rhesus Macaque monkeys began circa 1935, with the goal of scientifically understanding how the application affects humans.\n\nThe nutritional value of foods today is not the same as it was prior to the mass industrialization of food industries. The unfortunate consequence has resulted in the masses' innate need to eat more of these foods to extract sufficient nutrients.\n\nIn America, we have been conditioned to think of 3rd World Countries and babies with distended bellies as malnutrition. But a distended belly from eating nutrient-deficient foods grown using pesticides is actually what we are experiencing here in the West." },
-      { id: 3, title: "Intermittent Fasting", content: "The term intermittent fasting is a misnomer for what we are truly attempting to accomplish.\n\nIn America circa 1990, doctors were instructed to teach patients that a healthy diet consisted of 5 to 7 meals per day. The results are evident on the population.\n\nWherever a native people maintain their traditional diets, they maintain their health far better than when their diets are replaced by the Western style of eating.\n\nIntermittent Fasting is not to be considered a long-term practice. It is a step in the process of establishing the most basic beginning level of Mastery Level Fasting — One Meal A Day." },
-      { id: 4, title: "One Meal A Day (OMAD)", content: "One Meal A Day is the foundation of the Mukhlasin dietary practice. It is not extreme. It is the natural, designed function of the human body.\n\nThe human digestive system requires a minimum of 24 hours to fully process a properly composed meal. When we interrupt this process by introducing new food before the previous meal has been fully processed, we create chronic digestive stress.\n\nOMAD — practiced correctly — eliminates this stress. The result is a dramatic improvement in all aspects of health: weight normalizes, energy increases, mental clarity sharpens, and The Glow begins to appear.\n\nBetween meals: water and coffee only. Nothing else." },
-      { id: 5, title: "Fasting Effects on Chronic Injury & Pain", content: "When I was a preteen, I discovered that I had the unique gift of Photographic Reflexes. This allowed me to become the first person in Minnesota to learn, perform and teach Break Dancing at a professional level — at 13 years old.\n\nBy the time I was 19, my health was ruined. I broke my leg repeatedly. The pain was diagnosed as Osteoid Osteoma — an extremely painful bone tumor.\n\nDuring my very first three-day fast, on the first three days of 1994, I noticed that I was completely pain free for the first time in years.\n\nSuffering from severe injury is no reason to reject this practice. The discipline is far more effective than pain medication." },
-      { id: 6, title: "One Meal Every Two Days (OME2D)", content: "One Meal Every Two Days is considered a higher level of practice. Practiced correctly, it results in the slowing of the aging process and has a profound effect upon healing and pain management.\n\nAt OME2D, the speed of reflexes increases dramatically. The practitioner begins to develop heightened sensory perception.\n\nPrince once told The New Power Generation that I always look like I am standing under the spotlight. Once I transitioned to One Meal Every Three Days, Prince invited me to Paisley Park. He was so inspired by the Light he saw, that he became a Vegan.\n\nThe Glow dwells within a vessel only so long as they are in harmony with the natural laws of Creation." },
-      { id: 7, title: "One Meal Every Three Days (OME3D)", content: "One Meal Every Three Days is considered the level of complete Self Mastery. This discipline will increase the lifespan of the practitioners, reverse the apparent age of the person, and elevate them into the highest degree of consciousness.\n\nThe Prophet David practiced One Meal Every Two Days. The Prophet Jesus fasted for 40 days in the wilderness. The Buddha spent six years practicing various degrees of fasting as a means of purification.\n\nA word of caution: this level is not a starting point. The practitioner must master each level before ascending to the next. Be kind to yourself. Ascend gradually." },
+      { id: 1, title: "Defining Fasting", content: "A great part of undertaking any form of discipline is clear definition.\n\nFast: means to move or produce at a high rate of speed.\n\nOMAD (One Meal A Day): means to eat one meal within a 24-hour period, with NOTHING between meals but water or coffee.\n\nOME2D (One Meal Every Two Days): means to eat one meal within a 48-hour period.\n\nOME3D (One Meal Every Three Days): means to eat one meal within a 72-hour period.\n\nThere is no human being that has good health and longevity in irregular, and unregulated eating habits." },
+      { id: 2, title: "Caloric Restriction", content: "US Funded Studies into Caloric Restriction on Rhesus Macaque monkeys began circa 1935, with the goal of scientifically understanding how the application affects humans.\n\nThe nutritional value of foods today is not the same as it was prior to the mass industrialization of food industries.\n\nIn America, we have been conditioned to think of 3rd World Countries and babies with distended bellies as malnutrition. But a distended belly from eating nutrient-deficient foods grown using pesticides is actually what we are experiencing here in the West." },
+      { id: 3, title: "Intermittent Fasting", content: "The term intermittent fasting is a misnomer for what we are truly attempting to accomplish.\n\nIn America circa 1990, doctors were instructed to teach patients that a healthy diet consisted of 5 to 7 meals per day. The results are evident on the population.\n\nWherever a native people maintain their traditional diets, they maintain their health far better than when their diets are replaced by the Western style of eating.\n\nIntermittent Fasting is a step in the process of establishing the most basic beginning level of Mastery Level Fasting — One Meal A Day." },
+      { id: 4, title: "One Meal A Day (OMAD)", content: "One Meal A Day is the foundation of the Mukhlasin dietary practice. It is not extreme. It is the natural, designed function of the human body.\n\nThe human digestive system requires a minimum of 24 hours to fully process a properly composed meal. When we interrupt this process by introducing new food before the previous meal has been fully processed, we create chronic digestive stress.\n\nOMAD — practiced correctly — eliminates this stress. Between meals: water and coffee only. Nothing else." },
+      { id: 5, title: "Fasting Effects on Chronic Injury & Pain", content: "When I was a preteen, I discovered that I had the unique gift of Photographic Reflexes. This allowed me to become the first person in Minnesota to learn, perform and teach Break Dancing at a professional level — at 13 years old.\n\nBy the time I was 19, my health was ruined. I broke my leg repeatedly. The pain was diagnosed as Osteoid Osteoma — an extremely painful bone tumor.\n\nDuring my very first three-day fast, on the first three days of 1994, I noticed that I was completely pain free for the first time in years." },
+      { id: 6, title: "One Meal Every Two Days (OME2D)", content: "One Meal Every Two Days is considered a higher level of practice. Practiced correctly, it results in the slowing of the aging process and has a profound effect upon healing and pain management.\n\nPrince once told The New Power Generation that I always look like I am standing under the spotlight. Once I transitioned to One Meal Every Three Days, Prince invited me to Paisley Park. He was so inspired by the Light he saw, that he became a Vegan.\n\nThe Glow dwells within a vessel only so long as they are in harmony with the natural laws of Creation." },
+      { id: 7, title: "One Meal Every Three Days (OME3D)", content: "One Meal Every Three Days is considered the level of complete Self Mastery. This discipline will increase the lifespan of the practitioners, reverse the apparent age of the person, and elevate them into the highest degree of consciousness.\n\nThe Prophet David practiced One Meal Every Two Days. The Prophet Jesus fasted for 40 days in the wilderness. The Buddha spent six years practicing various degrees of fasting as a means of purification.\n\nA word of caution: this level is not a starting point. The practitioner must master each level before ascending to the next." },
       { id: 8, title: "Epilogue", content: "At the present time, I am 57 years old. I have practiced this discipline for over 30 years.\n\nI look and feel younger than those who are ten to twenty years my junior. I have not changed much in physical appearance since I was 24. My weight has been constant.\n\nThe Glow is not mine alone. It is the birthright of every human being who is willing to do what is required to receive it.\n\nWhat was once a closely guarded secret of the Highest Order of the Ancient Mystery Systems of Asia is now available to any who would desire to benefit from this wisdom.\n\n— Amin Shabazz Muhammad" },
     ]
   }
@@ -64,7 +141,7 @@ const CONSULTATIONS = [
 
 const TIERS = [
   { id: "books", name: "Books Only", price: "$9.99/mo", altPrice: "$79/yr", oneTime: false, stripe: "https://buy.stripe.com/fZubJ10Nn0eG5uUfqu77O0b", features: ["Both books — full digital reader", "Read-aloud on every chapter", "Progress tracking", "Monthly 72-Hour Fast community", "New editions automatically included"], highlight: false },
-  { id: "course", name: "Course Only", price: "$297", altPrice: "one time · lifetime access", oneTime: true, stripe: "https://buy.stripe.com/00wbJ153D9Pg7D2a6a77O08", features: ["Complete Mukhlasin Diet Course", "All 25 chapters with slides", "Course Q&A", "Master of Fasting", "Lifetime access"], highlight: false },
+  { id: "course", name: "Course Only", price: "$297", altPrice: "one time · lifetime access", oneTime: true, stripe: "https://buy.stripe.com/00wbJ153D9Pg7D2a6a77O08", features: ["Complete Mukhlasin Diet Course", "All 9 modules with slides", "Course Q&A", "Master of Fasting", "Lifetime access"], highlight: false },
   { id: "complete", name: "Complete Library", price: "$19.99/mo", altPrice: "$149/yr", oneTime: false, stripe: "https://buy.stripe.com/3cI8wPbs18Lc6yY3HM77O0d", features: ["Both books — full digital reader", "Read-aloud on every chapter", "Complete Mukhlasin Diet Course", "All certificates", "Monthly 72-Hour Fast community", "Ramadan seasonal content", "Author articles & teachings", "Member consultation rates"], highlight: true },
   { id: "lifetime", name: "Complete Library", badge: "Lifetime", price: "$497", altPrice: "one time · never pay again", oneTime: true, stripe: "https://buy.stripe.com/7sYcN50NnaTk3mM4LQ77O0f", features: ["Everything in Complete Library", "Lifetime access — no recurring billing", "One complimentary 30-min consultation", "Discounted consultation rates forever", "Early access to all new titles", "Priority author Q&A"], highlight: false },
 ];
@@ -80,6 +157,8 @@ export default function MukhlasinCourse() {
   const [sending, setSending] = useState(false);
   const [activeBook, setActiveBook] = useState(null);
   const [activeChapter, setActiveChapter] = useState(null);
+  const [activeMod, setActiveMod] = useState(0);
+  const [activeSlide, setActiveSlide] = useState(0);
   const [speaking, setSpeaking] = useState(false);
   const [progress, setProgress] = useState({});
   const [consultForm, setConsultForm] = useState({ name: "", email: "", service: "", message: "" });
@@ -175,29 +254,79 @@ export default function MukhlasinCourse() {
 
   // COURSE
   if (view === "course") {
+    const mod = COURSE_MODULES[activeMod];
+    const slide = mod.slides[activeSlide];
+    const isLastSlide = activeSlide === mod.slides.length - 1;
+    const isLastMod = activeMod === COURSE_MODULES.length - 1;
+    const isLastOfAll = isLastSlide && isLastMod;
+
     return (
       <div style={{ minHeight: "100vh", background: C.dark, color: C.slate, fontFamily: "Georgia, serif" }}>
-        <div style={{ background: "#0d0b08", borderBottom: `1px solid ${C.border}`, padding: "1rem 1.5rem", display: "flex", alignItems: "center", gap: "1rem" }}>
+        {/* Header */}
+        <div style={{ background: "#0d0b08", borderBottom: `1px solid ${C.border}`, padding: "1rem 1.5rem", display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
           <button onClick={() => setView("library")} style={{ background: "none", border: `1px solid ${C.gold}`, color: C.gold, padding: "6px 14px", borderRadius: "20px", cursor: "pointer", fontSize: "13px" }}>← Library</button>
-          <div style={{ color: C.goldLight, fontSize: "16px" }}>The Mukhlasin Diet Course</div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: "11px", color: C.muted, letterSpacing: "0.15em", textTransform: "uppercase" }}>Module {mod.id} of {COURSE_MODULES.length}</div>
+            <div style={{ fontSize: "14px", color: C.goldLight }}>{mod.title}</div>
+          </div>
+          <button onClick={() => speaking ? stopSpeech() : speak(slide.body)} style={{ background: speaking ? C.gold : "transparent", border: `1px solid ${C.gold}`, color: speaking ? C.dark : C.gold, padding: "6px 14px", borderRadius: "20px", cursor: "pointer", fontSize: "12px" }}>
+            {speaking ? "⏹ Stop" : "▶ Listen"}
+          </button>
         </div>
-        <div style={{ maxWidth: "800px", margin: "0 auto", padding: "3rem 1.5rem", textAlign: "center" }}>
-          <div style={{ color: C.gold, fontSize: "32px", marginBottom: "1rem" }}>الْمُخْلَصِينَ</div>
-          <h1 style={{ color: C.cream, fontWeight: "normal", fontSize: "clamp(1.4rem, 3vw, 2rem)", marginBottom: "0.5rem" }}>The Mukhlasin Diet — Complete Course</h1>
-          <div style={{ color: C.muted, fontSize: "13px", marginBottom: "3rem" }}>4th Edition · 2022</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1rem", textAlign: "left", marginBottom: "3rem" }}>
-            {["Section I: Foundation", "Section II: The Science", "Section III: Advanced Practice", "Section IV: Spiritual Dimensions", "Section V: Practical Application", "Conclusion & Acknowledgements"].map((section, i) => (
-              <div key={i} style={{ background: "#0d0b08", border: `1px solid ${C.border}`, borderRadius: "10px", padding: "1.25rem" }}>
-                <div style={{ color: C.gold, fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "6px" }}>Module {i + 1}</div>
-                <div style={{ color: C.slate, fontSize: "14px" }}>{section}</div>
-              </div>
-            ))}
+
+        {/* Module nav */}
+        <div style={{ background: "#0d0b08", padding: "0.75rem 1.5rem", display: "flex", gap: "0.5rem", overflowX: "auto" }}>
+          {COURSE_MODULES.map((m, i) => (
+            <button key={m.id} onClick={() => { stopSpeech(); setActiveMod(i); setActiveSlide(0); }} style={{ background: i === activeMod ? C.gold : "transparent", border: `1px solid ${i === activeMod ? C.gold : C.border}`, color: i === activeMod ? C.dark : C.muted, padding: "4px 12px", borderRadius: "12px", cursor: "pointer", fontSize: "11px", whiteSpace: "nowrap" }}>
+              {m.id}
+            </button>
+          ))}
+        </div>
+
+        {/* Slide */}
+        <div style={{ maxWidth: "720px", margin: "0 auto", padding: "3rem 1.5rem" }}>
+          <div style={{ fontSize: "11px", color: C.muted, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "0.5rem" }}>
+            Slide {activeSlide + 1} of {mod.slides.length}
           </div>
-          <div style={{ background: "#0d0b08", border: `1px solid ${C.gold}`, borderRadius: "12px", padding: "2rem", marginBottom: "2rem" }}>
-            <div style={{ color: C.goldLight, fontSize: "1.1rem", marginBottom: "1rem" }}>Full Course Launching Soon</div>
-            <p style={{ color: C.muted, fontSize: "14px", lineHeight: 1.7 }}>The complete interactive course with slides, Q&A, and downloadable materials is being finalized. As an enrolled member, you will receive access automatically when it launches. Your Master of Fasting will be issued upon completion.</p>
+          <h1 style={{ color: C.goldLight, fontSize: "clamp(1.4rem, 3vw, 2rem)", marginBottom: "2.5rem", fontWeight: "normal" }}>{slide.title}</h1>
+          {slide.body.split("\n\n").map((para, i) => (
+            <p key={i} style={{ lineHeight: 1.9, marginBottom: "1.5rem", color: C.slate, fontSize: "clamp(15px, 2vw, 17px)" }}>{para}</p>
+          ))}
+
+          {/* Navigation */}
+          <div style={{ display: "flex", justifyContent: "space-between", marginTop: "4rem", paddingTop: "2rem", borderTop: `1px solid ${C.border}` }}>
+            <button
+              onClick={() => { stopSpeech(); if (activeSlide > 0) { setActiveSlide(activeSlide - 1); } else if (activeMod > 0) { setActiveMod(activeMod - 1); setActiveSlide(COURSE_MODULES[activeMod - 1].slides.length - 1); } }}
+              disabled={activeMod === 0 && activeSlide === 0}
+              style={{ background: "none", border: `1px solid ${activeMod === 0 && activeSlide === 0 ? C.border : C.gold}`, color: activeMod === 0 && activeSlide === 0 ? C.border : C.gold, padding: "10px 20px", borderRadius: "20px", cursor: activeMod === 0 && activeSlide === 0 ? "default" : "pointer", fontSize: "14px" }}>← Previous</button>
+
+            {isLastOfAll ? (
+              <button onClick={() => setView("certificate")} style={{ background: C.green, border: "none", color: C.white, padding: "10px 24px", borderRadius: "20px", cursor: "pointer", fontSize: "14px" }}>✓ Complete Course</button>
+            ) : (
+              <button
+                onClick={() => { stopSpeech(); if (!isLastSlide) { setActiveSlide(activeSlide + 1); } else { setActiveMod(activeMod + 1); setActiveSlide(0); } }}
+                style={{ background: C.gold, border: "none", color: C.dark, padding: "10px 24px", borderRadius: "20px", cursor: "pointer", fontSize: "14px", fontWeight: "bold" }}>
+                {isLastSlide ? "Next Module →" : "Next →"}
+              </button>
+            )}
           </div>
-          <button onClick={() => setView("library")} style={{ background: "none", border: `1px solid ${C.gold}`, color: C.gold, padding: "12px 28px", borderRadius: "24px", cursor: "pointer", fontSize: "14px" }}>← Return to Library</button>
+        </div>
+      </div>
+    );
+  }
+
+  // CERTIFICATE
+  if (view === "certificate") {
+    return (
+      <div style={{ minHeight: "100vh", background: C.bg, fontFamily: "Georgia, serif", display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem" }}>
+        <div style={{ maxWidth: "600px", width: "100%", background: C.dark, border: `2px solid ${C.gold}`, borderRadius: "16px", padding: "3rem", textAlign: "center" }}>
+          <div style={{ fontSize: "11px", letterSpacing: "0.3em", textTransform: "uppercase", color: C.muted, marginBottom: "1rem" }}>Certificate of Completion</div>
+          <div style={{ color: C.gold, fontSize: "28px", marginBottom: "0.5rem" }}>الْمُخْلَصِينَ</div>
+          <h1 style={{ color: C.cream, fontWeight: "normal", fontSize: "1.8rem", marginBottom: "0.5rem" }}>Master of Fasting</h1>
+          <div style={{ color: C.muted, fontSize: "13px", marginBottom: "2rem" }}>The Mukhlasin Diet Course — 4th Edition</div>
+          <p style={{ color: C.slate, lineHeight: 1.8, marginBottom: "2rem", fontSize: "14px" }}>This certifies the completion of The Mukhlasin Diet Course and the acceptance of its discipline. The real certificate is written on the face of the practitioner.</p>
+          <div style={{ color: C.goldLight, fontSize: "15px", marginBottom: "2rem", fontStyle: "italic" }}>— Amin Shabazz Muhammad</div>
+          <button onClick={() => setView("library")} style={{ background: C.gold, color: C.dark, border: "none", padding: "12px 28px", borderRadius: "24px", cursor: "pointer", fontSize: "14px", fontWeight: "bold" }}>Return to Library</button>
         </div>
       </div>
     );
@@ -289,7 +418,7 @@ export default function MukhlasinCourse() {
               const pct = Math.round((lastChapter / book.chapters.length) * 100);
               return (
                 <div key={book.id} style={{ background: C.white, border: `1px solid ${C.borderLight}`, borderRadius: "12px", overflow: "hidden", boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}>
-                  <img src={book.cover} alt={book.title} style={{ width: "100%", height: "220px", objectFit: "cover", objectPosition: "top" }} />
+                  <img src={book.cover} alt={book.title} style={{ width: "100%", height: "auto", display: "block" }} />
                   <div style={{ padding: "1.25rem" }}>
                     <div style={{ color: C.dark, fontWeight: "bold", fontSize: "15px", marginBottom: "2px" }}>{book.title}</div>
                     <div style={{ color: C.muted, fontSize: "12px", marginBottom: "10px" }}>{book.subtitle}</div>
@@ -318,12 +447,22 @@ export default function MukhlasinCourse() {
           </div>
 
           <h2 style={{ color: C.dark, fontSize: "1.1rem", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "1.25rem", fontWeight: "normal" }}>The Course</h2>
-          <div style={{ background: C.dark, borderRadius: "12px", padding: "1.5rem", display: "flex", alignItems: "center", gap: "1.5rem", flexWrap: "wrap", marginBottom: "2.5rem" }}>
-            <div style={{ flex: 1 }}>
-              <div style={{ color: C.goldLight, fontSize: "1.1rem", marginBottom: "4px" }}>The Mukhlasin Diet — Complete Course</div>
-              <div style={{ color: C.muted, fontSize: "13px" }}>25 chapters · Slides · Q&A · Master of Fasting</div>
+          <div style={{ background: C.dark, borderRadius: "12px", padding: "1.5rem", marginBottom: "2.5rem" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", flexWrap: "wrap", marginBottom: "1.25rem" }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ color: C.goldLight, fontSize: "1.1rem", marginBottom: "4px" }}>The Mukhlasin Diet — Complete Course</div>
+                <div style={{ color: C.muted, fontSize: "13px" }}>{COURSE_MODULES.length} modules · Slides · Q&A · Master of Fasting</div>
+              </div>
+              <button onClick={() => { setActiveMod(0); setActiveSlide(0); setView("course"); }} style={{ background: C.gold, color: C.dark, border: "none", padding: "10px 20px", borderRadius: "20px", cursor: "pointer", fontSize: "13px", fontWeight: "bold" }}>Enter Course →</button>
             </div>
-            <button onClick={() => setView("course")} style={{ background: C.gold, color: C.dark, border: "none", padding: "10px 20px", borderRadius: "20px", cursor: "pointer", fontSize: "13px", fontWeight: "bold" }}>Enter Course →</button>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "0.75rem" }}>
+              {COURSE_MODULES.map((m, i) => (
+                <button key={m.id} onClick={() => { setActiveMod(i); setActiveSlide(0); setView("course"); }} style={{ background: "#1a1612", border: `1px solid ${C.border}`, borderRadius: "8px", padding: "0.75rem", textAlign: "left", cursor: "pointer" }}>
+                  <div style={{ color: C.gold, fontSize: "10px", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "4px" }}>Module {m.id}</div>
+                  <div style={{ color: C.slate, fontSize: "12px", lineHeight: 1.4 }}>{m.title}</div>
+                </button>
+              ))}
+            </div>
           </div>
 
           <h2 style={{ color: C.dark, fontSize: "1.1rem", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "1.25rem", fontWeight: "normal" }}>Consultations</h2>
@@ -362,12 +501,12 @@ export default function MukhlasinCourse() {
       </div>
 
       <div style={{ maxWidth: "900px", margin: "0 auto", padding: "4rem 1.5rem" }}>
-        {/* Book Covers */}
+        {/* Book Covers - FULL images, no cropping */}
         <h2 style={{ textAlign: "center", color: C.dark, fontWeight: "normal", fontSize: "1.4rem", marginBottom: "2rem" }}>The Books</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "2rem", marginBottom: "4rem" }}>
           {BOOKS.map(book => (
             <div key={book.id} style={{ background: C.white, border: `1px solid ${C.borderLight}`, borderRadius: "14px", overflow: "hidden", boxShadow: "0 4px 16px rgba(0,0,0,0.08)" }}>
-              <img src={book.cover} alt={book.title} style={{ width: "100%", height: "300px", objectFit: "cover", objectPosition: "top" }} />
+              <img src={book.cover} alt={book.title} style={{ width: "100%", height: "auto", display: "block" }} />
               <div style={{ padding: "1.5rem" }}>
                 <div style={{ color: C.dark, fontWeight: "bold", fontSize: "16px", marginBottom: "4px" }}>{book.title}</div>
                 <div style={{ color: C.muted, fontSize: "12px", marginBottom: "10px" }}>{book.tagline}</div>
@@ -384,8 +523,8 @@ export default function MukhlasinCourse() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1.5rem", marginBottom: "4rem" }}>
           {[
             { icon: "📖", title: "Two Books", desc: "The Mukhlasin Diet 4th Edition and Mastery Level Fasting — full text, chapter by chapter." },
-            { icon: "▶", title: "Read Aloud", desc: "Every chapter can be read aloud to you. Listen while you cook, drive, or rest." },
-            { icon: "🎓", title: "Complete Course", desc: "25 chapters of course content with slides, Q&A, and Master of Fasting." },
+            { icon: "▶", title: "Read Aloud", desc: "Every chapter and every course slide can be read aloud. Listen while you cook, drive, or rest." },
+            { icon: "🎓", title: "Complete Course", desc: "9 modules with slides, Q&A, and Master of Fasting certificate." },
             { icon: "🌙", title: "Monthly Community Fast", desc: "Join the 72-hour fast every first Friday–Sunday. Share your experience." },
             { icon: "📝", title: "Author Teachings", desc: "Articles and reflections from Amin Shabazz Muhammad." },
             { icon: "📞", title: "Personal Consultations", desc: "One-on-one email, phone, or video sessions. Members receive discounted rates." },
