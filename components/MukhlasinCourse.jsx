@@ -306,6 +306,18 @@ const TIERS = [
   { id: "lifetime", name: "Complete Library", badge: "Lifetime", price: "$497", altPrice: "one time · never pay again", oneTime: true, stripe: "https://buy.stripe.com/7sYcN50NnaTk3mM4LQ77O0f", features: ["Everything in Complete Library", "Lifetime access — no recurring billing", "One complimentary 30-min consultation", "Discounted consultation rates forever", "Early access to all new titles", "Priority author Q&A"], highlight: false },
 ];
 
+const BYPASS_CODES = ["admin","bismillah","gift","mukhlasin2024","sadaqah","admintest"];
+function checkBypass() {
+  if (typeof window === "undefined") return false;
+  try { const p = new URLSearchParams(window.location.search); return BYPASS_CODES.includes((p.get("access") || "").toLowerCase()); }
+  catch(e) { return false; }
+}
+function isRamadan() {
+  if (typeof window === "undefined") return false;
+  const now = new Date(), y = now.getFullYear();
+  const w = { 2025:{s:new Date("2025-03-01"),e:new Date("2025-03-30")}, 2026:{s:new Date("2026-02-18"),e:new Date("2026-03-20")} };
+  const d = w[y]; return d ? now >= d.s && now <= d.e : false;
+}
 const FREE_CODES = { "SADAQAH": true, "ADMINTEST": true };
 
 
@@ -667,7 +679,7 @@ export default function MukhlasinCourse() {
             <div style={{ fontSize:22, fontWeight:700, fontFamily:"Georgia, serif", color:"#111", marginBottom:6 }}>Complete Course</div>
             <div style={{ fontSize:13, color:"#666", lineHeight:1.75, maxWidth:340, marginBottom:28 }}>25 chapters · Slides · Full Q&A review · Certificate of Completion</div>
             <div style={{ width:"100%", maxWidth:360, display:"flex", flexDirection:"column", gap:12 }}>
-              {RAMADAN_ACTIVE && (
+              {isRamadan() && (
                 <div style={{ border:"2px solid #c0392b", borderRadius:14, overflow:"hidden", background:"#fff8f8" }}>
                   <div style={{ background:"#c0392b", padding:"6px 16px" }}><div style={{ fontSize:9, letterSpacing:"0.18em", textTransform:"uppercase", color:"white", fontWeight:700 }}>☽ Ramadan Special</div></div>
                   <div style={{ padding:"16px 20px" }}>
