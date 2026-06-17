@@ -13,79 +13,239 @@ const MASTERY_COVER = "/mastery-cover.jpg";
 
 const BIO = `Amin Shabazz Muhammad was born and raised in St. Paul, Minnesota. In 1982 he founded Minnesota's first Hip-Hop B-Boy crew and was instrumental in promoting peace in the Twin Cities through culture rather than conflict. A community activist, martial artist, self-taught multi-instrumentalist, singer-songwriter, multi-linguist, and world traveler — he has dedicated his life to the upliftment of his people through knowledge of self. He assisted major recording artist Prince in his pursuit of spiritual and political consciousness, and has instructed many thousands more in the disciplines of martial arts, diet, language, history, culture, and self-knowledge. For over 30 years — now entering his fourth decade of practice — he has lived what others only study. What you see in his face at 57 years old is not a claim. It is a testimony.`;
 
-const COURSE_MODULES = [
-  {
-    id: 1, title: "Introduction & Medical Disclaimer",
-    slides: [
-      { title: "Medical Disclaimer", body: "The information presented in this course is for educational purposes only. It is not intended as medical advice and should not replace consultation with a qualified healthcare professional. Before beginning any fasting or dietary practice, consult your physician — especially if you have a chronic medical condition, are pregnant, or are taking prescription medications.\n\nThe author bears witness to his own 30+ years of personal practice. Individual results will vary. Proceed with wisdom, patience, and self-awareness." },
-      { title: "Who This Course Is For", body: "This course is for the sincere seeker — regardless of religious background, cultural tradition, or prior experience with fasting.\n\nThe Mukhlasin discipline is ancient. It predates any single religion or culture. Its principles are found in the teachings of the Quran, the Bible, the Hadith, and the Ancient Mystery Systems of Asia.\n\nIf you are drawn to this practice, you belong here. Welcome." },
-      { title: "How to Use This Course", body: "Move through each module in sequence. Do not skip ahead.\n\nThe discipline has levels — and each level must be mastered before ascending to the next. This course mirrors that structure.\n\nTake notes. Return to sections that challenge you. Practice what you learn before moving to the next module.\n\nThe greatest desire of any Teacher is the success of the student." },
+const PROTECTIVE = [
+  { ey:"Important — please read", ti:"This is a spiritual discipline. It is not medical advice.", bo:"What you will learn in this course reflects over thirty years of one man's personal spiritual practice and testimony. It is not a prescription for anyone else. It is not medical advice. It is an invitation to study." },
+  { ey:"Medical disclaimer", ti:"Consult a physician before beginning any fasting practice.", bo:"Extended fasting affects the body in significant ways. Before changing your diet substantially — especially if you have existing health conditions — please consult a qualified medical professional. This course does not replace that guidance." },
+  { ey:"This course is not suitable for everyone", ti:"Please do not proceed if any of the following apply to you.", list:["Currently pregnant or nursing","Have or have had an eating disorder","Have diabetes or blood sugar conditions","Are under 18 years of age","Have been advised by a doctor not to fast"] },
+  { ey:"The only correct starting point", ti:"There is only one correct path of progression.", list:["Begin at one meal a day — mandatory entry point","One meal every two days only after months or years at level one","One meal every three days is advanced — the teacher took decades","There is no shortcut. There is no rush."] },
+];
+
+const WELCOME = [
+  { ey:"The Mukhlasin Diet — 4th Edition", ar:"الْمُخْلَصِينَ", ti:"The Diet of the Purified Ones", bo:"Celebrating 30+ years of fasting. An ancient discipline practiced for thousands of years. Now available to all." },
+  { ey:"Welcome", ti:"Whoever you are — you are welcome here.", bo:"This discipline comes from an ancient spiritual tradition. But its fruits belong to any sincere seeker of health, clarity, and long life." },
+  { ey:"The teacher", ti:"I did not invent this discipline.", bo:"I only bear witness to its power." },
+  { ey:"The invitation", qt:"What was once a closely guarded secret of the Highest Order of the Ancient Mystery Systems of Asia is now available to any who would desire to benefit from this wisdom.", at:"— Amin Shabazz Muhammad" },
+  { ey:"Three sections. Three levels.", ti:"Section I — Spiritual\nSection II — Personal Experience\nSection III — Counteraction", bo:"This book was written in three parts to be studied separately." },
+  { ey:"The Mukhlasin Diet — 4th Edition", ti:"Let us begin.", bo:"Section I — Spiritual" },
+];
+
+const CHAPTERS = [
+  { id:"ch1", sec:"Section I — Spiritual", label:"Chapter I — The Mukhlasin",
+    slides:[
+      { ey:"Chapter I", ti:"The Mukhlasin — The Purified Ones", bo:"Who are they? Where are they? And what does their diet have to do with your inheritance?" },
+      { ey:"Quran 7:42", ti:"We impose not on any soul a duty beyond its scope.", bo:"They are the Owners of the Garden — those who believe and do good. The qualification is discipline, not mystery." },
+      { ey:"The prophecy", ti:"Enslaved for four hundred years. In a land not their own.", bo:"Genesis 15:13–15 and Quran 28:44–46. A people raised from the lowest stratum of society — into a Heavenly condition." },
+      { ey:"The title given 7 times", ti:"Al-Mukhlasin appears in the Quran exactly seven times.", bo:"Those who have undergone purification and qualification to survive the attack of Iblis. Seven — the number of completeness." },
+      { ey:"Bilal and Paradise", ti:"The Prophet heard Bilal's footsteps ahead of him in Paradise.", bo:"Sahih al-Bukhari — a sign that the people from whom Bilal descended would precede the Arabs and call them to follow their path." },
+      { ey:"Quran 7:16–17 — Iblis", ti:"I will lie right in the straight path.", bo:"From before them and from behind them. From their right and from their left. All except the Purified Ones." },
+      { ey:"Quran 80:38–41", ti:"Faces on that day will be bright, laughing, joyous.", bo:"And faces on that day will have dust on them — darkness covering them. The discipline — or its rejection — is written on the face." },
+      { ey:"The fast of Prophet David", ti:"Fast one day. Break one day. There is no better fasting than that.", bo:"Sahih al-Bukhari Vol. 3 — the highest fasting recognized by Prophet Muhammad. The Mukhlasin are called to go further still." },
+      { ey:"The purification cycle", ti:"As above, so below. The Earth purifies itself. So do we.", bo:"Both the Earth and the human body are 75% water. As the Earth's water is purified ascending through fire, so is the body purified through the discipline." },
+      { refl:true, ey:"Reflection — Chapter I", ti:"Before continuing, sit with this.", bo:'"What does it mean for you personally to claim the title al-Mukhlasin — and does your daily practice reflect what that title requires?"' },
+    ],
+    qa:[
+      { q:"How many times does the title al-Mukhlasin appear in the Holy Quran — and what does the number signify?", a:"Seven times. Seven is the number of completeness. The title refers to those who have undergone a process of purification and qualification that exempts them from the attack of Iblis." },
+      { q:"Quran 7:16–17 records Iblis declaring he will attack from every direction. Which group is explicitly exempted?", a:"Al-Mukhlasin — the Purified Ones. Iblis himself acknowledged he has no authority over those who have attained this level of purification through the discipline." },
+      { q:"What does Quran 80:38–41 teach about the visible evidence of the dietary practice?", a:"Faces on that day will be bright, laughing, and joyous — while faces that rejected the practice will have dust on them. The discipline — or its rejection — is written on the countenance of the practitioner." },
+      { q:"What is the fast of Prophet David — and what level are the Mukhlasin called beyond it?", a:"One day eating, one day fasting — recognized by Prophet Muhammad in Sahih al-Bukhari Vol. 3 as the highest fasting. The Mukhlasin are called further: to one meal every two days, and ultimately one meal every three days." },
+      { q:"The purification cycle connects the Earth to the human body. What do they have in common?", a:"Both the Earth and the human body are 75 percent water. As the Earth's water is purified by ascending through atmospheric fire, the human body undergoes the same process through the discipline." },
     ]
   },
-  {
-    id: 2, title: "The Foundation — What Is the Mukhlasin Diet?",
-    slides: [
-      { title: "The Meaning of Mukhlasin", body: "The word Mukhlasin — الْمُخْلَصِينَ — refers to those who have been purified. Not merely cleansed of physical impurity, but elevated in consciousness, refined in character, and liberated from the enslavement of appetite.\n\nThe Quran speaks of the Mukhlasin as those whom Satan himself declared he could not lead astray. This is a physiological and spiritual state — achieved through the disciplined practice of dietary restriction." },
-      { title: "The Origin of the Discipline", body: "This discipline is not new. It is thousands of years old.\n\nThe Ancient Mystery Systems of Asia preserved and practiced these principles. The Prophets practiced extended fasting as a standard of spiritual life. The Most Honorable Elijah Muhammad documented the prescription for modern practitioners in How To Eat To Live.\n\nAmin Shabazz Muhammad has practiced and refined these principles for over 30 years. What you are learning is living testimony — not theory." },
-      { title: "The Three Levels", body: "The Mukhlasin Diet has three ascending levels of practice:\n\n1. OMAD — One Meal A Day\nThe foundation. The minimum standard for health and longevity.\n\n2. OME2D — One Meal Every Two Days\nThe intermediate level. Slows aging. Heightens perception.\n\n3. OME3D — One Meal Every Three Days\nThe master level. Reverses apparent age. Elevates consciousness.\n\nEach level must be mastered before ascending. There are no shortcuts." },
+  { id:"ch2", sec:"Section I — Spiritual", label:"Chapter II — Ramadan",
+    slides:[
+      { ey:"Chapter II", ti:"Ramadan", bo:"The month of fire. The prescription written ahead of time." },
+      { ey:"Quran 2:183", ar:"يَا أَيُّهَا الَّذِينَ آمَنُوا كُتِبَ عَلَيْكُمُ الصِّيَامُ", bo:"O you who believe, fasting is prescribed for you, as it was prescribed for those before you, so that you may guard against evil." },
+      { ey:"What does 'prescribe' mean?", ti:"To prescribe is to write ahead of time.", bo:"From the Latin praescribere — to direct in writing before the event. The Quran was written fifteen thousand, one hundred years ago. This prescription was written for you before you arrived." },
+      { ey:"400 years of missed Ramadans", ti:"The Black former slaves have been on a very long journey.", bo:"400 years × 30 days = 12,000 days — or 32 years of fasting owed. Those who fast outside the lunar month are perfectly within their right to fast 'a like number of other days.'" },
+      { ey:"How To Eat To Live — Chapter 16", qt:"I have chosen, for quite a few years, the month of December for my followers to fast as in the month of Ramadan. It serves as a sign that we — the Lost and Found Nation — are the end of all signs pertaining to the pilgrimage and fasting in the month of Ramadan.", at:"— The Most Honorable Elijah Muhammad" },
+      { ey:"Who needs the monthly fast", ti:"The monthly fast purifies those at one meal a day.", bo:"It is not emphasized for those who practice one meal every two or three days — because they are in a constant state of purification that prevents toxin accumulation." },
+      { ey:"Ramadan — the month of fire", ti:"Fire used to purify.", bo:"Ramadan means 'the month of fire.' The fire is the striving against the horizontal plain of one's own existence — to burn away the dross of carnal impurities and live a truly upright existence." },
+      { refl:true, ey:"Reflection — Chapter II", ti:"Before continuing, sit with this.", bo:'"How many months of Ramadan have I missed — and what does the prescription of fasting ask of me specifically, given the journey I have been on?"' },
+    ],
+    qa:[
+      { q:"What does it mean for fasting to be 'prescribed' — and what does the Latin root reveal?", a:"To prescribe comes from Latin praescribere — to direct in writing before the event. The Holy Quran was written fifteen thousand, one hundred years ago. The dietary prescription was written ahead of its fulfillment." },
+      { q:"How does the course calculate the fasting owed by the Lost and Found Nation?", a:"400 years of slavery multiplied by 30 days of Ramadan equals 12,000 days — or 32 years of fasting owed. Quran 2:184 states that whoever is sick or on a journey shall fast a like number of other days." },
+      { q:"Who is required to take the three-day monthly fast — and who is not, and why?", a:"The three-day monthly fast is prescribed for those at the level of one meal a day. It is not emphasized for those practicing one meal every two or three days, because they are in a constant state of purification." },
+      { q:"What does the word Ramadan mean?", a:"Ramadan means the month of fire. The fire is the striving against the horizontal plain of one's existence — to burn away the dross of carnal impurities and live a truly upright existence." },
     ]
   },
-  {
-    id: 3, title: "Level One — One Meal A Day (OMAD)",
-    slides: [
-      { title: "Why One Meal A Day?", body: "The human digestive system requires a minimum of 24 hours to fully process a properly composed meal and extract its nutritional value.\n\nWhen we introduce new food before the previous meal has been fully processed, we create a condition of chronic digestive stress. Over time, this stress manifests as disease.\n\nOMAD eliminates this stress entirely. The body is given the time it needs to fully digest, absorb, and eliminate. The results are immediate and unmistakable." },
-      { title: "What to Eat", body: "The meal at OMAD should be a proper, full meal — not a snack, not a light eating, but a complete and nutritious meal that provides all the nutrients the body requires for the following 24 hours.\n\nPrioritize: fresh vegetables, whole grains, legumes, fruits, and clean proteins.\n\nAvoid: processed foods, refined sugars, artificial ingredients, and anything your great-grandmother would not recognize as food.\n\nBetween meals: water and coffee only. Nothing else." },
-      { title: "When to Eat", body: "The timing of the meal matters.\n\nThe digestive fires are strongest in the afternoon and early evening. Ideally, take your one meal between 2pm and 7pm.\n\nThis aligns with the natural circadian rhythm of the digestive system and maximizes the efficiency of nutrient extraction and waste elimination.\n\nThe morning hours are best used for productivity, prayer, study, and light movement — not eating." },
-      { title: "The First 30 Days", body: "The first 30 days of OMAD are the most challenging — and the most important.\n\nYour body will resist. The appetite will demand its old patterns. This is normal. This is exactly where the discipline begins.\n\nDo not negotiate with the lower self. The appetite is not your master. You are.\n\nBy day 30, most practitioners report that OMAD has become entirely natural. What once seemed extreme now seems obvious. This is the first victory." },
+  { id:"ch3", sec:"Section I — Spiritual", label:"Chapter III — Perfecting the Science",
+    slides:[
+      { ey:"Chapter III", ti:"Perfecting the Science of Eating", bo:"We appear not to have had enough living examples of the proper daily practice to establish uniformity." },
+      { ey:"The correct meal — in courses", ti:"The meal is taken in courses, like school.", bo:"First: raw organic milk. Second: organic fruits. Third: organic vegetable navy bean soup with whole wheat bread. Optional: small salad, small dessert." },
+      { ey:"The first point of deviation", ti:"Chewing gum and snacking between meals destroys the digestive system.", bo:"Chewing gum, mints, sodas, and smoothies activate the salivary amylase and stimulate gastric juices unnecessarily — wearing away the stomach lining." },
+      { ey:"The second point of deviation", ti:"Purchasing GMO, processed, or pasteurized foods negates the discipline.", bo:"One may practice the discipline and still suffer declining health because of what is in that meal. Avoid fast foods, frozen meals, GMO fruits, and all pasteurized industrial milk." },
+      { ey:"Blood sugar management", ti:"Hot water with lemon and honey — or coffee.", bo:"Water with honey and salts corrects blood sugar and salt levels outside of mealtimes without activating the full digestive process." },
+      { ey:"Simple foods are best", qt:"Allah wants to show you in the example that He makes of me, that I have suffered the same afflictions that you have, so that you will not have this as an excuse for your disbelieving.", at:"— How To Eat To Live, Book Two, Chapter Twenty" },
+      { refl:true, ey:"Reflection — Chapter III", ti:"Before continuing, sit with this.", bo:'"Are you practicing the discipline correctly — or have you unknowingly introduced deviations that are preventing you from experiencing the true benefits?"' },
+    ],
+    qa:[
+      { q:"What is the correct order of courses for the prescribed meal?", a:"First: raw organic milk. Second: organic fruits. Third: organic navy bean soup with whole wheat bread. Optional: small salad. Optional: small dessert." },
+      { q:"What are the two most common points of deviation?", a:"First: chewing gum, mints, sodas or smoothies between meals. Second: purchasing GMO, pasteurized, or processed foods — which negate the benefits of the discipline." },
+      { q:"What does the course recommend for managing blood sugar?", a:"Hot water with lemon and honey — or coffee. This corrects blood sugar and salt levels without activating the full digestive process." },
     ]
   },
-  {
-    id: 4, title: "The Physical Transformation",
-    slides: [
-      { title: "The Glow", body: "Every practitioner of the Mukhlasin Diet, without exception, eventually experiences what has been called The Glow.\n\nThe Glow is a brightness upon the face and countenance — a visible luminescence that is unmistakable to all who encounter the practitioner.\n\nIt is not cosmetic. It cannot be manufactured. It is the natural luminescence of a purified vessel — the outward expression of an inward transformation.\n\nPrince once said of Amin Shabazz Muhammad: 'He always looks like he's standing under a spotlight.' He saw the Glow. He was so inspired that he became a vegan." },
-      { title: "Weight Normalization", body: "The Mukhlasin Diet does not produce weight loss in the conventional sense. It produces weight normalization.\n\nThe body finds its natural, optimal weight and maintains it with remarkable stability. The practitioner does not obsess over calories or macros. They simply eat one proper meal per day and allow the body's intelligence to do the rest.\n\nThis is the natural state of the human body. Excess weight is the aberration. The Mukhlasin Diet corrects the aberration." },
-      { title: "Pain and Inflammation", body: "One of the most dramatic and immediate benefits of OMAD is the reduction of chronic pain and inflammation.\n\nAmin Shabazz Muhammad suffered from Osteoid Osteoma — an extremely painful bone tumor — for years before discovering this practice. During his very first three-day fast, on the first three days of 1994, he was completely pain-free for the first time in years.\n\nThe mechanism is simple: inflammation requires fuel. When the digestive system is at rest, the body redirects that energy toward healing. Fasting is the most powerful anti-inflammatory tool available." },
-      { title: "Mental Clarity", body: "The mind becomes FAST.\n\nNot merely quick in thought, but rapid in discernment — swift in perception, clear in judgment. Problems that previously required extended deliberation resolve themselves almost instantaneously.\n\nThe enteric nervous system — the second brain — contains over 100 million nerve cells. When the digestive system is at rest, this second brain communicates more efficiently with the primary brain.\n\nThe result is a state of heightened cognitive function that ancient practitioners described as spiritual ascension." },
+  { id:"ch4", sec:"Section II — Personal Experience", label:"Chapter IV — Natural Beauty",
+    slides:[
+      { ey:"Chapter IV", ti:"Our Natural Beauty Appearance", bo:"Quran 83:24 — Thou recognizest in their faces the brightness of bliss. The discipline is written on the face of the practitioner." },
+      { ey:"The mirror — December 1993", ti:"A bright pair of glowing eyes in the mirror.", bo:"Unfamiliar. Three days of water only. Skin glowing. Teeth bright. Eyes clear. Features sharp. Looking at himself — for the first time in memory." },
+      { ey:"The calendar", ti:"Eight years of smoking addiction — broken in three days without food.", bo:"Each day of discipline marked with an X. The calendar still exists today." },
+      { ey:"The Master Teacher", qt:"Beauty appearance is destroyed in us — not just our facial appearance. The most beautiful appearance about us is our characteristics — the way we act and practice our way of life. We achieve the spiritual beauty through practicing the spiritual laws.", at:"— How To Eat To Live, Book One, Chapter 35" },
+      { refl:true, ey:"Reflection — Chapter IV", ti:"Before continuing, sit with this.", bo:'"What does my face currently testify about my practice — and what would I like it to say?"' },
+    ],
+    qa:[
+      { q:"What physical changes were observed after the first three-day fast — and what addiction was broken?", a:"Skin glowing, teeth bright, eyes clear and no longer puffy, features well defined and sharp. Eight years of smoking and alcohol addiction were broken in three days without food." },
+      { q:"What does the Master Teacher say is the most beautiful appearance?", a:"Not facial — it is our characteristics: the way we act and practice our way of life. We achieve spiritual beauty through practicing the spiritual laws. How To Eat To Live, Book One, Chapter 35." },
     ]
   },
-  {
-    id: 5, title: "The Spiritual Dimensions",
-    slides: [
-      { title: "Fasting in the Sacred Traditions", body: "Every major spiritual tradition has recognized fasting as a gateway to higher consciousness.\n\nThe Prophet Muhammad (PBUH) fasted regularly and described it as a shield. The Prophet Jesus fasted for 40 days in the wilderness before beginning his ministry. The Prophet David fasted one day out of every two. The Buddha spent six years practicing various degrees of fasting as a means of purification.\n\nThis convergence is not coincidence. The ancient teachers understood what modern science is only beginning to confirm: the purified body is the doorway to elevated consciousness." },
-      { title: "Diet and Spiritual State", body: "The accumulation of toxins in the body is not merely a physical phenomenon. It is a spiritual one.\n\nThe foods we consume, the thoughts we entertain, the behaviors we engage in — all leave residues in the body and spirit that, over time, accumulate into a burden that dims the Light of the practitioner.\n\nThe practice of the Mukhlasin Diet is, in part, a practice of toxicity reduction. As the body becomes lighter and cleaner, the spirit becomes correspondingly clearer and more luminous." },
-      { title: "Forgiveness as Fasting", body: "No discipline of the spirit can reach its fullest expression without the practice of forgiveness.\n\nUnforgiveness produces a chronic state of stress in the body that undermines every other effort at self-improvement. The toxicity of unforgiveness is as real and as harmful as the toxicity of processed food.\n\nForgiveness does not mean condoning what was done. It means releasing the toxin of resentment from your own system — not for the sake of the one who wronged you, but for the sake of your own health and freedom.\n\nThe practice of forgiveness is a form of fasting." },
+  { id:"ch5", sec:"Section II — Personal Experience", label:"Chapter V — Clarity",
+    slides:[
+      { ey:"Chapter V", ti:"Clarity", bo:"Middle English — from Latin claritas: glory, divine splendor. The quality of transparency or purity. This is the documented fruit of the discipline." },
+      { ey:"At one meal every two days", ti:"Others have commented that I appear otherworldly.", bo:"The mind pierces the veil of matter — seeing into times, circumstances, and events far better than at the carnal level." },
+      { ey:"At one meal every three days", ti:"Supreme Balance. Complete harmony.", bo:"Despite external turmoil. The Quickening Spirit comes across the Consciousness. The ego dies off. We begin to turn back the hands of Time." },
+      { ey:"The Master Teacher's testimony", qt:"I also tried eating one meal every 72 hours. I felt better than I felt when I was eating one meal every 48 hours. My whole body felt light and my head was clear. I could almost hear insects crawling.", at:"— How To Eat To Live, Book Two, Chapter 10" },
+      { refl:true, ey:"Reflection — Chapter V", ti:"Before continuing, sit with this.", bo:'"When have I experienced moments of true mental clarity — and what was my diet like at that time?"' },
+    ],
+    qa:[
+      { q:"How does the course describe the difference in mental clarity between the levels?", a:"At one meal a day the carnal level remains. At one meal every two days the mind pierces the veil of matter. At one meal every three days: supreme balance, complete harmony, the ego dies off, the Quickening Spirit comes across the Consciousness." },
+      { q:"What does the Master Teacher personally document?", a:"How To Eat To Live, Book Two, Chapter 10 — I felt better than when eating one meal every 48 hours. My whole body felt light and my head was clear. I could almost hear insects crawling." },
     ]
   },
-  {
-    id: 6, title: "Level Two — One Meal Every Two Days (OME2D)",
-    slides: [
-      { title: "Ascending to OME2D", body: "One Meal Every Two Days is the intermediate level of the Mukhlasin practice.\n\nDo not attempt this level until you have mastered OMAD for a minimum of 90 days. The body must be prepared. The will must be trained. The foundation must be solid.\n\nWhen you are ready, the transition to OME2D will feel natural — almost inevitable. The practitioner who has truly mastered OMAD will find that extending to 48 hours requires less effort than the first week of OMAD did." },
-      { title: "What Changes at OME2D", body: "At One Meal Every Two Days, the transformation accelerates dramatically.\n\nThe speed of reflexes increases. Sensory perception heightens. The Glow intensifies. Sleep requirements decrease while sleep quality improves.\n\nThe aging process begins to visibly slow. Practitioners consistently appear significantly younger than their chronological age. The body's cellular repair mechanisms — including the process of autophagy — operate at maximum efficiency." },
-      { title: "Preparing the OME2D Meal", body: "At OME2D, the meal must now sustain the practitioner for 48 hours.\n\nDouble the quality. Double the care in preparation. Organic food at the highest quality you can afford. Fresh vegetables, whole grains, clean proteins, and plenty of water-rich foods.\n\nThe meal should be eaten slowly, with full attention and gratitude. This is not merely eating. This is the refueling of a high-performance vessel.\n\nRoom temperature water between meals. Nothing else." },
+  { id:"ch6", sec:"Section II — Personal Experience", label:"Chapter VI — Depression",
+    slides:[
+      { ey:"Chapter VI", ti:"Depression", bo:"A drug-free pathway observed through personal testimony and community practice." },
+      { ey:"Animal training science", ti:"The lower brain can be trained to obey the higher brain.", bo:"Through consistent reinforcement of stimuli, the animal brain is trained to obey upon command. The same principle applies to our own instinctive lower animal brain functions." },
+      { ey:"Romans 8:6–8", ti:"To be carnally minded is death. To be spiritually minded is life and peace.", bo:"The carnal mind is enmity against God. But if the Spirit of God dwell in you — the Spirit is life because of righteousness." },
+      { ey:"At one meal every two days", ti:"I do not suffer depression.", bo:"Though I may be angry — under control. Though I hunger — under control. It is a wonderful feeling to be at peace and in contentment." },
+      { ey:"Quran 21:18", ti:"Nay, We hurl the Truth against falsehood, so it knocks out its brains, and lo! it vanishes.", bo:"There is no need for pills to relieve the stresses we encounter in life. The Truth — the discipline — is the remedy." },
+      { refl:true, ey:"Reflection — Chapter VI", ti:"Before continuing, sit with this.", bo:'"Have I ever noticed a connection between what I was eating and the state of my emotional life?"' },
+    ],
+    qa:[
+      { q:"How does the discipline train the lower brain?", a:"By building the will to refrain, the lower brain is trained to obey the higher brain — exactly as animal training science demonstrates. This is the foundation of overcoming depression through the discipline." },
+      { q:"What does the course identify as the remedy for depression?", a:"The discipline itself. Quran 21:18 — We hurl the Truth against falsehood. The Truth — the practice of the divine dietary law — is the remedy." },
     ]
   },
-  {
-    id: 7, title: "Level Three — One Meal Every Three Days (OME3D)",
-    slides: [
-      { title: "The Master Level", body: "One Meal Every Three Days is the level of complete Self Mastery.\n\nThis discipline will increase the lifespan of the practitioner, reverse the apparent age of the person, and elevate them into the highest degree of consciousness and self-awareness available to the human being.\n\nDo not attempt this level until you have mastered OME2D for a minimum of 90 days. The ascent must be gradual. Be kind to yourself." },
-      { title: "What the Masters Practiced", body: "The Prophet David practiced One Meal Every Two Days.\n\nThe Prophet Jesus fasted for 40 days in the wilderness.\n\nThe Buddha spent six years practicing various degrees of fasting as a means of purification.\n\nThe ancient masters of the Eastern Mystery Systems practiced One Meal Every Three Days as their standard discipline — and were known to live into extreme old age, maintaining youthful appearance, mental agility, and the brightness of the Glow.\n\nYou are not pioneering something new. You are returning to something ancient." },
-      { title: "Life at OME3D", body: "At One Meal Every Three Days, changes occur that are difficult to describe to those who have not experienced them.\n\nSleep requirements decrease to four to six hours per night — not from deprivation, but from the body's increased efficiency. Mental acuity increases dramatically. The sense of time changes. The practitioner operates from a fundamentally different plane of awareness.\n\nOrdinary concerns lose their grip. Clarity becomes the default state. The Glow is unmistakable and permanent.\n\nThis is what the ancients called enlightenment. It is not a mystical abstraction. It is a physiological reality available to any who would walk the path." },
+  { id:"ch7", sec:"Section II — Personal Experience", label:"Chapter VII — Self Talk",
+    slides:[
+      { ey:"Chapter VII", ti:"Self Talk", bo:"One's inner conversations have a profound effect on development, spirituality, health, and growth." },
+      { ey:"Masaru Emoto", ti:"Water exposed to loving words forms brilliant crystal patterns.", bo:"Water exposed to negative thoughts forms incomplete, asymmetrical patterns. The human body is 75% water. What you speak to yourself — you speak to every cell." },
+      { ey:"Proverbs 23:7", ti:'"As a man thinketh in his heart, so is he."', bo:"The inner voice is not separate from the body. It is the body." },
+      { ey:"The declaration", ti:"I can do whatever I will.", bo:"The impossible becomes reality when the inner voice stops arguing against itself and begins to affirm the discipline." },
+      { refl:true, ey:"Reflection — Chapter VII", ti:"Before continuing, sit with this.", bo:'"What does my inner voice say when I attempt to practice discipline — and whose voice is that really?"' },
+    ],
+    qa:[
+      { q:"What does Masaru Emoto's research reveal about self-talk and the human body?", a:"Water exposed to loving words forms brilliant crystal patterns. Water exposed to negative thoughts forms dull patterns. Since the human body is 75 percent water, what you speak to yourself you speak to every cell." },
+      { q:"What does the course identify as the most powerful decision a person makes each day?", a:"What they say to themselves in the quiet of their own mind. Proverbs 23:7 — As a man thinketh in his heart, so is he. The inner voice governs the body." },
     ]
   },
-  {
-    id: 8, title: "The Monthly 72-Hour Community Fast",
-    slides: [
-      { title: "Fasting Together", body: "Every first Friday through Sunday of the month, members of this platform fast together.\n\nThis is not merely a dietary practice. It is a community practice — a shared discipline that creates real bonds between practitioners who may never meet in person but who are united by a common commitment to the highest standard of self-mastery.\n\nPost your experience. Read others'. Ask questions. Offer encouragement. This is what separates a subscription from a practice." },
-      { title: "The 72-Hour Protocol", body: "Begin Friday morning. Take your last meal Thursday evening.\n\nDrink room temperature water throughout the fast. Coffee is permitted in small amounts.\n\nDo not engage in strenuous physical activity during the fast. Rest, pray, study, and reflect.\n\nBreak the fast Sunday with a small, easily digestible meal. Fresh fruit, light soup, or vegetables. Do not break a 72-hour fast with a heavy meal.\n\nRecord your experience. Note the clarity, the dreams, the emotional shifts. These are data points on your journey." },
-      { title: "What to Expect", body: "First-time fasters will experience hunger, irritability, and mental fog in the first 24 hours. This is normal. Push through.\n\nBy hour 36, most practitioners enter a state of unusual calm and clarity. The hunger recedes. The mind sharpens.\n\nBy hour 60, the practitioner is operating at a fundamentally elevated level. This is the gift that awaits on the other side of the discomfort.\n\nBy Sunday, you will understand why the ancients made this their standard practice." },
+  { id:"ch8", sec:"Section II — Personal Experience", label:"Chapter VIII — Forgiveness",
+    slides:[
+      { ey:"Chapter VIII", ti:"Forgiveness", bo:"Forgiveness is not a feeling. It is a physical process. Without it, the body cannot fully heal." },
+      { ey:"The energy of injury", ti:"The energy of injury is retained in the body like a battery retains energy.", bo:"The Chi — the body's energy — is blocked at the site of injury. Without circulation, the tissue begins to decay. To heal, one must let go." },
+      { ey:"Quran 9:31", ti:"They take their doctors for lords besides Allah.", bo:"When the root injury is not fully healed — symptoms persist until the death of the patient." },
+      { ey:"The true healer", ti:"Healing is faith. And faith is healing.", bo:"The amount of energy required to heal is equal to or greater than the energy of the injury. The higher the discipline, the greater the healing force available." },
+      { refl:true, ey:"Reflection — Chapter VIII", ti:"Before continuing, sit with this.", bo:'"Is there an injury — physical, spiritual, or emotional — that I have accepted as permanent?"' },
+    ],
+    qa:[
+      { q:"How does the course explain forgiveness as a physical process?", a:"When injured, the energy is retained in the body. The Chi is blocked at the site, cutting it off from circulation. Without circulation, tissue decays. Forgiveness restores the flow. Healing is faith, and faith is healing." },
+      { q:"What does the course teach about the diagnosis of 'permanent injury'?", a:"The diagnosis of permanent creates a condition in the mind that suspends belief and faith. The higher the discipline, the greater the healing force available. Permanent is a diagnosis — not a prophecy." },
     ]
   },
-  {
-    id: 9, title: "Conclusion — The Testimony",
-    slides: [
-      { title: "The Witness", body: "I did not invent this discipline. I only bear witness to its power.\n\nFor over 30 years, I have practiced what I have taught in this course. I have documented my successes and my failures. I have refined my understanding through decades of direct experience.\n\nWhat you see in my face at 57 years old is not a claim. It is a testimony. The Glow is not mine alone. It is the birthright of every human being who is willing to do what is required to receive it." },
-      { title: "Your Journey Begins", body: "You now have everything you need to begin.\n\nStart with OMAD. Master it completely before ascending. Be patient with yourself. Be ruthless with your appetite.\n\nJoin the monthly community fast. Read the books. Book a consultation if you need personal guidance.\n\nThe Light that is in me is also in you. It simply needs the proper cultivation to grow.\n\nAs salaam alaikum. Go in peace — and in discipline." },
-      { title: "Your Certificate Awaits", body: "You have completed The Mukhlasin Diet Course.\n\nThis is not the end. It is the beginning of your practice.\n\nYour Master of Fasting certificate will be issued upon completion of this final module. It is a record of your commitment — a declaration that you have received the teaching and accepted the discipline.\n\nWear it with humility. The real certificate is written on your face." },
+  { id:"ch9to12", sec:"Section II — Personal Experience", label:"Chapters IX–XII — Exercise, Rest, Toxicity, Elimination",
+    slides:[
+      { ey:"Chapter IX", ti:"Exercise", bo:"Exercise is always about health and life. It is never about vanity or ego. Know your threshold. Balance in all things." },
+      { ey:"Chapter X", ti:"Rest", bo:"At one meal every two days — two to three hours of rest per day is sufficient. At one meal every three days — one hour." },
+      { ey:"Chapter XI", ti:"The Cumulative Effects of Toxicity and the Correlation to Sin", bo:"Toxins retained by the body manifest as sin, both overtly and subtly. As discipline ascends, the toxins are flushed." },
+      { ey:"Chapter XII", ti:"Waste Elimination", bo:"The elimination of waste bears a direct correlation to the degree of one's spirituality. 70% of the body's waste products are eliminated via the lungs." },
+      { refl:true, ey:"Reflection — Chapters IX–XII", ti:"Before continuing, sit with this.", bo:'"What behaviors or patterns in my life might be connected to toxicity I have not yet addressed?"' },
+    ],
+    qa:[
+      { q:"What does the course teach about rest requirements at the higher levels?", a:"At one meal every two days: two to three hours per day is sufficient. At one meal every three days: only one hour of lying down is needed." },
+      { q:"What is the connection between retained toxins and sin?", a:"Toxins retained at one meal a day manifest as sin — both overtly and subtly. As the discipline ascends, toxins are flushed. Once completely flushed and areas of injury healed, one is free from sin." },
+    ]
+  },
+  { id:"ch13", sec:"Section II — Foods for Good Health and Long Life", label:"Chapter XIII — The Navy Bean",
+    slides:[
+      { ey:"Chapter XIII", ar:"الفاصوليا البيضاء", ti:"The Navy Bean", bo:"The food prescribed by the Great Mahdi for good health and long life. The favorite food of the Prophet Daniel." },
+      { ey:"Quran 5:114", ti:'"O Allah, send down to us food from heaven — an ever-recurring happiness."', bo:"Allah said: Surely I will send it down to you. The food from heaven is prescribed. It is available. It is affordable." },
+      { ey:"The two prescribed beans", ti:"The Navy Bean and the Lentil. All others are cattle food.", bo:"The Navy Bean is preferred. The Lentil is permitted. Most other beans are too hard on the human digestive system." },
+      { ey:"Heart health", ti:"82% reduction in heart attack risk with higher legume consumption.", bo:"A 25-year study of over 16,000 men across 7 countries. One cup of navy beans provides 63.7% of daily recommended folate intake." },
+      { ey:"Correct soaking method", ti:"12 to 30 hours. Until cloudy water and aroma of fermentation.", bo:"Insufficient soaking is the cause of gas. Cook in the soak water — it contains valuable nutrients." },
+      { refl:true, ey:"Reflection — Chapter XIII", ti:"Before continuing, sit with this.", bo:'"The food prescribed for good health and long life is affordable and available year-round. What has kept me from making it the foundation of my table?"' },
+    ],
+    qa:[
+      { q:"What are the two prescribed beans — and what does the course teach about all other beans?", a:"The Navy Bean — preferred — and the Lentil — permitted. Most other beans are cattle food: too hard on the human digestive system." },
+      { q:"What is the correct procedure for soaking navy beans?", a:"Soak a minimum of 12 hours — ideally up to 30 hours at room temperature. Ready when the water is cloudy and there is an aroma of fermentation. Cook in the soak water." },
+      { q:"What does the 25-year study conclude?", a:"A 25-year study of over 16,000 men across seven countries found that higher legume consumption was associated with an 82 percent reduction in heart attack risk." },
+    ]
+  },
+  { id:"ch14", sec:"Section II — Foods for Good Health and Long Life", label:"Chapter XIV — Milk & Honey",
+    slides:[
+      { ey:"Chapter XIV", ti:"Milk & Honey", bo:"Referenced across Exodus, Leviticus, Deuteronomy, Joshua, the Quran, and the Hadith. A daily practice — not a distant reward." },
+      { ey:"Quran 16:66 and 47:15", ti:"Rivers of milk whereof the taste changes not.", bo:"Pure milk — from between the feces and the blood — agreeable to the drinkers. In the Garden: rivers of milk and rivers of honey clarified." },
+      { ey:"Dr. J.R. Crewe — Mayo Foundation, 1929", qt:"The results obtained in various types of disease have been so uniformly excellent that one's conception of disease and its alleviation is necessarily changed. The chief fault of the treatment is that it is too simple.", at:"— Dr. J.R. Crewe, Mayo Foundation" },
+      { ey:"The milk protocol", ti:"Milk first. Always milk first.", bo:"As the highest value food, raw milk is taken first before any other food. It activates and flushes the digestion. Milk has a rapid transit time — 6 hours to elimination." },
+      { refl:true, ey:"Reflection — Chapter XIV", ti:"Before continuing, sit with this.", bo:'"What has been taken from our diet that was once considered the most perfect food on Earth — and who benefited from its removal?"' },
+    ],
+    qa:[
+      { q:"What did Dr. J.R. Crewe document about raw milk in 1929?", a:"Dr. Crewe documented 15 years of treating patients with raw milk as the primary remedy with uniformly excellent results. Conditions treated included tuberculosis, cardiovascular disease, hypertension, obesity, cancer, and diabetes." },
+      { q:"What is the correct order for taking milk at a meal?", a:"Milk must always be taken first — before any other food. It activates and flushes the digestion. After sufficient milk, the desire for other food is greatly reduced." },
+    ]
+  },
+  { id:"ch15to17", sec:"Section II — Foods for Good Health and Long Life", label:"Chapters XV–XVII — Bread, Fruits, Coffee",
+    slides:[
+      { ey:"Chapter XV", ti:"Our Daily Bread", bo:"Bread is the Staff of Life. Let us pool our resources to cultivate Our Daily Bread." },
+      { ey:"Whole Wheat Bread Recipe", ti:"Muhammad Farms Whole Wheat Flour.", bo:"3½ cups whole wheat flour · 1 packet active dry yeast · ¼ cup honey or molasses · ¼ cup milk · Bake at 350°F for 40 minutes.\nRecipe by Lisa Muhammad." },
+      { ey:"Chapter XVI", ti:"Fruit & Vegetable Nutritional Facts", bo:"When we eat fruit, we are eating the energy of the frequency of Sunlight on which each fruit was nurtured." },
+      { ey:"Vegetables", ti:"Virtually all vegetables are good — with exceptions.", bo:"No collard greens · No kale · No sweet potatoes · No white potatoes · No black-eyed peas or field peas · Garlic and onion — as much as you like." },
+      { ey:"Chapter XVII", ti:"Coffee", bo:"The only drink prescribed for outside the meal, besides water. The oils in coffee contain the only vegetable lecithin available for use in the human body." },
+      { refl:true, ey:"Reflection — Chapters XV–XVII", ti:"Before continuing, sit with this.", bo:'"The prescription is simple: navy beans, bread, raw milk, organic fruit, and coffee. What complexity have you added that may be working against your health?"' },
+    ],
+    qa:[
+      { q:"Which specific vegetables should not be eaten — and what is the historical reason given?", a:"No collard greens, no kale, no sweet potatoes, no white potatoes, no black-eyed peas, no field peas. These were cheap slave foods used to feed the enslaved for labor capacity — not for long life." },
+      { q:"What does the course teach about coffee?", a:"Coffee was prescribed as the only drink to take outside the meal, besides water. The oils in coffee contain the only vegetable lecithin available for use in the human body." },
+    ]
+  },
+  { id:"ch18to19", sec:"Section III — Counteraction", label:"Chapters XVIII–XIX — Life Extension & Calorie Restriction",
+    slides:[
+      { ey:"Section III", ti:"Counteraction", bo:"The war via food and medicine is very old and must be learned, taught, and disseminated accurately." },
+      { ey:"Chapter XVIII — Li Qing Yuen", ti:"Born 1677. Died May 6, 1933. Age: approximately 256 years.", bo:"His longevity due to exercises practiced regularly for 120 years — and dietary recommendations from a 500-year-old hermit. A vegetarian." },
+      { ey:"Chapter XIX — The Calorie Restriction Study", ti:"The enemy began studying 'caloric restriction' in 1935.", bo:"Exactly five years after a Wise Traveler began teaching Islam in Detroit in 1930. The studies confirm: dietary restriction leads to longer life." },
+      { ey:"Wisconsin primate study — 2009", ti:"80% survival in calorie-restricted monkeys vs. 50% in controls.", bo:"Caloric restriction reduced the incidence of diabetes, cancer, cardiovascular disease, and brain atrophy over 20 years." },
+      { refl:true, ey:"Reflection — Chapters XVIII–XIX", ti:"Before continuing, sit with this.", bo:'"The calorie restriction studies achieved partial results with no spiritual practice. What do you have available that the laboratory subjects did not?"' },
+    ],
+    qa:[
+      { q:"Who was Li Qing Yuen and to what did he attribute his longevity?", a:"A Chinese tactical advisor. Imperial records congratulate him on his 150th birthday in 1827. Born 1677, died 1933 — approximately 256 years. He attributed his longevity to exercises practiced every day for 120 years and to dietary recommendations from a 500-year-old hermit." },
+      { q:"What did the Wisconsin primate study conclude?", a:"Published in Science, 2009. 80 percent of calorie-restricted animals survived vs 50 percent of controls. Caloric restriction reduced diabetes, cancer, cardiovascular disease, and brain atrophy." },
+    ]
+  },
+  { id:"ch20to24", sec:"Section III — Counteraction", label:"Chapters XX–XXIV — Warfare & Counteraction",
+    slides:[
+      { ey:"Chapter XX", ti:"Profiteering Through the Ignorance of Dieters", bo:"There is no long-term profit in cures. The residual income is derived from creating life-long patients." },
+      { ey:"Chapter XXI", ti:"Response Time and Premature Death", bo:"University of Edinburgh — 5,134 adults followed 15 years. Each standard deviation of slower response time increased likelihood of death by 25%." },
+      { ey:"Chapter XXII", ti:"Clandestine Biological Warfare via Hygiene Products", bo:"Most commercial hygiene products break down the immune system, cause cancer, and adversely affect the reproductive systems." },
+      { ey:"Chapter XXIII", ti:"Intentional Pork Worm Infestation", bo:"Consumer Reports: 69% of all raw pork samples tested were contaminated with dangerous bacteria. There is no safe level of consumable pork." },
+      { ey:"Chapter XXIV — NSSM 200", ti:"Food as a Weapon", bo:"December 10, 1974 — Kissinger's classified 200-page plan. Food identified explicitly as an instrument of national power." },
+      { ey:"4th Edition — Pestilence from Heaven", ti:"This is the Time of fulfillment — COVID-19.", bo:"Quran 2:59 — We sent upon the wrongdoers a pestilence from heaven, because they transgressed." },
+      { refl:true, ey:"Reflection — Chapters XX–XXIV", ti:"Before continuing, sit with this.", bo:'"What is in my home right now that was put there by someone who profits from my illness? What will I change this week?"' },
+    ],
+    qa:[
+      { q:"What does Quran 2:59 teach — and how does the 4th Edition apply it?", a:"Quran 2:59 — We sent upon the wrongdoers a pestilence from heaven, because they transgressed. The 4th Edition identifies COVID-19 as that pestilence — the Time of fulfillment." },
+      { q:"What was NSSM 200?", a:"A classified 200-page study completed December 10, 1974 under Henry Kissinger. Adopted as official US policy in 1975. Food identified explicitly as an instrument of national power." },
+      { q:"What three things do most commercial hygiene products have in common?", a:"They break down the immune system. They cause cancer. They adversely affect the reproductive systems." },
+    ]
+  },
+  { id:"ch25", sec:"Section III — Counteraction", label:"Chapter XXV — Owners of Paradise & Conclusion",
+    slides:[
+      { ey:"Chapter XXV", ti:"The Owners of Paradise", bo:"Heaven does not grow in the sky — it grows beneath our feet. Let us make Heaven on Earth." },
+      { ey:"Will Allen — Growing Power, Milwaukee", ti:"A quarter million dollars worth of food on two acres.", bo:"10,000 urbanites fed. Scores employed. Worm composting. Aquaponics. We need 50 million more people growing food." },
+      { ey:"Muhammad Farms", ti:"1,556 acres purchased in December 1994 in Bronwood, Georgia.", bo:"Through the Three Year Economic Saving Program. The Economic Blueprint of the Most Honorable Elijah Muhammad." },
+      { ey:"Conclusion", qt:"IT IS NOT so much what you eat when you begin eating one meal every day, or every two or three days, it is just that you do not eat foods that are against your health... He prescribed for us, dry navy beans, bread and milk.", at:"— How To Eat To Live, Book Two, Chapter 10" },
+      { ey:"As salaam alaikum", ti:"Peace be upon you.", bo:"May Allah bless you with the Light of His Understanding. The discipline is ancient. The path is clear. Begin.\n\n— Amin Shabazz Muhammad" },
+    ],
+    qa:[
+      { q:"What practical steps does the course prescribe for building Heaven on Earth?", a:"Cultivate Our Daily Bread — pool resources to acquire land and grow wheat. Support Muhammad Farms and the Three Year Economic Saving Program. Practice urban agriculture. Bring the knowledge to youth and in schools." },
+      { q:"What is the closing prescription of the course?", a:"Dry navy beans, bread, and milk. It is not so much what you eat when you begin — it is just that you do not eat foods that are against your health. — How To Eat To Live, Book Two, Chapter 10." },
     ]
   },
 ];
