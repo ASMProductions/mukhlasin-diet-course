@@ -308,6 +308,240 @@ const TIERS = [
 
 const FREE_CODES = { "SADAQAH": true, "ADMINTEST": true };
 
+
+// ── SLIDE COMPONENT ──────────────────────────────────────────
+function PhoneSlide({ s, current, total }) {
+  return (
+    <div style={{ width:"100%", height:"100%", background:s.refl?"#0d0b08":"#0a0a0a", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", padding:"2rem 1.5rem", textAlign:"center", position:"relative" }}>
+      {s.refl && <div style={{ fontSize:22, color:"#8a7a5a", marginBottom:10 }}>◈</div>}
+      {s.ar && <div style={{ fontSize:14, color:"#8a7a5a", marginBottom:8, direction:"rtl", fontFamily:"serif", lineHeight:1.6 }}>{s.ar}</div>}
+      {s.ey && <div style={{ fontSize:9, letterSpacing:"0.18em", textTransform:"uppercase", color:"#8a7a5a", marginBottom:8, fontFamily:"sans-serif" }}>{s.ey}</div>}
+      {s.ti && <div style={{ fontSize:17, fontWeight:600, color:"#f5f0e8", lineHeight:1.35, fontFamily:"Georgia, serif", marginBottom:8, whiteSpace:"pre-line" }}>{s.ti}</div>}
+      {!s.refl && !s.ti && <div style={{ width:28, height:2, background:"#8a7a5a", margin:"0 auto 8px" }} />}
+      {s.qt && <div style={{ fontSize:11, color:"#c8c0b0", lineHeight:1.8, fontStyle:"italic", fontFamily:"Georgia, serif", borderLeft:"2px solid #8a7a5a", paddingLeft:10, textAlign:"left" }}>{s.qt}</div>}
+      {s.at && <div style={{ fontSize:10, color:"#6a6050", marginTop:6, textAlign:"left", fontFamily:"sans-serif" }}>{s.at}</div>}
+      {s.bo && <div style={{ fontSize:12, color:"#c8c0b0", lineHeight:1.75, fontFamily:"sans-serif", whiteSpace:"pre-line" }}>{s.bo}</div>}
+      {s.list && <div style={{ width:"100%", marginTop:4 }}>{s.list.map((item,i)=><div key={i} style={{ fontSize:11, color:"#c8c0b0", lineHeight:1.6, textAlign:"left", padding:"3px 0", borderBottom:i<s.list.length-1?"0.5px solid #3a3530":"none" }}>• {item}</div>)}</div>}
+      <div style={{ position:"absolute", bottom:10, right:14, fontSize:9, color:"#3a3530", fontFamily:"sans-serif" }}>{current+1} / {total}</div>
+      <div style={{ position:"absolute", bottom:0, left:0, height:2, background:"#8a7a5a", width:`${((current+1)/total)*100}%`, transition:"width 0.3s" }} />
+    </div>
+  );
+}
+
+// ── CHAPTER VIEWER ───────────────────────────────────────────
+function ChapterViewer({ chapter }) {
+  const [slide, setSlide] = useState(0);
+  const [revealed, setRevealed] = useState({});
+  const [scores, setScores] = useState({});
+  const [tab, setTab] = useState("slides");
+  const slides = chapter.slides;
+  const total = slides.length;
+  const correct = chapter.qa.filter((_,i)=>scores[i]===true).length;
+  const answered = chapter.qa.filter((_,i)=>scores[i]!==undefined).length;
+  return (
+    <div>
+      <div style={{ display:"flex", gap:8, marginBottom:16 }}>
+        {["slides","Q&A"].map(t=>(
+          <button key={t} onClick={()=>setTab(t)} style={{ padding:"6px 16px", borderRadius:20, border:`1.5px solid ${tab===t?"#8a7a5a":"#ddd"}`, background:tab===t?"#8a7a5a":"white", color:tab===t?"white":"#666", fontSize:12, fontWeight:tab===t?700:400, cursor:"pointer" }}>
+            {t==="slides"?"📱 Slides":`❓ Q&A${answered>0?` (${correct}/${chapter.qa.length})`:""}`}
+          </button>
+        ))}
+      </div>
+      {tab==="slides" && (
+        <div style={{ display:"flex", flexDirection:"column", alignItems:"center" }}>
+          <div style={{ width:280, height:497, borderRadius:28, border:"2px solid #2a2a2a", overflow:"hidden" }}>
+            <PhoneSlide s={slides[slide]} current={slide} total={total} />
+          </div>
+          <div style={{ display:"flex", gap:4, marginTop:10, flexWrap:"wrap", justifyContent:"center", maxWidth:280 }}>
+            {slides.map((_,i)=><div key={i} onClick={()=>setSlide(i)} style={{ width:5, height:5, borderRadius:"50%", background:i===slide?"#8a7a5a":"#ddd", cursor:"pointer" }} />)}
+          </div>
+          <div style={{ display:"flex", alignItems:"center", gap:14, marginTop:12 }}>
+            <button onClick={()=>setSlide(s=>s>0?s-1:total-1)} style={{ width:38, height:38, borderRadius:"50%", border:"0.5px solid #ddd", background:"white", cursor:"pointer", fontSize:16 }}>‹</button>
+            <div style={{ fontSize:12, color:"#aaa" }}>{slide+1} / {total}</div>
+            <button onClick={()=>setSlide(s=>s<total-1?s+1:0)} style={{ width:38, height:38, borderRadius:"50%", border:"0.5px solid #ddd", background:"white", cursor:"pointer", fontSize:16 }}>›</button>
+          </div>
+        </div>
+      )}
+      {tab==="Q&A" && (
+        <div>
+          {chapter.qa.map((item,qi)=>{
+            const isOpen=!!revealed[qi]; const mark=scores[qi];
+            return (
+              <div key={qi} style={{ border:`1.5px solid ${isOpen?"#8a7a5a":"#e0e0e0"}`, borderRadius:12, marginBottom:12, overflow:"hidden" }}>
+                <div style={{ padding:"0.875rem 1rem", background:"white" }}>
+                  <div style={{ display:"flex", alignItems:"flex-start", gap:8, marginBottom:10 }}>
+                    <div style={{ width:24, height:24, borderRadius:"50%", background:mark===true?"#4a7c5e":mark===false?"#c0392b":isOpen?"#8a7a5a":"#eee", color:"white", fontSize:10, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, marginTop:1 }}>{mark===true?"✓":mark===false?"✗":qi+1}</div>
+                    <div style={{ flex:1, fontSize:13, lineHeight:1.55, color:"#1a1a1a", fontWeight:500 }}>{item.q}</div>
+                  </div>
+                  {!isOpen && <button onClick={()=>setRevealed(r=>({...r,[qi]:true}))} style={{ marginLeft:32, padding:"6px 16px", borderRadius:20, background:"#8a7a5a", color:"white", border:"none", fontSize:11, fontWeight:700, cursor:"pointer" }}>▼ Reveal Answer</button>}
+                </div>
+                {isOpen && (
+                  <div style={{ padding:"0.75rem 1rem 0.875rem", background:"#f5f0e6", borderTop:"1px solid #8a7a5a44" }}>
+                    <div style={{ fontSize:10, fontWeight:700, color:"#8a7a5a", textTransform:"uppercase", letterSpacing:"0.1em", marginBottom:6 }}>Answer</div>
+                    <p style={{ fontSize:13, color:"#333", lineHeight:1.75, marginBottom:12 }}>{item.a}</p>
+                    <div style={{ display:"flex", gap:8, flexWrap:"wrap", alignItems:"center" }}>
+                      <span style={{ fontSize:11, color:"#777" }}>Did you get it right?</span>
+                      <button onClick={()=>{ setScores(s=>({...s,[qi]:true})); setRevealed(r=>({...r,[qi]:false})); }} style={{ padding:"4px 12px", borderRadius:20, border:"1.5px solid #4a7c5e", background:mark===true?"#4a7c5e":"white", color:mark===true?"white":"#4a7c5e", fontSize:11, fontWeight:700, cursor:"pointer" }}>✓ Yes</button>
+                      <button onClick={()=>{ setScores(s=>({...s,[qi]:false})); setRevealed(r=>({...r,[qi]:false})); }} style={{ padding:"4px 12px", borderRadius:20, border:"1.5px solid #c0392b", background:mark===false?"#c0392b":"white", color:mark===false?"white":"#c0392b", fontSize:11, fontWeight:700, cursor:"pointer" }}>✗ Review again</button>
+                      <button onClick={()=>setRevealed(r=>({...r,[qi]:false}))} style={{ padding:"4px 12px", borderRadius:20, border:"1.5px solid #ddd", background:"white", color:"#888", fontSize:11, cursor:"pointer" }}>▲ Close</button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── PROTECTIVE SLIDES ────────────────────────────────────────
+function ProtectiveSlides({ onComplete }) {
+  const [slide, setSlide] = useState(0);
+  const total = PROTECTIVE.length;
+  const s = PROTECTIVE[slide];
+  return (
+    <div style={{ display:"flex", flexDirection:"column", alignItems:"center", padding:"1.5rem 0" }}>
+      <div style={{ fontSize:9, letterSpacing:"0.18em", textTransform:"uppercase", color:"#c0392b", marginBottom:12, fontWeight:700 }}>⚠ Please read before beginning</div>
+      <div style={{ width:280, height:497, background:"#0f0808", borderRadius:28, border:"2px solid #3a1a1a", overflow:"hidden", position:"relative", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", padding:"2rem 1.5rem", textAlign:"center" }}>
+        <div style={{ fontSize:9, letterSpacing:"0.18em", textTransform:"uppercase", color:"#c0392b", marginBottom:12, fontFamily:"sans-serif" }}>{s.ey}</div>
+        {s.ti && <div style={{ fontSize:17, fontWeight:600, color:"#f5f0e8", lineHeight:1.35, fontFamily:"Georgia, serif", marginBottom:10 }}>{s.ti}</div>}
+        {s.bo && <div style={{ fontSize:12, color:"#c8c0b0", lineHeight:1.75 }}>{s.bo}</div>}
+        {s.list && <div style={{ width:"100%", marginTop:4 }}>{s.list.map((item,i)=><div key={i} style={{ fontSize:11, color:"#c8c0b0", lineHeight:1.6, textAlign:"left", padding:"4px 0", borderBottom:i<s.list.length-1?"0.5px solid #3a2a2a":"none" }}>• {item}</div>)}</div>}
+        <div style={{ position:"absolute", bottom:10, right:14, fontSize:9, color:"#5a3030", fontFamily:"sans-serif" }}>{slide+1} / {total}</div>
+        <div style={{ position:"absolute", bottom:0, left:0, height:2, background:"#c0392b", width:`${((slide+1)/total)*100}%`, transition:"width 0.3s" }} />
+      </div>
+      <div style={{ display:"flex", gap:12, marginTop:16, alignItems:"center" }}>
+        {slide>0 && <button onClick={()=>setSlide(s=>s-1)} style={{ padding:"8px 16px", borderRadius:20, border:"0.5px solid #ddd", background:"white", cursor:"pointer", fontSize:12 }}>← Back</button>}
+        {slide<total-1
+          ? <button onClick={()=>setSlide(s=>s+1)} style={{ padding:"8px 20px", borderRadius:20, background:"#c0392b", color:"white", border:"none", cursor:"pointer", fontSize:12, fontWeight:700 }}>Next →</button>
+          : <button onClick={onComplete} style={{ padding:"8px 20px", borderRadius:20, background:"#8a7a5a", color:"white", border:"none", cursor:"pointer", fontSize:12, fontWeight:700 }}>I understand — Begin the course →</button>
+        }
+      </div>
+    </div>
+  );
+}
+
+// ── WELCOME VIEWER ───────────────────────────────────────────
+function WelcomeViewer({ onComplete }) {
+  const [slide, setSlide] = useState(0);
+  const total = WELCOME.length;
+  const s = WELCOME[slide];
+  return (
+    <div style={{ display:"flex", flexDirection:"column", alignItems:"center", padding:"1rem 0 1.5rem" }}>
+      <div style={{ width:280, height:497, background:"#0a0a0a", borderRadius:28, border:"2px solid #2a2a2a", overflow:"hidden", position:"relative", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", padding:"2rem 1.5rem", textAlign:"center" }}>
+        {s.ar && <div style={{ fontSize:18, color:"#8a7a5a", marginBottom:8, direction:"rtl", fontFamily:"serif" }}>{s.ar}</div>}
+        {s.ey && <div style={{ fontSize:9, letterSpacing:"0.18em", textTransform:"uppercase", color:"#8a7a5a", marginBottom:10, fontFamily:"sans-serif" }}>{s.ey}</div>}
+        {s.ti && <div style={{ fontSize:19, fontWeight:600, color:"#f5f0e8", lineHeight:1.35, fontFamily:"Georgia, serif", marginBottom:10, whiteSpace:"pre-line" }}>{s.ti}</div>}
+        {s.qt && <div style={{ fontSize:11, color:"#c8c0b0", lineHeight:1.85, fontStyle:"italic", fontFamily:"Georgia, serif", borderLeft:"2px solid #8a7a5a", paddingLeft:10, textAlign:"left" }}>{s.qt}</div>}
+        {s.at && <div style={{ fontSize:10, color:"#6a6050", marginTop:6, textAlign:"left" }}>{s.at}</div>}
+        {s.bo && <div style={{ fontSize:12, color:"#c8c0b0", lineHeight:1.75 }}>{s.bo}</div>}
+        <div style={{ position:"absolute", bottom:10, right:14, fontSize:9, color:"#3a3530" }}>{slide+1} / {total}</div>
+        <div style={{ position:"absolute", bottom:0, left:0, height:2, background:"#8a7a5a", width:`${((slide+1)/total)*100}%`, transition:"width 0.3s" }} />
+      </div>
+      <div style={{ display:"flex", gap:4, marginTop:10, flexWrap:"wrap", justifyContent:"center" }}>
+        {WELCOME.map((_,i)=><div key={i} onClick={()=>setSlide(i)} style={{ width:5, height:5, borderRadius:"50%", background:i===slide?"#8a7a5a":"#ddd", cursor:"pointer" }} />)}
+      </div>
+      <div style={{ display:"flex", gap:12, marginTop:14, alignItems:"center" }}>
+        <button onClick={()=>setSlide(s=>s>0?s-1:total-1)} style={{ width:38, height:38, borderRadius:"50%", border:"0.5px solid #ddd", background:"white", cursor:"pointer", fontSize:16 }}>‹</button>
+        <div style={{ fontSize:11, color:"#aaa" }}>{slide+1} / {total}</div>
+        <button onClick={()=>setSlide(s=>s<total-1?s+1:0)} style={{ width:38, height:38, borderRadius:"50%", border:"0.5px solid #ddd", background:"white", cursor:"pointer", fontSize:16 }}>›</button>
+      </div>
+      {slide===total-1 && <button onClick={onComplete} style={{ marginTop:14, padding:"10px 24px", borderRadius:20, background:"#8a7a5a", color:"white", border:"none", cursor:"pointer", fontSize:13, fontWeight:700 }}>Begin Section I →</button>}
+    </div>
+  );
+}
+
+// ── NAME ENTRY ───────────────────────────────────────────────
+function NameEntry({ onComplete }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [errors, setErrors] = useState({});
+  const [submitting, setSubmitting] = useState(false);
+  const validate = () => {
+    const e={};
+    if(name.trim().length<2) e.name="Please enter your full name.";
+    if(!email.trim().match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) e.email="Please enter a valid email address.";
+    return e;
+  };
+  const handleSubmit = async () => {
+    const e=validate(); if(Object.keys(e).length>0){setErrors(e);return;}
+    setSubmitting(true);
+    onComplete(name.trim(), email.trim().toLowerCase());
+  };
+  const ready = name.trim().length>1 && email.trim().match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+  return (
+    <div style={{ display:"flex", flexDirection:"column", alignItems:"center", padding:"2rem 0 1rem", textAlign:"center" }}>
+      <div style={{ fontSize:9, letterSpacing:"0.2em", textTransform:"uppercase", color:"#8a7a5a", marginBottom:14 }}>The Mukhlasin Diet — 4th Edition</div>
+      <div style={{ fontSize:20, fontWeight:600, fontFamily:"Georgia, serif", color:"#111", marginBottom:8 }}>Welcome, student.</div>
+      <div style={{ fontSize:13, color:"#666", lineHeight:1.75, maxWidth:320, marginBottom:24 }}>Please enter your name and email. Your name will appear on your Certificate of Completion.</div>
+      <div style={{ width:"100%", maxWidth:320, textAlign:"left" }}>
+        <label style={{ display:"block", fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:"0.1em", color:"#8a7a5a", marginBottom:6 }}>Your Full Name</label>
+        <input type="text" value={name} onChange={e=>{setName(e.target.value);setErrors(v=>({...v,name:""}));}} onKeyDown={e=>e.key==="Enter"&&handleSubmit()} placeholder="Enter your full name" style={{ width:"100%", padding:"12px 16px", fontSize:15, fontFamily:"Georgia, serif", border:`1.5px solid ${errors.name?"#c0392b":name.trim().length>1?"#8a7a5a":"#ddd"}`, borderRadius:10, outline:"none", color:"#111", background:"white", marginBottom:4, boxSizing:"border-box" }} />
+        {errors.name && <div style={{ fontSize:12, color:"#c0392b", marginBottom:8 }}>{errors.name}</div>}
+        <label style={{ display:"block", fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:"0.1em", color:"#8a7a5a", marginBottom:6, marginTop:14 }}>Email Address</label>
+        <input type="email" value={email} onChange={e=>{setEmail(e.target.value);setErrors(v=>({...v,email:""}));}} onKeyDown={e=>e.key==="Enter"&&handleSubmit()} placeholder="Enter your email address" style={{ width:"100%", padding:"12px 16px", fontSize:15, fontFamily:"sans-serif", border:`1.5px solid ${errors.email?"#c0392b":email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)?"#8a7a5a":"#ddd"}`, borderRadius:10, outline:"none", color:"#111", background:"white", marginBottom:4, boxSizing:"border-box" }} />
+        {errors.email && <div style={{ fontSize:12, color:"#c0392b", marginBottom:8 }}>{errors.email}</div>}
+        <button onClick={handleSubmit} disabled={submitting} style={{ width:"100%", padding:"13px", borderRadius:10, background:ready&&!submitting?"#8a7a5a":"#ddd", color:ready&&!submitting?"white":"#aaa", border:"none", fontSize:14, fontWeight:700, cursor:ready&&!submitting?"pointer":"default", marginTop:16 }}>
+          {submitting?"Starting...":"Begin the Course →"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ── CERTIFICATE ──────────────────────────────────────────────
+function Certificate({ name, date, onReturn }) {
+  return (
+    <div style={{ padding:"1rem 0" }}>
+      <div style={{ background:"white", border:"2px solid #8a7a5a", borderRadius:16, padding:"2.5rem 2rem", textAlign:"center", position:"relative", overflow:"hidden", maxWidth:560, margin:"0 auto" }}>
+        <div style={{ position:"absolute", top:10, left:14, fontSize:18, color:"#8a7a5a", opacity:0.4 }}>✦</div>
+        <div style={{ position:"absolute", top:10, right:14, fontSize:18, color:"#8a7a5a", opacity:0.4 }}>✦</div>
+        <div style={{ position:"absolute", bottom:10, left:14, fontSize:18, color:"#8a7a5a", opacity:0.4 }}>✦</div>
+        <div style={{ position:"absolute", bottom:10, right:14, fontSize:18, color:"#8a7a5a", opacity:0.4 }}>✦</div>
+        <div style={{ display:"flex", justifyContent:"center", marginBottom:10 }}>
+          <img src="/mukhlasin-cover.jpg" alt="The Mukhlasin Diet" style={{ width:80, height:"auto", borderRadius:8 }} />
+        </div>
+        <div style={{ fontSize:28, color:"#8a7a5a", direction:"rtl", fontFamily:"serif", marginBottom:4 }}>الْمُخْلَصِينَ</div>
+        <div style={{ fontSize:9, letterSpacing:"0.22em", textTransform:"uppercase", color:"#8a7a5a", marginBottom:20 }}>The Mukhlasin Diet — 4th Edition · 2022</div>
+        <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:20 }}>
+          <div style={{ flex:1, height:1, background:"linear-gradient(to right, transparent, #8a7a5a)" }} />
+          <div style={{ fontSize:12, color:"#8a7a5a" }}>✦</div>
+          <div style={{ flex:1, height:1, background:"linear-gradient(to left, transparent, #8a7a5a)" }} />
+        </div>
+        <div style={{ fontSize:10, letterSpacing:"0.2em", textTransform:"uppercase", color:"#888", marginBottom:14 }}>Certificate of Completion</div>
+        <div style={{ fontSize:13, color:"#666", marginBottom:10 }}>This certifies that</div>
+        <div style={{ fontSize:28, fontWeight:700, fontFamily:"Georgia, serif", color:"#111", marginBottom:10, padding:"0 1rem", borderBottom:"1.5px solid #8a7a5a", paddingBottom:12, marginLeft:"10%", marginRight:"10%" }}>{name}</div>
+        <div style={{ fontSize:13, color:"#666", marginTop:14, lineHeight:1.8 }}>has successfully completed the full course of study of</div>
+        <div style={{ fontSize:17, fontWeight:700, fontFamily:"Georgia, serif", color:"#111", margin:"10px 0 4px" }}>The Mukhlasin Diet</div>
+        <div style={{ fontSize:12, color:"#888", marginBottom:20 }}>Celebrating 30+ Years of Fasting · A Complete Course in the Divine Dietary Discipline</div>
+        <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:20 }}>
+          <div style={{ flex:1, height:1, background:"linear-gradient(to right, transparent, #8a7a5a)" }} />
+          <div style={{ fontSize:12, color:"#8a7a5a" }}>✦</div>
+          <div style={{ flex:1, height:1, background:"linear-gradient(to left, transparent, #8a7a5a)" }} />
+        </div>
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-end", padding:"0 1rem" }}>
+          <div style={{ textAlign:"left" }}>
+            <div style={{ fontSize:13, fontFamily:"Georgia, serif", fontStyle:"italic", color:"#333", borderTop:"1px solid #ddd", paddingTop:6, minWidth:160 }}>Amin Shabazz Muhammad</div>
+            <div style={{ fontSize:10, color:"#aaa", letterSpacing:"0.08em", textTransform:"uppercase", marginTop:3 }}>Instructor & Author</div>
+          </div>
+          <div style={{ textAlign:"right" }}>
+            <div style={{ fontSize:13, fontFamily:"Georgia, serif", color:"#333", borderTop:"1px solid #ddd", paddingTop:6, minWidth:140 }}>{date}</div>
+            <div style={{ fontSize:10, color:"#aaa", letterSpacing:"0.08em", textTransform:"uppercase", marginTop:3 }}>Date of Completion</div>
+          </div>
+        </div>
+        <div style={{ marginTop:20, fontSize:13, color:"#8a7a5a", fontFamily:"serif", direction:"rtl" }}>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+        <div style={{ fontSize:11, color:"#aaa", marginTop:4 }}>As salaam alaikum</div>
+      </div>
+      <div style={{ display:"flex", gap:10, justifyContent:"center", marginTop:18, flexWrap:"wrap" }}>
+        <button onClick={()=>window.print()} style={{ padding:"10px 22px", borderRadius:20, background:"#8a7a5a", color:"white", border:"none", fontSize:13, fontWeight:700, cursor:"pointer" }}>🖨 Print / Save Certificate</button>
+        <button onClick={onReturn} style={{ padding:"10px 22px", borderRadius:20, background:"white", color:"#666", border:"0.5px solid #ddd", fontSize:13, cursor:"pointer" }}>← Return to Course</button>
+      </div>
+    </div>
+  );
+}
+
 export default function MukhlasinCourse() {
   const [view, setView] = useState("landing");
   const [hasAccess, setHasAccess] = useState(false);
@@ -324,6 +558,12 @@ export default function MukhlasinCourse() {
   const [consultForm, setConsultForm] = useState({ name: "", email: "", service: "", message: "" });
   const [consultSent, setConsultSent] = useState(false);
   const [paywallOpen, setPaywallOpen] = useState(false);
+  const hasBypass = checkBypass();
+  const [coursePhase, setCoursePhase] = useState(hasBypass ? "protective" : "paywall");
+  const [studentName, setStudentName] = useState("");
+  const [studentEmail, setStudentEmail] = useState("");
+  const [completionDate, setCompletionDate] = useState("");
+  const [openSections, setOpenSections] = useState({});
 
   useEffect(() => {
     const access = sessionStorage.getItem("ml_access");
@@ -414,61 +654,102 @@ export default function MukhlasinCourse() {
 
   // COURSE
   if (view === "course") {
-    const mod = COURSE_MODULES[activeMod];
-    const slide = mod.slides[activeSlide];
-    const isLastSlide = activeSlide === mod.slides.length - 1;
-    const isLastMod = activeMod === COURSE_MODULES.length - 1;
-    const isLastOfAll = isLastSlide && isLastMod;
+    // Paywall
+    if (coursePhase === "paywall") {
+      return (
+        <div style={{ maxWidth:680, margin:"0 auto", fontFamily:"sans-serif", background:"#faf8f5", minHeight:"100vh" }}>
+          <div style={{ background:"#0a0a0a", padding:"1rem 1.25rem" }}>
+            <div style={{ fontSize:9, letterSpacing:"0.18em", textTransform:"uppercase", color:"#8a7a5a", marginBottom:3 }}>4th Edition · 2022</div>
+            <div style={{ fontSize:16, fontWeight:700, color:"#f5f0e8", fontFamily:"Georgia, serif" }}>الْمُخْلَصِينَ — The Mukhlasin Diet</div>
+          </div>
+          <div style={{ padding:"1.25rem", display:"flex", flexDirection:"column", alignItems:"center", textAlign:"center", paddingTop:"2rem" }}>
+            <div style={{ fontSize:9, letterSpacing:"0.22em", textTransform:"uppercase", color:"#8a7a5a", marginBottom:8 }}>The Mukhlasin Diet — 4th Edition</div>
+            <div style={{ fontSize:22, fontWeight:700, fontFamily:"Georgia, serif", color:"#111", marginBottom:6 }}>Complete Course</div>
+            <div style={{ fontSize:13, color:"#666", lineHeight:1.75, maxWidth:340, marginBottom:28 }}>25 chapters · Slides · Full Q&A review · Certificate of Completion</div>
+            <div style={{ width:"100%", maxWidth:360, display:"flex", flexDirection:"column", gap:12 }}>
+              {RAMADAN_ACTIVE && (
+                <div style={{ border:"2px solid #c0392b", borderRadius:14, overflow:"hidden", background:"#fff8f8" }}>
+                  <div style={{ background:"#c0392b", padding:"6px 16px" }}><div style={{ fontSize:9, letterSpacing:"0.18em", textTransform:"uppercase", color:"white", fontWeight:700 }}>☽ Ramadan Special</div></div>
+                  <div style={{ padding:"16px 20px" }}>
+                    <div style={{ display:"flex", alignItems:"baseline", gap:8, marginBottom:6 }}><span style={{ fontSize:34, fontWeight:800, color:"#c0392b" }}>$97</span><span style={{ fontSize:14, color:"#aaa", textDecoration:"line-through" }}>$197</span></div>
+                    <a href="https://buy.stripe.com/00wbJ153D9Pg7D2a6a77O08" target="_blank" rel="noreferrer" style={{ display:"block", width:"100%", padding:"13px", borderRadius:10, background:"#c0392b", color:"white", border:"none", fontSize:14, fontWeight:700, cursor:"pointer", textDecoration:"none", boxSizing:"border-box", textAlign:"center" }}>Enroll — $97 →</a>
+                  </div>
+                </div>
+              )}
+              <div style={{ border:"2px solid #8a7a5a", borderRadius:14, overflow:"hidden", background:"white" }}>
+                <div style={{ background:"#8a7a5a", padding:"6px 16px" }}><div style={{ fontSize:9, letterSpacing:"0.18em", textTransform:"uppercase", color:"white", fontWeight:700 }}>✦ Launch Price — Save $100</div></div>
+                <div style={{ padding:"16px 20px" }}>
+                  <div style={{ display:"flex", alignItems:"baseline", gap:8, marginBottom:6 }}><span style={{ fontSize:34, fontWeight:800, color:"#111" }}>$197</span><span style={{ fontSize:14, color:"#aaa", textDecoration:"line-through" }}>$297</span></div>
+                  <div style={{ fontSize:12, color:"#888", marginBottom:14 }}>Introductory pricing — will increase to $297</div>
+                  <a href="https://buy.stripe.com/00wbJ153D9Pg7D2a6a77O08" target="_blank" rel="noreferrer" style={{ display:"block", width:"100%", padding:"13px", borderRadius:10, background:"#8a7a5a", color:"white", border:"none", fontSize:14, fontWeight:700, cursor:"pointer", textDecoration:"none", boxSizing:"border-box", textAlign:"center" }}>Enroll — $197 →</a>
+                </div>
+              </div>
+              <div style={{ fontSize:11, color:"#aaa" }}>Regular price: $297 · One-time payment · Lifetime access</div>
+            </div>
+            <div style={{ marginTop:24, fontSize:12, color:"#888" }}>Already enrolled? <button onClick={()=>setCoursePhase("protective")} style={{ background:"none", border:"none", color:"#8a7a5a", fontWeight:700, fontSize:12, cursor:"pointer", textDecoration:"underline" }}>Enter your access code</button></div>
+            <button onClick={()=>setView("library")} style={{ marginTop:16, background:"none", border:"none", color:"#aaa", fontSize:12, cursor:"pointer" }}>← Back to Library</button>
+          </div>
+        </div>
+      );
+    }
+    if (coursePhase === "protective") return <div style={{ maxWidth:680, margin:"0 auto", fontFamily:"sans-serif", background:"#faf8f5", minHeight:"100vh", padding:"1.25rem" }}><ProtectiveSlides onComplete={()=>setCoursePhase("name")} /></div>;
+    if (coursePhase === "name") return <div style={{ maxWidth:680, margin:"0 auto", fontFamily:"sans-serif", background:"#faf8f5", minHeight:"100vh", padding:"1.25rem" }}><NameEntry onComplete={(n,e)=>{ setStudentName(n); setStudentEmail(e); setCoursePhase("welcome"); }} /></div>;
+    if (coursePhase === "welcome") return <div style={{ maxWidth:680, margin:"0 auto", fontFamily:"sans-serif", background:"#faf8f5", minHeight:"100vh", padding:"1.25rem" }}><WelcomeViewer onComplete={()=>setCoursePhase("chapters")} /></div>;
 
+    // Chapters
+    const sections = [...new Set(CHAPTERS.map(c=>c.sec))];
     return (
-      <div style={{ minHeight: "100vh", background: C.dark, color: C.slate, fontFamily: "Georgia, serif" }}>
-        {/* Header */}
-        <div style={{ background: "#0d0b08", borderBottom: `1px solid ${C.border}`, padding: "1rem 1.5rem", display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
-          <button onClick={() => setView("library")} style={{ background: "none", border: `1px solid ${C.gold}`, color: C.gold, padding: "6px 14px", borderRadius: "20px", cursor: "pointer", fontSize: "13px" }}>← Library</button>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: "11px", color: C.muted, letterSpacing: "0.15em", textTransform: "uppercase" }}>Module {mod.id} of {COURSE_MODULES.length}</div>
-            <div style={{ fontSize: "14px", color: C.goldLight }}>{mod.title}</div>
+      <div style={{ maxWidth:680, margin:"0 auto", fontFamily:"sans-serif", background:"#faf8f5", minHeight:"100vh" }}>
+        <div style={{ background:"#0a0a0a", padding:"1rem 1.25rem", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+          <div>
+            <div style={{ fontSize:9, letterSpacing:"0.18em", textTransform:"uppercase", color:"#8a7a5a", marginBottom:3 }}>4th Edition · 2022</div>
+            <div style={{ fontSize:16, fontWeight:700, color:"#f5f0e8", fontFamily:"Georgia, serif" }}>الْمُخْلَصِينَ — The Mukhlasin Diet</div>
           </div>
-          <button onClick={() => speaking ? stopSpeech() : speak(slide.body)} style={{ background: speaking ? C.gold : "transparent", border: `1px solid ${C.gold}`, color: speaking ? C.dark : C.gold, padding: "6px 14px", borderRadius: "20px", cursor: "pointer", fontSize: "12px" }}>
-            {speaking ? "⏹ Stop" : "▶ Listen"}
-          </button>
+          <button onClick={()=>setView("library")} style={{ background:"none", border:"1px solid #8a7a5a", color:"#8a7a5a", padding:"6px 14px", borderRadius:20, cursor:"pointer", fontSize:12 }}>← Library</button>
         </div>
-
-        {/* Module nav */}
-        <div style={{ background: "#0d0b08", padding: "0.75rem 1.5rem", display: "flex", gap: "0.5rem", overflowX: "auto" }}>
-          {COURSE_MODULES.map((m, i) => (
-            <button key={m.id} onClick={() => { stopSpeech(); setActiveMod(i); setActiveSlide(0); }} style={{ background: i === activeMod ? C.gold : "transparent", border: `1px solid ${i === activeMod ? C.gold : C.border}`, color: i === activeMod ? C.dark : C.muted, padding: "4px 12px", borderRadius: "12px", cursor: "pointer", fontSize: "11px", whiteSpace: "nowrap" }}>
-              {m.id}
-            </button>
-          ))}
-        </div>
-
-        {/* Slide */}
-        <div style={{ maxWidth: "720px", margin: "0 auto", padding: "3rem 1.5rem" }}>
-          <div style={{ fontSize: "11px", color: C.muted, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "0.5rem" }}>
-            Slide {activeSlide + 1} of {mod.slides.length}
+        <div style={{ padding:"1.25rem" }}>
+          {/* Section navigator */}
+          <div style={{ marginBottom:16, border:"0.5px solid #e0d8cc", borderRadius:12, overflow:"hidden", background:"white" }}>
+            {sections.map((sec,si)=>{
+              const isOpen=!!openSections[sec];
+              const chaptersInSec=CHAPTERS.filter(c=>c.sec===sec);
+              const activeInSec=chaptersInSec.some(c=>CHAPTERS.indexOf(c)===activeMod);
+              return (
+                <div key={sec}>
+                  <button onClick={()=>setOpenSections(prev=>({...prev,[sec]:!prev[sec]}))} style={{ width:"100%", display:"flex", alignItems:"center", justifyContent:"space-between", padding:"11px 14px", background:activeInSec?"#f5f0e6":"white", border:"none", borderTop:si>0?"0.5px solid #e0d8cc":"none", cursor:"pointer", textAlign:"left" }}>
+                    <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                      <div style={{ width:6, height:6, borderRadius:"50%", background:activeInSec?"#8a7a5a":"#ccc" }} />
+                      <span style={{ fontSize:11, fontWeight:700, textTransform:"uppercase", letterSpacing:"0.1em", color:activeInSec?"#8a7a5a":"#666" }}>{sec}</span>
+                    </div>
+                    <span style={{ fontSize:13, color:"#8a7a5a", transform:isOpen?"rotate(180deg)":"none", transition:"transform 0.2s", display:"inline-block" }}>▾</span>
+                  </button>
+                  {isOpen && (
+                    <div style={{ display:"flex", flexWrap:"wrap", gap:5, padding:"8px 14px 12px", borderTop:"0.5px solid #e0d8cc", background:"#f5f0e6" }}>
+                      {chaptersInSec.map(ch=>{
+                        const idx=CHAPTERS.indexOf(ch); const isActive=activeMod===idx;
+                        return <button key={ch.id} onClick={()=>setActiveMod(idx)} style={{ fontSize:10, padding:"5px 11px", borderRadius:20, cursor:"pointer", border:`1.5px solid ${isActive?"#8a7a5a":"#d0c8bc"}`, background:isActive?"#8a7a5a":"white", color:isActive?"white":"#555", fontWeight:isActive?700:400, whiteSpace:"nowrap" }}>{ch.label}</button>;
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
-          <h1 style={{ color: C.goldLight, fontSize: "clamp(1.4rem, 3vw, 2rem)", marginBottom: "2.5rem", fontWeight: "normal" }}>{slide.title}</h1>
-          {slide.body.split("\n\n").map((para, i) => (
-            <p key={i} style={{ lineHeight: 1.9, marginBottom: "1.5rem", color: C.slate, fontSize: "clamp(15px, 2vw, 17px)" }}>{para}</p>
-          ))}
-
-          {/* Navigation */}
-          <div style={{ display: "flex", justifyContent: "space-between", marginTop: "4rem", paddingTop: "2rem", borderTop: `1px solid ${C.border}` }}>
-            <button
-              onClick={() => { stopSpeech(); if (activeSlide > 0) { setActiveSlide(activeSlide - 1); } else if (activeMod > 0) { setActiveMod(activeMod - 1); setActiveSlide(COURSE_MODULES[activeMod - 1].slides.length - 1); } }}
-              disabled={activeMod === 0 && activeSlide === 0}
-              style={{ background: "none", border: `1px solid ${activeMod === 0 && activeSlide === 0 ? C.border : C.gold}`, color: activeMod === 0 && activeSlide === 0 ? C.border : C.gold, padding: "10px 20px", borderRadius: "20px", cursor: activeMod === 0 && activeSlide === 0 ? "default" : "pointer", fontSize: "14px" }}>← Previous</button>
-
-            {isLastOfAll ? (
-              <button onClick={() => setView("certificate")} style={{ background: C.green, border: "none", color: C.white, padding: "10px 24px", borderRadius: "20px", cursor: "pointer", fontSize: "14px" }}>✓ Complete Course</button>
-            ) : (
-              <button
-                onClick={() => { stopSpeech(); if (!isLastSlide) { setActiveSlide(activeSlide + 1); } else { setActiveMod(activeMod + 1); setActiveSlide(0); } }}
-                style={{ background: C.gold, border: "none", color: C.dark, padding: "10px 24px", borderRadius: "20px", cursor: "pointer", fontSize: "14px", fontWeight: "bold" }}>
-                {isLastSlide ? "Next Module →" : "Next →"}
-              </button>
-            )}
+          {/* Active chapter */}
+          <div style={{ background:"white", borderRadius:12, padding:"1.25rem", border:"0.5px solid #e0d8cc" }}>
+            <div style={{ marginBottom:14 }}>
+              <div style={{ fontSize:11, color:"#8a7a5a", textTransform:"uppercase", letterSpacing:"0.1em", marginBottom:4 }}>{CHAPTERS[activeMod].sec}</div>
+              <div style={{ fontSize:18, fontWeight:700, fontFamily:"Georgia, serif", color:"#111" }}>{CHAPTERS[activeMod].label}</div>
+            </div>
+            <ChapterViewer key={activeMod} chapter={CHAPTERS[activeMod]} />
+          </div>
+          {/* Nav */}
+          <div style={{ display:"flex", justifyContent:"space-between", marginTop:14 }}>
+            <button onClick={()=>setActiveMod(i=>Math.max(0,i-1))} disabled={activeMod===0} style={{ padding:"8px 16px", borderRadius:20, border:"0.5px solid #e0d8cc", background:"white", cursor:activeMod===0?"not-allowed":"pointer", fontSize:12, color:activeMod===0?"#ccc":"#444" }}>← Previous</button>
+            {activeMod < CHAPTERS.length-1
+              ? <button onClick={()=>setActiveMod(i=>i+1)} style={{ padding:"8px 16px", borderRadius:20, border:"0.5px solid #e0d8cc", background:"#8a7a5a", cursor:"pointer", fontSize:12, color:"white", fontWeight:700 }}>Next Chapter →</button>
+              : <button onClick={async()=>{ const d=new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"}); setCompletionDate(d); setCoursePhase("certificate"); }} style={{ padding:"10px 22px", borderRadius:20, background:"#8a7a5a", border:"none", cursor:"pointer", fontSize:13, color:"white", fontWeight:700 }}>✦ Complete the Course</button>
+            }
           </div>
         </div>
       </div>
@@ -611,13 +892,13 @@ export default function MukhlasinCourse() {
             <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", flexWrap: "wrap", marginBottom: "1.25rem" }}>
               <div style={{ flex: 1 }}>
                 <div style={{ color: C.goldLight, fontSize: "1.1rem", marginBottom: "4px" }}>The Mukhlasin Diet — Complete Course</div>
-                <div style={{ color: C.muted, fontSize: "13px" }}>{COURSE_MODULES.length} modules · Slides · Q&A · Master of Fasting</div>
+                <div style={{ color: C.muted, fontSize: "13px" }}>{CHAPTERS.length} chapters · Slides · Q&A · Certificate of Completion</div>
               </div>
               <button onClick={() => { setActiveMod(0); setActiveSlide(0); setView("course"); }} style={{ background: C.gold, color: C.dark, border: "none", padding: "10px 20px", borderRadius: "20px", cursor: "pointer", fontSize: "13px", fontWeight: "bold" }}>Enter Course →</button>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "0.75rem" }}>
-              {COURSE_MODULES.map((m, i) => (
-                <button key={m.id} onClick={() => { setActiveMod(i); setActiveSlide(0); setView("course"); }} style={{ background: "#1a1612", border: `1px solid ${C.border}`, borderRadius: "8px", padding: "0.75rem", textAlign: "left", cursor: "pointer" }}>
+              {CHAPTERS.map((m, i) => (
+                <button key={m.id} onClick={() => { setActiveMod(i); setView("course"); setCoursePhase("chapters"); }} style={{ background: "#1a1612", border: `1px solid ${C.border}`, borderRadius: "8px", padding: "0.75rem", textAlign: "left", cursor: "pointer" }}>
                   <div style={{ color: C.gold, fontSize: "10px", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "4px" }}>Module {m.id}</div>
                   <div style={{ color: C.slate, fontSize: "12px", lineHeight: 1.4 }}>{m.title}</div>
                 </button>
