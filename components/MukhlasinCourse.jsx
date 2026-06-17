@@ -361,7 +361,7 @@ function ChapterViewer({ chapter }) {
       </div>
       {tab==="slides" && (
         <div style={{ display:"flex", flexDirection:"column", alignItems:"center" }}>
-          <div style={{ width:280, height:497, borderRadius:28, border:"2px solid #2a2a2a", overflow:"hidden" }}>
+          <div style={{ width:280, maxWidth:"100%", height:497, borderRadius:28, border:"2px solid #2a2a2a", overflow:"hidden", flexShrink:0 }}>
             <PhoneSlide s={slides[slide]} current={slide} total={total} />
           </div>
           <div style={{ display:"flex", gap:4, marginTop:10, flexWrap:"wrap", justifyContent:"center", maxWidth:280 }}>
@@ -416,7 +416,7 @@ function ProtectiveSlides({ onComplete }) {
   return (
     <div style={{ display:"flex", flexDirection:"column", alignItems:"center", padding:"1.5rem 0" }}>
       <div style={{ fontSize:9, letterSpacing:"0.18em", textTransform:"uppercase", color:"#c0392b", marginBottom:12, fontWeight:700 }}>⚠ Please read before beginning</div>
-      <div style={{ width:280, height:497, background:"#0f0808", borderRadius:28, border:"2px solid #3a1a1a", overflow:"hidden", position:"relative", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", padding:"2rem 1.5rem", textAlign:"center" }}>
+      <div style={{ width:280, maxWidth:"100%", height:497, background:"#0f0808", borderRadius:28, border:"2px solid #3a1a1a", overflow:"hidden", position:"relative", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", padding:"2rem 1.25rem", textAlign:"center", boxSizing:"border-box" }}>
         <div style={{ fontSize:9, letterSpacing:"0.18em", textTransform:"uppercase", color:"#c0392b", marginBottom:12, fontFamily:"sans-serif" }}>{s.ey}</div>
         {s.ti && <div style={{ fontSize:17, fontWeight:600, color:"#f5f0e8", lineHeight:1.35, fontFamily:"Georgia, serif", marginBottom:10 }}>{s.ti}</div>}
         {s.bo && <div style={{ fontSize:12, color:"#c8c0b0", lineHeight:1.75 }}>{s.bo}</div>}
@@ -442,7 +442,7 @@ function WelcomeViewer({ onComplete }) {
   const s = WELCOME[slide];
   return (
     <div style={{ display:"flex", flexDirection:"column", alignItems:"center", padding:"1rem 0 1.5rem" }}>
-      <div style={{ width:280, height:497, background:"#0a0a0a", borderRadius:28, border:"2px solid #2a2a2a", overflow:"hidden", position:"relative", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", padding:"2rem 1.5rem", textAlign:"center" }}>
+      <div style={{ width:280, maxWidth:"100%", height:497, background:"#0a0a0a", borderRadius:28, border:"2px solid #2a2a2a", overflow:"hidden", position:"relative", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", padding:"2rem 1.25rem", textAlign:"center", boxSizing:"border-box" }}>
         {s.ar && <div style={{ fontSize:18, color:"#8a7a5a", marginBottom:8, direction:"rtl", fontFamily:"serif" }}>{s.ar}</div>}
         {s.ey && <div style={{ fontSize:9, letterSpacing:"0.18em", textTransform:"uppercase", color:"#8a7a5a", marginBottom:10, fontFamily:"sans-serif" }}>{s.ey}</div>}
         {s.ti && <div style={{ fontSize:19, fontWeight:600, color:"#f5f0e8", lineHeight:1.35, fontFamily:"Georgia, serif", marginBottom:10, whiteSpace:"pre-line" }}>{s.ti}</div>}
@@ -569,6 +569,7 @@ export default function MukhlasinCourse() {
   const [progress, setProgress] = useState({});
   const [consultForm, setConsultForm] = useState({ name: "", email: "", service: "", message: "" });
   const [consultSent, setConsultSent] = useState(false);
+  const [consultPaidService, setConsultPaidService] = useState(null);
   const [paywallOpen, setPaywallOpen] = useState(false);
   const hasBypass = checkBypass();
   const [coursePhase, setCoursePhase] = useState(hasBypass ? "protective" : "paywall");
@@ -707,6 +708,7 @@ export default function MukhlasinCourse() {
     if (coursePhase === "protective") return <div style={{ maxWidth:680, margin:"0 auto", fontFamily:"sans-serif", background:"#faf8f5", minHeight:"100vh", padding:"1.25rem" }}><ProtectiveSlides onComplete={()=>setCoursePhase("name")} /></div>;
     if (coursePhase === "name") return <div style={{ maxWidth:680, margin:"0 auto", fontFamily:"sans-serif", background:"#faf8f5", minHeight:"100vh", padding:"1.25rem" }}><NameEntry onComplete={(n,e)=>{ setStudentName(n); setStudentEmail(e); setCoursePhase("welcome"); }} /></div>;
     if (coursePhase === "welcome") return <div style={{ maxWidth:680, margin:"0 auto", fontFamily:"sans-serif", background:"#faf8f5", minHeight:"100vh", padding:"1.25rem" }}><WelcomeViewer onComplete={()=>setCoursePhase("chapters")} /></div>;
+    if (coursePhase === "certificate") return <div style={{ maxWidth:680, margin:"0 auto", fontFamily:"sans-serif", background:"#faf8f5", minHeight:"100vh", padding:"1.25rem" }}><Certificate name={studentName||"Student"} date={completionDate} onReturn={()=>setCoursePhase("chapters")} /></div>;
 
     // Chapters
     const sections = [...new Set(CHAPTERS.map(c=>c.sec))];
@@ -788,52 +790,80 @@ export default function MukhlasinCourse() {
   // CONSULT
   if (view === "consult") {
     return (
-      <div style={{ minHeight: "100vh", background: C.bg, fontFamily: "Georgia, serif" }}>
-        <div style={{ background: C.dark, borderBottom: `1px solid ${C.border}`, padding: "1rem 1.5rem", display: "flex", alignItems: "center", gap: "1rem" }}>
-          <button onClick={() => setView(hasAccess ? "library" : "landing")} style={{ background: "none", border: `1px solid ${C.gold}`, color: C.gold, padding: "6px 14px", borderRadius: "20px", cursor: "pointer", fontSize: "13px" }}>←</button>
-          <div style={{ color: C.goldLight, fontSize: "16px" }}>Book a Consultation</div>
+      <div style={{ minHeight:"100vh", background:"#faf8f5", fontFamily:"sans-serif" }}>
+        <div style={{ background:"#0a0a0a", borderBottom:"1px solid #2a2520", padding:"1rem 1.5rem", display:"flex", alignItems:"center", gap:"1rem" }}>
+          <button onClick={()=>setView(hasAccess?"library":"landing")} style={{ background:"none", border:"1px solid #8a7a5a", color:"#8a7a5a", padding:"6px 14px", borderRadius:"20px", cursor:"pointer", fontSize:"13px" }}>←</button>
+          <div style={{ color:"#c8b080", fontSize:16 }}>Book a Consultation</div>
         </div>
-        <div style={{ maxWidth: "600px", margin: "0 auto", padding: "2.5rem 1.5rem" }}>
+        <div style={{ maxWidth:600, margin:"0 auto", padding:"2.5rem 1.5rem" }}>
           {consultSent ? (
-            <div style={{ textAlign: "center", padding: "3rem 1rem" }}>
-              <div style={{ fontSize: "48px", marginBottom: "1rem" }}>✓</div>
-              <div style={{ color: C.dark, fontSize: "1.3rem", marginBottom: "1rem" }}>Request Received</div>
-              <p style={{ color: "#555", lineHeight: 1.7 }}>Thank you. Your consultation request has been submitted. You will receive a response within 48 hours.</p>
-              <button onClick={() => setView(hasAccess ? "library" : "landing")} style={{ marginTop: "2rem", background: C.dark, color: C.gold, border: "none", padding: "12px 28px", borderRadius: "24px", cursor: "pointer" }}>Return</button>
+            <div style={{ textAlign:"center", padding:"3rem 1rem" }}>
+              <div style={{ fontSize:48, marginBottom:"1rem" }}>✓</div>
+              <div style={{ color:"#111", fontSize:"1.3rem", marginBottom:"1rem" }}>Details Received</div>
+              <p style={{ color:"#555", lineHeight:1.7 }}>Your consultation details have been submitted. The author will be in touch to confirm your appointment.</p>
+              <button onClick={()=>setView(hasAccess?"library":"landing")} style={{ marginTop:"2rem", background:"#0a0a0a", color:"#8a7a5a", border:"none", padding:"12px 28px", borderRadius:"24px", cursor:"pointer" }}>Return</button>
             </div>
-          ) : (
-            <>
-              <h1 style={{ color: C.dark, fontSize: "1.5rem", fontWeight: "normal", marginBottom: "0.5rem" }}>Personal Consultation</h1>
-              <p style={{ color: "#555", fontSize: "14px", lineHeight: 1.7, marginBottom: "2rem" }}>One-on-one consultations by email, phone, and video. All responses draw on 30+ years of direct practice experience.</p>
-              <div style={{ background: C.dark, borderRadius: "12px", padding: "1.25rem", marginBottom: "2rem" }}>
-                <div style={{ color: C.goldLight, fontSize: "14px", marginBottom: "1rem" }}>Consultation Rates</div>
-                {CONSULTATIONS.map(c => (
-                  <div key={c.id} style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: `1px solid ${C.border}`, fontSize: "13px" }}>
-                    <div><span style={{ color: C.slate }}>{c.label}</span><span style={{ color: C.muted, marginLeft: "8px" }}>({c.duration})</span></div>
-                    <div><span style={{ color: C.muted, textDecoration: "line-through", marginRight: "8px" }}>${c.publicPrice}</span><span style={{ color: C.goldLight, fontWeight: "bold" }}>Member ${c.memberPrice}</span></div>
+          ) : !consultPaidService ? (
+            <div>
+              <h1 style={{ color:"#111", fontSize:"1.5rem", fontWeight:"normal", marginBottom:"0.5rem", fontFamily:"Georgia, serif" }}>Personal Consultation</h1>
+              <p style={{ color:"#555", fontSize:13, lineHeight:1.75, marginBottom:"1.5rem" }}>Select your session below and complete payment. Once paid, click "I've already paid" to submit your details and question.</p>
+              <div style={{ background:"#0a0a0a", borderRadius:12, padding:"1rem", marginBottom:"1.5rem" }}>
+                <div style={{ fontSize:11, color:"#8a7a5a", textTransform:"uppercase", letterSpacing:"0.1em", marginBottom:6 }}>Why payment first?</div>
+                <div style={{ fontSize:12, color:"#6a6050", lineHeight:1.65 }}>The author's time is his most valuable resource. Payment confirms your commitment and ensures your session is prepared specifically for you.</div>
+              </div>
+              <div style={{ display:"flex", flexDirection:"column", gap:12, marginTop:"1.5rem" }}>
+                {CONSULTATIONS.map(c=>(
+                  <div key={c.id} style={{ background:"white", border:"1.5px solid #e0d8cc", borderRadius:12, padding:"1.25rem", display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:12 }}>
+                    <div>
+                      <div style={{ fontWeight:700, fontSize:15, color:"#111", marginBottom:2 }}>{c.label}</div>
+                      <div style={{ fontSize:12, color:"#6a6050" }}>{c.duration}</div>
+                    </div>
+                    <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+                      <div style={{ textAlign:"right" }}>
+                        <div style={{ fontSize:11, color:"#aaa", textDecoration:"line-through" }}>${c.publicPrice} public</div>
+                        <div style={{ fontSize:16, fontWeight:700, color:"#4a7c5e" }}>${c.memberPrice} member</div>
+                      </div>
+                      <a href={c.stripe} target="_blank" rel="noreferrer" style={{ display:"inline-block", padding:"10px 18px", background:"#8a7a5a", color:"white", borderRadius:20, textDecoration:"none", fontSize:13, fontWeight:700, whiteSpace:"nowrap" }}>Pay Now →</a>
+                    </div>
                   </div>
                 ))}
-                <div style={{ color: C.muted, fontSize: "12px", marginTop: "12px" }}>Lifetime members receive one complimentary 30-min consultation.</div>
               </div>
-              {["name", "email"].map(field => (
-                <div key={field} style={{ marginBottom: "1rem" }}>
-                  <label style={{ display: "block", color: "#444", fontSize: "13px", marginBottom: "6px", textTransform: "capitalize" }}>{field} *</label>
-                  <input type={field === "email" ? "email" : "text"} value={consultForm[field]} onChange={e => setConsultForm({ ...consultForm, [field]: e.target.value })} style={{ width: "100%", padding: "10px 14px", border: `1px solid ${C.borderLight}`, borderRadius: "8px", fontSize: "14px", boxSizing: "border-box", fontFamily: "Georgia, serif" }} />
-                </div>
-              ))}
-              <div style={{ marginBottom: "1rem" }}>
-                <label style={{ display: "block", color: "#444", fontSize: "13px", marginBottom: "6px" }}>Service *</label>
-                <select value={consultForm.service} onChange={e => setConsultForm({ ...consultForm, service: e.target.value })} style={{ width: "100%", padding: "10px 14px", border: `1px solid ${C.borderLight}`, borderRadius: "8px", fontSize: "14px", fontFamily: "Georgia, serif" }}>
-                  <option value="">Select a service...</option>
-                  {CONSULTATIONS.map(c => <option key={c.id} value={c.id}>{c.label} — ${hasAccess ? c.memberPrice : c.publicPrice}</option>)}
+              <div style={{ marginTop:20, textAlign:"center" }}>
+                <button onClick={()=>setConsultPaidService("paid")} style={{ background:"none", border:"none", color:"#8a7a5a", fontSize:12, cursor:"pointer", textDecoration:"underline" }}>I've already paid — continue to form</button>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <div style={{ background:"#f5f0e6", border:"1px solid #8a7a5a", borderRadius:10, padding:"0.875rem 1rem", marginBottom:"1.5rem", display:"flex", alignItems:"center", gap:10 }}>
+                <div style={{ fontSize:18, color:"#4a7c5e" }}>✓</div>
+                <div style={{ fontSize:13, color:"#333" }}>Payment confirmed. Please fill in your details below.</div>
+              </div>
+              <h2 style={{ color:"#111", fontSize:"1.1rem", fontWeight:"normal", marginBottom:"1rem", fontFamily:"Georgia, serif" }}>Your Consultation Details</h2>
+              <div style={{ marginBottom:"1rem" }}>
+                <label style={{ display:"block", color:"#444", fontSize:13, marginBottom:6 }}>Full Name *</label>
+                <input type="text" value={consultForm.name} onChange={e=>setConsultForm({...consultForm,name:e.target.value})} style={{ width:"100%", padding:"10px 14px", border:"1px solid #e0d8cc", borderRadius:8, fontSize:14, boxSizing:"border-box", fontFamily:"sans-serif" }} />
+              </div>
+              <div style={{ marginBottom:"1rem" }}>
+                <label style={{ display:"block", color:"#444", fontSize:13, marginBottom:6 }}>Email Address *</label>
+                <input type="email" value={consultForm.email} onChange={e=>setConsultForm({...consultForm,email:e.target.value})} style={{ width:"100%", padding:"10px 14px", border:"1px solid #e0d8cc", borderRadius:8, fontSize:14, boxSizing:"border-box", fontFamily:"sans-serif" }} />
+              </div>
+              <div style={{ marginBottom:"1rem" }}>
+                <label style={{ display:"block", color:"#444", fontSize:13, marginBottom:6 }}>Service Purchased *</label>
+                <select value={consultForm.service} onChange={e=>setConsultForm({...consultForm,service:e.target.value})} style={{ width:"100%", padding:"10px 14px", border:"1px solid #e0d8cc", borderRadius:8, fontSize:14, fontFamily:"sans-serif" }}>
+                  <option value="">Select the service you paid for...</option>
+                  {CONSULTATIONS.map(c=><option key={c.id} value={c.id}>{c.label}</option>)}
                 </select>
               </div>
-              <div style={{ marginBottom: "1.5rem" }}>
-                <label style={{ display: "block", color: "#444", fontSize: "13px", marginBottom: "6px" }}>Your Question or Topic</label>
-                <textarea value={consultForm.message} onChange={e => setConsultForm({ ...consultForm, message: e.target.value })} rows={4} style={{ width: "100%", padding: "10px 14px", border: `1px solid ${C.borderLight}`, borderRadius: "8px", fontSize: "14px", boxSizing: "border-box", fontFamily: "Georgia, serif", resize: "vertical" }} placeholder="Briefly describe your situation or what you'd like to discuss..." />
+              <div style={{ marginBottom:"1rem" }}>
+                <label style={{ display:"block", color:"#444", fontSize:13, marginBottom:6 }}>Preferred Days / Times</label>
+                <input type="text" value={consultForm.preferred||""} onChange={e=>setConsultForm({...consultForm,preferred:e.target.value})} placeholder="e.g. Weekday mornings, Saturday afternoons" style={{ width:"100%", padding:"10px 14px", border:"1px solid #e0d8cc", borderRadius:8, fontSize:14, boxSizing:"border-box", fontFamily:"sans-serif" }} />
               </div>
-              <button onClick={() => { if (!consultForm.name || !consultForm.email || !consultForm.service) { alert("Please fill in all required fields."); return; } setConsultSent(true); }} style={{ width: "100%", background: C.dark, color: C.gold, border: "none", padding: "14px", borderRadius: "10px", cursor: "pointer", fontSize: "15px" }}>Submit Request →</button>
-            </>
+              <div style={{ marginBottom:"1.5rem" }}>
+                <label style={{ display:"block", color:"#444", fontSize:13, marginBottom:6 }}>Your Question or Topic *</label>
+                <textarea value={consultForm.message} onChange={e=>setConsultForm({...consultForm,message:e.target.value})} rows={5} style={{ width:"100%", padding:"10px 14px", border:"1px solid #e0d8cc", borderRadius:8, fontSize:14, boxSizing:"border-box", fontFamily:"sans-serif", resize:"vertical" }} placeholder="Describe your situation or what you'd like to discuss..." />
+              </div>
+              <button onClick={()=>{ if(!consultForm.name||!consultForm.email||!consultForm.message){ alert("Please fill in your name, email, and question."); return; } setConsultSent(true); }} style={{ width:"100%", background:"#0a0a0a", color:"#8a7a5a", border:"none", padding:"14px", borderRadius:10, cursor:"pointer", fontSize:15, fontWeight:700 }}>Submit Details →</button>
+            </div>
           )}
         </div>
       </div>
