@@ -293,10 +293,10 @@ const BOOKS = [
 ];
 
 const CONSULTATIONS = [
-  { id: "email", label: "Email Consultation", duration: "Written response within 48hrs", publicPrice: 49, memberPrice: 35 },
-  { id: "phone30", label: "30-Min Phone Session", duration: "30 minutes", publicPrice: 97, memberPrice: 75 },
-  { id: "phone60", label: "60-Min Phone Session", duration: "60 minutes", publicPrice: 175, memberPrice: 125 },
-  { id: "video60", label: "60-Min Video Session", duration: "60 minutes via video call", publicPrice: 197, memberPrice: 150 },
+  { id: "email",   label: "Email Consultation",   duration: "Written response within 48hrs", publicPrice: 49,  memberPrice: 35,  stripe: "https://buy.stripe.com/5kQ8wPbs10eGcXmguy77O0i" },
+  { id: "phone30", label: "30-Min Phone Session", duration: "30 minutes",                   publicPrice: 97,  memberPrice: 75,  stripe: "https://buy.stripe.com/14A00jcw5aTkf5u7Y277O0h" },
+  { id: "phone60", label: "60-Min Phone Session", duration: "60 minutes",                   publicPrice: 175, memberPrice: 125, stripe: "https://buy.stripe.com/3cIbJ11Rr2mOg9yemq77O0g" },
+  { id: "video60", label: "60-Min Video Session", duration: "60 minutes via video call",    publicPrice: 197, memberPrice: 150, stripe: "https://buy.stripe.com/3cI14ncw5e5w0aAdim77O0j" },
 ];
 
 const TIERS = [
@@ -324,16 +324,16 @@ const FREE_CODES = { "SADAQAH": true, "ADMINTEST": true };
 // ── SLIDE COMPONENT ──────────────────────────────────────────
 function PhoneSlide({ s, current, total }) {
   return (
-    <div style={{ width:"100%", height:"100%", background:s.refl?"#0d0b08":"#0a0a0a", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", padding:"2rem 1.5rem", textAlign:"center", position:"relative" }}>
+    <div style={{ width:"100%", height:"100%", background:s.refl?"#0d0b08":"#0a0a0a", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", padding:"2rem 1.25rem", textAlign:"center", position:"relative", boxSizing:"border-box", overflow:"hidden" }}>
       {s.refl && <div style={{ fontSize:22, color:"#8a7a5a", marginBottom:10 }}>◈</div>}
-      {s.ar && <div style={{ fontSize:14, color:"#8a7a5a", marginBottom:8, direction:"rtl", fontFamily:"serif", lineHeight:1.6 }}>{s.ar}</div>}
-      {s.ey && <div style={{ fontSize:9, letterSpacing:"0.18em", textTransform:"uppercase", color:"#8a7a5a", marginBottom:8, fontFamily:"sans-serif" }}>{s.ey}</div>}
-      {s.ti && <div style={{ fontSize:17, fontWeight:600, color:"#f5f0e8", lineHeight:1.35, fontFamily:"Georgia, serif", marginBottom:8, whiteSpace:"pre-line" }}>{s.ti}</div>}
+      {s.ar && <div style={{ width:"100%", fontSize:14, color:"#8a7a5a", marginBottom:8, direction:"rtl", fontFamily:"serif", lineHeight:1.6 }}>{s.ar}</div>}
+      {s.ey && <div style={{ width:"100%", fontSize:9, letterSpacing:"0.15em", textTransform:"uppercase", color:"#8a7a5a", marginBottom:8, fontFamily:"sans-serif" }}>{s.ey}</div>}
+      {s.ti && <div style={{ width:"100%", fontSize:15, fontWeight:600, color:"#f5f0e8", lineHeight:1.35, fontFamily:"Georgia, serif", marginBottom:8, whiteSpace:"pre-line", wordBreak:"break-word" }}>{s.ti}</div>}
       {!s.refl && !s.ti && <div style={{ width:28, height:2, background:"#8a7a5a", margin:"0 auto 8px" }} />}
-      {s.qt && <div style={{ fontSize:11, color:"#c8c0b0", lineHeight:1.8, fontStyle:"italic", fontFamily:"Georgia, serif", borderLeft:"2px solid #8a7a5a", paddingLeft:10, textAlign:"left" }}>{s.qt}</div>}
-      {s.at && <div style={{ fontSize:10, color:"#6a6050", marginTop:6, textAlign:"left", fontFamily:"sans-serif" }}>{s.at}</div>}
-      {s.bo && <div style={{ fontSize:12, color:"#c8c0b0", lineHeight:1.75, fontFamily:"sans-serif", whiteSpace:"pre-line" }}>{s.bo}</div>}
-      {s.list && <div style={{ width:"100%", marginTop:4 }}>{s.list.map((item,i)=><div key={i} style={{ fontSize:11, color:"#c8c0b0", lineHeight:1.6, textAlign:"left", padding:"3px 0", borderBottom:i<s.list.length-1?"0.5px solid #3a3530":"none" }}>• {item}</div>)}</div>}
+      {s.qt && <div style={{ width:"100%", fontSize:11, color:"#c8c0b0", lineHeight:1.8, fontStyle:"italic", fontFamily:"Georgia, serif", borderLeft:"2px solid #8a7a5a", paddingLeft:10, textAlign:"left", wordBreak:"break-word" }}>{s.qt}</div>}
+      {s.at && <div style={{ width:"100%", fontSize:10, color:"#6a6050", marginTop:6, textAlign:"left", fontFamily:"sans-serif" }}>{s.at}</div>}
+      {s.bo && <div style={{ width:"100%", fontSize:12, color:"#c8c0b0", lineHeight:1.75, fontFamily:"sans-serif", whiteSpace:"pre-line", wordBreak:"break-word" }}>{s.bo}</div>}
+      {s.list && <div style={{ width:"100%", marginTop:4 }}>{s.list.map((item,i)=><div key={i} style={{ fontSize:11, color:"#c8c0b0", lineHeight:1.6, textAlign:"left", padding:"3px 0", borderBottom:i<s.list.length-1?"0.5px solid #3a3530":"none", wordBreak:"break-word" }}>• {item}</div>)}</div>}
       <div style={{ position:"absolute", bottom:10, right:14, fontSize:9, color:"#3a3530", fontFamily:"sans-serif" }}>{current+1} / {total}</div>
       <div style={{ position:"absolute", bottom:0, left:0, height:2, background:"#8a7a5a", width:`${((current+1)/total)*100}%`, transition:"width 0.3s" }} />
     </div>
