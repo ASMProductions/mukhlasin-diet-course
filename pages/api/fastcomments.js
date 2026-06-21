@@ -37,7 +37,7 @@ async function redisSet(key, value) {
   const r = await fetch(`${redisUrl}/set/${key}`, {
     method: "POST",
     headers: { Authorization: `Bearer ${redisToken}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ value: JSON.stringify(value) }),
+    body: JSON.stringify(value),
   });
   const data = await r.json().catch(() => null);
   if (!r.ok || !data || data.result !== "OK") {
