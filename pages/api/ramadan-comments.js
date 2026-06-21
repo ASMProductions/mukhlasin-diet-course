@@ -21,11 +21,15 @@ async function redisGet(key) {
 }
 
 async function redisSet(key, value) {
-  await fetch(`${redisUrl}/set/${key}`, {
+  const r = await fetch(`${redisUrl}/set/${key}`, {
     method: "POST",
     headers: { Authorization: `Bearer ${redisToken}`, "Content-Type": "application/json" },
     body: JSON.stringify({ value: JSON.stringify(value) }),
   });
+  const data = await r.json().catch(() => null);
+  if (!r.ok || !data || data.result !== "OK") {
+    throw new Error(`Redis SET failed for key "${key}": ${r.status} ${JSON.stringify(data)}`);
+  }
 }
 
 export default async function handler(req, res) {
