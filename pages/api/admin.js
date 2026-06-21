@@ -1,4 +1,4 @@
-// pages/api/admin.js
+body: JSON.stringify(value),// pages/api/admin.js
 // Gated entirely by ADMIN_TOKEN (set in Vercel env vars — never in this file).
 // action=list     -> returns all pending items across testimonials, fast, ramadan
 // action=approve  -> moves an item from pending to approved
@@ -26,7 +26,7 @@ async function redisSet(key, value) {
   await fetch(`${redisUrl}/set/${key}`, {
     method: "POST",
     headers: { Authorization: `Bearer ${redisToken}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ value: JSON.stringify(value) }),
+    body: JSON.stringify(value),
   });
 }
 
