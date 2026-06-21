@@ -572,18 +572,36 @@ export default function MukhlasinCourse() {
   const [consultPaidService, setConsultPaidService] = useState(null);
   const [paywallOpen, setPaywallOpen] = useState(false);
   const hasBypass = checkBypass();
-  const [coursePhase, setCoursePhase] = useState(hasBypass ? "protective" : "paywall");
+  const [coursePhase, setCoursePhase] = useState(hasBypass ? "name" : "paywall");
   const [studentName, setStudentName] = useState("");
   const [studentEmail, setStudentEmail] = useState("");
   const [completionDate, setCompletionDate] = useState("");
   const [openSections, setOpenSections] = useState({});
+  const [introDone, setIntroDone] = useState(false);
+  const [disclaimerOpen, setDisclaimerOpen] = useState(false);
+  const [courseProgress, setCourseProgress] = useState(0);
 
   useEffect(() => {
     const access = sessionStorage.getItem("ml_access");
     if (access === "true") { setHasAccess(true); setView("library"); }
     const saved = sessionStorage.getItem("ml_progress");
     if (saved) setProgress(JSON.parse(saved));
+    const introFlag = sessionStorage.getItem("ml_course_intro_done");
+    if (introFlag === "true") {
+      setIntroDone(true);
+      setStudentName(sessionStorage.getItem("ml_student_name") || "");
+      setStudentEmail(sessionStorage.getItem("ml_student_email") || "");
+    }
+    const savedCourseProgress = sessionStorage.getItem("ml_course_progress");
+    if (savedCourseProgress) setCourseProgress(parseInt(savedCourseProgress, 10));
   }, []);
+
+  useEffect(() => {
+    if (activeMod > courseProgress) {
+      setCourseProgress(activeMod);
+      sessionStorage.setItem("ml_course_progress", String(activeMod));
+    }
+  }, [activeMod]);
 
   const saveProgress = (bookId, chIdx) => {
     const updated = { ...progress, [bookId]: chIdx };
@@ -705,9 +723,8 @@ export default function MukhlasinCourse() {
         </div>
       );
     }
-    if (coursePhase === "protective") return <div style={{ maxWidth:680, margin:"0 auto", fontFamily:"sans-serif", background:"#faf8f5", minHeight:"100vh", padding:"1.25rem" }}><ProtectiveSlides onComplete={()=>setCoursePhase("name")} /></div>;
-    if (coursePhase === "name") return <div style={{ maxWidth:680, margin:"0 auto", fontFamily:"sans-serif", background:"#faf8f5", minHeight:"100vh", padding:"1.25rem" }}><NameEntry onComplete={(n,e)=>{ setStudentName(n); setStudentEmail(e); setCoursePhase("welcome"); }} /></div>;
-    if (coursePhase === "welcome") return <div style={{ maxWidth:680, margin:"0 auto", fontFamily:"sans-serif", background:"#faf8f5", minHeight:"100vh", padding:"1.25rem" }}><WelcomeViewer onComplete={()=>setCoursePhase("chapters")} /></div>;
+    if (coursePhase === "name") return <div style={{ maxWidth:680, margin:"0 auto", fontFamily:"sans-serif", background:"#faf8f5", minHeight:"100vh", padding:"1.25rem" }}><NameEntry onComplete={(n,e)=>{ setStudentName(n); setStudentEmail(e); sessionStorage.setItem("ml_student_name", n); sessionStorage.setItem("ml_student_email", e); setCoursePhase("welcome"); }} /></div>;
+    if (coursePhase === "welcome") return <div style={{ maxWidth:680, margin:"0 auto", fontFamily:"sans-serif", background:"#faf8f5", minHeight:"100vh", padding:"1.25rem" }}><WelcomeViewer onComplete={()=>{ sessionStorage.setItem("ml_course_intro_done", "true"); setIntroDone(true); setCoursePhase("chapters"); }} /></div>;
     if (coursePhase === "certificate") return <div style={{ maxWidth:680, margin:"0 auto", fontFamily:"sans-serif", background:"#faf8f5", minHeight:"100vh", padding:"1.25rem" }}><Certificate name={studentName||"Student"} date={completionDate} onReturn={()=>setCoursePhase("chapters")} /></div>;
 
     // Chapters
@@ -722,6 +739,32 @@ export default function MukhlasinCourse() {
           <button onClick={()=>setView("library")} style={{ background:"none", border:"1px solid #8a7a5a", color:"#8a7a5a", padding:"6px 14px", borderRadius:20, cursor:"pointer", fontSize:12 }}>← Library</button>
         </div>
         <div style={{ padding:"1.25rem" }}>
+          {/* Disclaimer — collapsible, never blocks access */}
+          <div style={{ marginBottom:14, border:"1px solid #c0392b44", borderRadius:12, overflow:"hidden", background:"#fff8f8" }}>
+            <button onClick={()=>setDisclaimerOpen(o=>!o)} style={{ width:"100%", display:"flex", alignItems:"center", justifyContent:"space-between", padding:"10px 14px", background:"none", border:"none", cursor:"pointer", textAlign:"left" }}>
+              <span style={{ fontSize:11, fontWeight:700, textTransform:"uppercase", letterSpacing:"0.1em", color:"#c0392b" }}>⚠ Important — Please Read</span>
+              <span style={{ fontSize:13, color:"#c0392b", transform:disclaimerOpen?"rotate(180deg)":"none", transition:"transform 0.2s", display:"inline-block" }}>▾</span>
+            </button>
+            {disclaimerOpen && (
+              <div style={{ padding:"4px 14px 14px", borderTop:"0.5px solid #c0392b33" }}>
+                {PROTECTIVE.map((s,i)=>(
+                  <div key={i} style={{ marginBottom:i<PROTECTIVE.length-1?14:0 }}>
+                    <div style={{ fontSize:9, letterSpacing:"0.12em", textTransform:"uppercase", color:"#c0392b", marginBottom:4 }}>{s.ey}</div>
+                    {s.ti && <div style={{ fontSize:13, fontWeight:600, color:"#333", marginBottom:4, fontFamily:"Georgia, serif" }}>{s.ti}</div>}
+                    {s.bo && <div style={{ fontSize:12, color:"#555", lineHeight:1.6 }}>{s.bo}</div>}
+                    {s.list && <div style={{ marginTop:4 }}>{s.list.map((item,li)=><div key={li} style={{ fontSize:11, color:"#555", lineHeight:1.5, padding:"2px 0" }}>• {item}</div>)}</div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          {/* Course progress */}
+          <div style={{ marginBottom:16 }}>
+            <div style={{ display:"flex", justifyContent:"space-between", fontSize:11, color:"#888", marginBottom:4 }}><span>Course Progress</span><span>{Math.round(((courseProgress+1)/CHAPTERS.length)*100)}%</span></div>
+            <div style={{ height:4, background:"#e0d8cc", borderRadius:2 }}>
+              <div style={{ width:`${Math.round(((courseProgress+1)/CHAPTERS.length)*100)}%`, height:"100%", background:"#8a7a5a", borderRadius:2 }} />
+            </div>
+          </div>
           {/* Section navigator */}
           <div style={{ marginBottom:16, border:"0.5px solid #e0d8cc", borderRadius:12, overflow:"hidden", background:"white" }}>
             {sections.map((sec,si)=>{
@@ -936,7 +979,7 @@ export default function MukhlasinCourse() {
                 <div style={{ color: C.goldLight, fontSize: "1.1rem", marginBottom: "4px" }}>The Mukhlasin Diet — Complete Course</div>
                 <div style={{ color: C.muted, fontSize: "13px" }}>{CHAPTERS.length} chapters · Slides · Q&A · Certificate of Completion</div>
               </div>
-              <button onClick={() => { setActiveMod(0); setActiveSlide(0); setView("course"); }} style={{ background: C.gold, color: C.dark, border: "none", padding: "10px 20px", borderRadius: "20px", cursor: "pointer", fontSize: "13px", fontWeight: "bold" }}>Enter Course →</button>
+              <button onClick={() => { setActiveMod(0); setActiveSlide(0); setCoursePhase(introDone ? "chapters" : "name"); setView("course"); }} style={{ background: C.gold, color: C.dark, border: "none", padding: "10px 20px", borderRadius: "20px", cursor: "pointer", fontSize: "13px", fontWeight: "bold" }}>Enter Course →</button>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "0.75rem" }}>
               {CHAPTERS.map((m, i) => (
