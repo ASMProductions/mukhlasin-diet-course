@@ -11,7 +11,13 @@ const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
 async function redisGet(key) {
   const r = await fetch(`${redisUrl}/get/${key}`, { headers: { Authorization: `Bearer ${redisToken}` } });
   const data = await r.json();
-  return data.result ? JSON.parse(data.result) : [];
+  if (!data.result) return [];
+  try {
+    const parsed = typeof data.result === "string" ? JSON.parse(data.result) : data.result;
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (e) {
+    return [];
+  }
 }
 
 async function redisSet(key, value) {
