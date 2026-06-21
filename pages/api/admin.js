@@ -1,5 +1,5 @@
 // pages/api/admin.js
-// Gated entirely by ADMIN_TOKEN (set in Vercel env vars — never in this file).
+// Gated entirely by ADMIN_TOKEN (set in Vercel env vars, never in this file).
 // action=list     -> returns all pending items across testimonials, fast, ramadan
 // action=approve  -> moves an item from pending to approved
 // action=reject   -> removes an item from pending without approving it
@@ -26,7 +26,7 @@ async function redisSet(key, value) {
   await fetch(`${redisUrl}/set/${key}`, {
     method: "POST",
     headers: { Authorization: `Bearer ${redisToken}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ value: JSON.stringify(value) }),
+    body: JSON.stringify(value),
   });
 }
 
@@ -40,6 +40,10 @@ function checkToken(req) {
 }
 
 export default async function handler(req, res) {
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
+
   if (!checkToken(req)) {
     return res.status(401).json({ error: "Invalid or missing admin token." });
   }
