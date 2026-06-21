@@ -513,7 +513,7 @@ function Certificate({ name, date, onReturn }) {
         <div style={{ position:"absolute", bottom:10, left:14, fontSize:18, color:"#8a7a5a", opacity:0.4 }}>✦</div>
         <div style={{ position:"absolute", bottom:10, right:14, fontSize:18, color:"#8a7a5a", opacity:0.4 }}>✦</div>
         <div style={{ display:"flex", justifyContent:"center", marginBottom:10 }}>
-          <img src="/mukhlasin-cover.jpg" alt="The Mukhlasin Diet" style={{ width:80, height:"auto", borderRadius:8 }} />
+          <img src="/mukhlasin-logo.png" alt="The Mukhlasin Diet" style={{ width:80, height:"auto" }} />
         </div>
         <div style={{ fontSize:28, color:"#8a7a5a", direction:"rtl", fontFamily:"serif", marginBottom:4 }}>الْمُخْلَصِينَ</div>
         <div style={{ fontSize:9, letterSpacing:"0.22em", textTransform:"uppercase", color:"#8a7a5a", marginBottom:20 }}>The Mukhlasin Diet — 4th Edition · 2022</div>
@@ -576,7 +576,7 @@ export default function MukhlasinCourse() {
   const [studentName, setStudentName] = useState("");
   const [studentEmail, setStudentEmail] = useState("");
   const [completionDate, setCompletionDate] = useState("");
-  const [openSections, setOpenSections] = useState({});
+  const [openSections, setOpenSections] = useState({ "Section I — Spiritual": true });
   const [introDone, setIntroDone] = useState(false);
   const [disclaimerOpen, setDisclaimerOpen] = useState(false);
   const [courseProgress, setCourseProgress] = useState(0);
@@ -922,7 +922,9 @@ export default function MukhlasinCourse() {
             <div style={{ fontSize: "11px", color: C.muted, letterSpacing: "0.2em", textTransform: "uppercase" }}>Mastery Level Fasting Platform</div>
             <div style={{ color: C.goldLight, fontSize: "16px" }}>Your Library</div>
           </div>
-          <div style={{ display: "flex", gap: "0.75rem" }}>
+          <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+            <a href="/testimonials" style={{ background: "none", border: `1px solid ${C.gold}`, color: C.gold, padding: "6px 14px", borderRadius: "20px", cursor: "pointer", fontSize: "12px", textDecoration: "none" }}>Testimonials</a>
+            <a href="/ramadan" style={{ background: "none", border: `1px solid ${C.gold}`, color: C.gold, padding: "6px 14px", borderRadius: "20px", cursor: "pointer", fontSize: "12px", textDecoration: "none" }}>Ramadan</a>
             <button onClick={() => setView("consult")} style={{ background: "none", border: `1px solid ${C.gold}`, color: C.gold, padding: "6px 14px", borderRadius: "20px", cursor: "pointer", fontSize: "12px" }}>Book Consultation</button>
             <button onClick={() => { sessionStorage.clear(); setHasAccess(false); setView("landing"); }} style={{ background: "none", border: `1px solid ${C.border}`, color: C.muted, padding: "6px 14px", borderRadius: "20px", cursor: "pointer", fontSize: "12px" }}>Sign Out</button>
           </div>
@@ -934,7 +936,7 @@ export default function MukhlasinCourse() {
               <div style={{ color: C.goldLight, fontWeight: "bold", marginBottom: "2px" }}>Monthly 72-Hour Community Fast</div>
               <div style={{ color: C.muted, fontSize: "13px" }}>First Friday–Sunday of every month · Fast together, grow together</div>
             </div>
-            <div style={{ background: C.gold, color: C.dark, padding: "8px 16px", borderRadius: "20px", fontSize: "12px", fontWeight: "bold" }}>Active Community</div>
+            <a href="/monthly-fast" style={{ background: C.gold, color: C.dark, padding: "8px 16px", borderRadius: "20px", fontSize: "12px", fontWeight: "bold", textDecoration: "none", cursor: "pointer" }}>Active Community →</a>
           </div>
 
           <h2 style={{ color: C.dark, fontSize: "1.1rem", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "1.25rem", fontWeight: "normal" }}>Your Books</h2>
