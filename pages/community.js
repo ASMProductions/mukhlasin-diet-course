@@ -53,6 +53,31 @@ function CommentList({ items, emptyText }) {
   );
 }
 
+function MonthlyFastTab() {
+  const [data, setData] = useState(null);
+  useEffect(() => { fetch("/api/fastcomments").then(r => r.json()).then(setData); }, []);
+  const onSubmit = async (name, text) => (await fetch("/api/fastcomments", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, text }) })).json();
+  if (!data) return <div style={{ textAlign: "center", color: "#999", fontSize: 13 }}>Loading...</div>;
+  const start = new Date(data.start), end = new Date(data.end);
+  const fmtUTC = (d, opts) => d.toLocaleDateString("en-US", { timeZone: "UTC", ...opts });
+  return (
+    <div>
+      <div style={{ background: data.isActive ? "#0d0b08" : "white", border: `1px solid ${data.isActive ? C.gold : "#e0d8cc"}`, borderRadius: 14, padding: "1.25rem", marginBottom: "1.5rem", textAlign: "center" }}>
+        <div style={{ color: data.isActive ? C.goldLight : "#111", fontSize: 14, lineHeight: 1.7 }}>
+          {data.isActive
+            ? `Active now — through ${fmtUTC(end, { month: "long", day: "numeric" })}`
+            : `Next fast begins ${fmtUTC(start, { month: "long", day: "numeric", year: "numeric" })} — first Friday of the month`}
+        </div>
+      </div>
+      <div style={{ background: "white", border: "1px solid #e0d8cc", borderRadius: 14, padding: "1.5rem", marginBottom: "1.5rem" }}>
+        <div style={{ fontSize: 14, color: "#111", fontWeight: 700, marginBottom: 12 }}>Share your thoughts or perspective</div>
+        <SubmitForm onSubmit={onSubmit} placeholder="What's on your mind during this fast?" />
+      </div>
+      <CommentList items={data.comments} emptyText="No posts yet this cycle." />
+    </div>
+  );
+}
+
 function TestimonialsTab() {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -69,39 +94,18 @@ function TestimonialsTab() {
   );
 }
 
-function MonthlyFastTab() {
-  const [data, setData] = useState(null);
-  useEffect(() => { fetch("/api/fastcomments").then(r => r.json()).then(setData); }, []);
-  const onSubmit = async (name, text) => (await fetch("/api/fastcomments", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, text }) })).json();
-  if (!data) return <div style={{ textAlign: "center", color: "#999", fontSize: 13 }}>Loading...</div>;
-  const start = new Date(data.start), end = new Date(data.end);
-  return (
-    <div>
-      <div style={{ background: data.isActive ? "#0d0b08" : "white", border: `1px solid ${data.isActive ? C.gold : "#e0d8cc"}`, borderRadius: 14, padding: "1.25rem", marginBottom: "1.5rem", textAlign: "center" }}>
-        <div style={{ color: data.isActive ? C.goldLight : "#111", fontSize: 14, lineHeight: 1.7 }}>
-          {data.isActive ? `Active now — through ${end.toLocaleDateString("en-US", { month: "long", day: "numeric" })}` : `Next fast begins ${start.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })} — first Friday of the month`}
-        </div>
-      </div>
-      <div style={{ background: "white", border: "1px solid #e0d8cc", borderRadius: 14, padding: "1.5rem", marginBottom: "1.5rem" }}>
-        <div style={{ fontSize: 14, color: "#111", fontWeight: 700, marginBottom: 12 }}>Share your thoughts or perspective</div>
-        <SubmitForm onSubmit={onSubmit} placeholder="What's on your mind during this fast?" />
-      </div>
-      <CommentList items={data.comments} emptyText="No posts yet this cycle." />
-    </div>
-  );
-}
-
 function RamadanTab() {
   const [data, setData] = useState(null);
   useEffect(() => { fetch("/api/ramadan-comments").then(r => r.json()).then(setData); }, []);
   const onSubmit = async (name, text) => (await fetch("/api/ramadan-comments", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, text }) })).json();
   if (!data) return <div style={{ textAlign: "center", color: "#999", fontSize: 13 }}>Loading...</div>;
   const start = new Date(data.start), end = new Date(data.end);
+  const fmtUTC = (d, opts) => d.toLocaleDateString("en-US", { timeZone: "UTC", ...opts });
   return (
     <div>
       <div style={{ background: "white", border: "1px solid #e0d8cc", borderRadius: 14, padding: "1.25rem", marginBottom: "1.5rem", textAlign: "center" }}>
         <div style={{ fontSize: 18, color: C.gold, direction: "rtl", fontFamily: "serif", marginBottom: 6 }}>رَمَضَان</div>
-        <div style={{ color: "#111", fontSize: 14 }}>Ramadan {data.hijriYear} AH — {data.isActive ? `underway through ${end.toLocaleDateString("en-US", { month: "long", day: "numeric" })}` : `begins approximately ${start.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}`}</div>
+        <div style={{ color: "#111", fontSize: 14 }}>Ramadan {data.hijriYear} AH — {data.isActive ? `underway through ${fmtUTC(end, { month: "long", day: "numeric" })}` : `begins approximately ${fmtUTC(start, { month: "long", day: "numeric", year: "numeric" })}`}</div>
         <div style={{ color: "#999", fontSize: 11, marginTop: 6 }}>Dates are calculated and approximate.</div>
       </div>
       <div style={{ background: "white", border: "1px solid #e0d8cc", borderRadius: 14, padding: "1.5rem", marginBottom: "1.5rem" }}>
