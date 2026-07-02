@@ -49,12 +49,22 @@ function currentMonthKey() {
 }
 
 // ── Redis helpers ─────────────────────────────────────────────────────────
-async function redisGet(key) {
-  // Do NOT use encodeURIComponent — pass key directly to match MLF site API pattern
-  const r = await fetch(`${REDIS_URL}/get/${key}`, {
-    headers: { Authorization: `Bearer ${REDIS_TOKEN}` },
+// Use Upstash command-in-body format to avoid Node.js 24's URL parser
+// encoding colons in path segments (autopost:used:x → autopost%3Aused%3Ax)
+async function redisCmd(...args) {
+  const r = await fetch(REDIS_URL, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${REDIS_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(args),
   });
-  const data = await r.json();
+  return r.json();
+}
+
+async function redisGet(key) {
+  const data = await redisCmd("GET", key);
   if (!data.result) return [];
   try {
     let parsed = typeof data.result === "string" ? JSON.parse(data.result) : data.result;
@@ -69,17 +79,8 @@ async function redisGet(key) {
 }
 
 async function redisSet(key, value) {
-  // Do NOT use encodeURIComponent — pass key directly to match MLF site API pattern
-  const r = await fetch(`${REDIS_URL}/set/${key}`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${REDIS_TOKEN}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(value),
-  });
-  const data = await r.json();
-  if (!r.ok || data.result !== "OK") {
+  const data = await redisCmd("SET", key, JSON.stringify(value));
+  if (!data.result || data.result !== "OK") {
     throw new Error(`Redis SET failed for "${key}": ${JSON.stringify(data)}`);
   }
 }
