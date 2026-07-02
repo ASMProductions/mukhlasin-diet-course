@@ -1,1 +1,27 @@
+name: Nightly Auto-Post
 
+on:
+  schedule:
+    # 2:00 AM UTC every night
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+    # Allow manual trigger for testing
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run auto-post script
+        env:
+          UPSTASH_REDIS_REST_URL:   ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+        run: node scripts/auto-post.js
