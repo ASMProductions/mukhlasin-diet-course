@@ -50,20 +50,27 @@ function currentMonthKey() {
 
 // ── Redis helpers ─────────────────────────────────────────────────────────
 async function redisGet(key) {
-  const r = await fetch(`${REDIS_URL}/get/${encodeURIComponent(key)}`, {
+  // Do NOT use encodeURIComponent — pass key directly to match MLF site API pattern
+  const r = await fetch(`${REDIS_URL}/get/${key}`, {
     headers: { Authorization: `Bearer ${REDIS_TOKEN}` },
   });
   const data = await r.json();
-  if (!data.result) return null;
+  if (!data.result) return [];
   try {
-    return typeof data.result === "string" ? JSON.parse(data.result) : data.result;
+    let parsed = typeof data.result === "string" ? JSON.parse(data.result) : data.result;
+    // Handle old double-wrapped format: { value: "[...]" }
+    if (parsed && typeof parsed === "object" && !Array.isArray(parsed) && typeof parsed.value === "string") {
+      parsed = JSON.parse(parsed.value);
+    }
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
-    return null;
+    return [];
   }
 }
 
 async function redisSet(key, value) {
-  const r = await fetch(`${REDIS_URL}/set/${encodeURIComponent(key)}`, {
+  // Do NOT use encodeURIComponent — pass key directly to match MLF site API pattern
+  const r = await fetch(`${REDIS_URL}/set/${key}`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${REDIS_TOKEN}`,
