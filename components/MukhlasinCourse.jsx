@@ -1467,6 +1467,10 @@ export default function MukhlasinCourse() {
     if (saved) setProgress(JSON.parse(saved));
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [view, activeResource]);
+
   const saveProgress = (bookId, chIdx) => {
     const updated = { ...progress, [bookId]: chIdx };
     setProgress(updated);
@@ -1856,7 +1860,7 @@ export default function MukhlasinCourse() {
           <h2 style={{ color: C.dark, fontSize: "1.1rem", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "1.25rem", fontWeight: "normal" }}>Resource Library</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px,1fr))", gap: 10, marginBottom: "2.5rem" }}>
             {RESOURCE_MODULES.map((mod, i) => (
-              <div key={mod.id} onClick={() => { setActiveResource(mod); setView("resource"); window.scrollTo({ top: 0, behavior: "instant" }); }} style={{ background: C.dark, border: `1px solid ${C.border}`, padding: "1rem", cursor: "pointer", borderRadius: 8 }}>
+              <div key={mod.id} onClick={() => { setActiveResource(mod); setView("resource"); }} style={{ background: C.dark, border: `1px solid ${C.border}`, padding: "1rem", cursor: "pointer", borderRadius: 8 }}>
                 <div style={{ fontSize: 9, color: C.gold, fontFamily: "sans-serif", letterSpacing: "0.1em", marginBottom: 4 }}>MODULE {String(i + 1).padStart(2, "0")}</div>
                 <div style={{ fontSize: 13, color: C.goldLight, fontFamily: "Georgia, serif", lineHeight: 1.4 }}>{mod.title}</div>
               </div>
@@ -1914,10 +1918,10 @@ export default function MukhlasinCourse() {
           ))}
           <div style={{ display: "flex", gap: 10, marginTop: "3rem", paddingTop: "2rem", borderTop: `1px solid ${C.border}` }}>
             {modIdx > 0 && (
-              <button onClick={() => { stopSpeech(); setActiveResource(RESOURCE_MODULES[modIdx - 1]); window.scrollTo({ top: 0, behavior: "instant" }); }} style={{ background: "none", border: `1px solid ${C.gold}`, color: C.gold, padding: "10px 20px", borderRadius: "20px", cursor: "pointer", fontSize: "14px", fontFamily: "sans-serif" }}>← Previous</button>
+              <button onClick={() => { stopSpeech(); setActiveResource(RESOURCE_MODULES[modIdx - 1]); }} style={{ background: "none", border: `1px solid ${C.gold}`, color: C.gold, padding: "10px 20px", borderRadius: "20px", cursor: "pointer", fontSize: "14px", fontFamily: "sans-serif" }}>← Previous</button>
             )}
             {modIdx < RESOURCE_MODULES.length - 1 && (
-              <button onClick={() => { stopSpeech(); setActiveResource(RESOURCE_MODULES[modIdx + 1]); window.scrollTo({ top: 0, behavior: "instant" }); }} style={{ background: C.gold, border: "none", color: C.dark, padding: "10px 24px", borderRadius: "20px", cursor: "pointer", fontSize: "14px", fontWeight: "bold", fontFamily: "sans-serif" }}>Next Module →</button>
+              <button onClick={() => { stopSpeech(); setActiveResource(RESOURCE_MODULES[modIdx + 1]); }} style={{ background: C.gold, border: "none", color: C.dark, padding: "10px 24px", borderRadius: "20px", cursor: "pointer", fontSize: "14px", fontWeight: "bold", fontFamily: "sans-serif" }}>Next Module →</button>
             )}
           </div>
         </div>
