@@ -687,6 +687,9 @@ export default function MukhlasinCourse() {
   const [completionDate, setCompletionDate] = useState("");
   const [openSections, setOpenSections] = useState({});
   const [activeResource, setActiveResource] = useState(null);
+  const [leadEmail, setLeadEmail] = useState("");
+  const [leadMsg, setLeadMsg] = useState("");
+  const [leadSending, setLeadSending] = useState(false);
 
   useEffect(() => {
     const access = sessionStorage.getItem("ml_access");
@@ -712,6 +715,29 @@ export default function MukhlasinCourse() {
     const upper = code.trim().toUpperCase();
     if (FREE_CODES[upper]) { grantAccess(); }
     else { setMsg("Invalid access code. Please try again."); }
+  };
+
+  const handleLeadSubmit = async () => {
+    if (!leadEmail || !leadEmail.includes("@")) { setLeadMsg("Please enter a valid email address."); return; }
+    setLeadSending(true);
+    setLeadMsg("");
+    try {
+      const res = await fetch("/api/lead-magnet", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: leadEmail }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setLeadMsg("The guide is on its way to your inbox.");
+        setLeadEmail("");
+      } else {
+        setLeadMsg(data.error || "Something went wrong. Please try again.");
+      }
+    } catch {
+      setLeadMsg("Something went wrong. Please try again.");
+    }
+    setLeadSending(false);
   };
 
   const handleEmailSubmit = async () => {
@@ -1141,6 +1167,33 @@ export default function MukhlasinCourse() {
         <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
           <button onClick={() => setPaywallOpen(true)} style={{ background: C.gold, color: C.dark, border: "none", padding: "14px 32px", borderRadius: "30px", cursor: "pointer", fontSize: "15px", fontWeight: "bold" }}>Access the Platform →</button>
           <button onClick={() => setView("consult")} style={{ background: "transparent", color: C.gold, border: `1px solid ${C.gold}`, padding: "14px 32px", borderRadius: "30px", cursor: "pointer", fontSize: "15px" }}>Book a Consultation</button>
+        </div>
+      </div>
+
+      {/* Lead Magnet */}
+      <div style={{ background: "#1a1612", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "3rem 1.5rem" }}>
+        <div style={{ maxWidth: "560px", margin: "0 auto", textAlign: "center" }}>
+          <div style={{ fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase", color: C.gold, marginBottom: "0.75rem", fontFamily: "sans-serif" }}>Free Download</div>
+          <h2 style={{ color: C.cream, fontWeight: "normal", fontSize: "clamp(1.2rem,3vw,1.6rem)", marginBottom: "0.75rem" }}>Precision Eating</h2>
+          <p style={{ color: C.muted, fontSize: "14px", lineHeight: 1.8, marginBottom: "1.5rem", fontFamily: "sans-serif" }}>Why what you eat matters more than how much. A free guide drawn from 30+ years of practice — no supplements, no programs. One foundational shift.</p>
+          <div style={{ display: "flex", gap: "8px", maxWidth: "420px", margin: "0 auto" }}>
+            <input
+              type="email"
+              placeholder="Your email address"
+              value={leadEmail}
+              onChange={e => setLeadEmail(e.target.value)}
+              onKeyDown={e => e.key === "Enter" && handleLeadSubmit()}
+              style={{ flex: 1, padding: "12px 16px", background: "#0a0a0a", border: `1px solid ${C.border}`, borderRadius: "8px", color: C.cream, fontSize: "14px", fontFamily: "Georgia, serif" }}
+            />
+            <button
+              onClick={handleLeadSubmit}
+              disabled={leadSending}
+              style={{ background: C.gold, color: C.dark, border: "none", padding: "12px 20px", borderRadius: "8px", cursor: leadSending ? "wait" : "pointer", fontSize: "13px", fontWeight: "bold", whiteSpace: "nowrap", fontFamily: "sans-serif" }}
+            >
+              {leadSending ? "Sending..." : "Get the Guide →"}
+            </button>
+          </div>
+          {leadMsg && <div style={{ marginTop: "0.75rem", fontSize: "13px", color: leadMsg.includes("way") ? C.green : "#c08080", fontFamily: "sans-serif" }}>{leadMsg}</div>}
         </div>
       </div>
 
