@@ -1856,7 +1856,7 @@ export default function MukhlasinCourse() {
           <h2 style={{ color: C.dark, fontSize: "1.1rem", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "1.25rem", fontWeight: "normal" }}>Resource Library</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px,1fr))", gap: 10, marginBottom: "2.5rem" }}>
             {RESOURCE_MODULES.map((mod, i) => (
-              <div key={mod.id} onClick={() => { setActiveResource(mod); setView("resource"); }} style={{ background: C.dark, border: `1px solid ${C.border}`, padding: "1rem", cursor: "pointer", borderRadius: 8 }}>
+              <div key={mod.id} onClick={() => { setActiveResource(mod); setView("resource"); window.scrollTo({ top: 0, behavior: "instant" }); }} style={{ background: C.dark, border: `1px solid ${C.border}`, padding: "1rem", cursor: "pointer", borderRadius: 8 }}>
                 <div style={{ fontSize: 9, color: C.gold, fontFamily: "sans-serif", letterSpacing: "0.1em", marginBottom: 4 }}>MODULE {String(i + 1).padStart(2, "0")}</div>
                 <div style={{ fontSize: 13, color: C.goldLight, fontFamily: "Georgia, serif", lineHeight: 1.4 }}>{mod.title}</div>
               </div>
