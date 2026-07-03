@@ -1,16 +1,10 @@
 // pages/api/lead-magnet.js
-// Accepts an email, saves it to Redis, sends the PDF download link via HostGator SMTP.
-
 import nodemailer from "nodemailer";
 
 const REDIS_URL   = process.env.UPSTASH_REDIS_REST_URL;
 const REDIS_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
-const SMTP_HOST   = process.env.SMTP_HOST;
-const SMTP_PORT   = parseInt(process.env.SMTP_PORT || "465");
-const SMTP_USER   = process.env.SMTP_USER;
-const SMTP_PASS   = process.env.SMTP_PASS;
 
-const PDF_URL = "https://masterylevelfasting.com/precision_eating.pdf";
+const PDF_URL  = "https://masterylevelfasting.com/precision_eating.pdf";
 const LIST_KEY = "leads:precision-eating";
 
 async function redisCmd(...args) {
@@ -25,21 +19,19 @@ async function redisCmd(...args) {
   return r.json();
 }
 
-async function saveEmail(email) {
-  // Store as a Redis set — no duplicates, easy to export
-  await redisCmd("SADD", LIST_KEY, email);
-}
-
 async function sendGuide(email) {
   const transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: SMTP_PORT,
-    secure: SMTP_PORT === 465,
-    auth: { user: SMTP_USER, pass: SMTP_PASS },
+    host: "gator3251.hostgator.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: "noreply@masterylevelfasting.com",
+      pass: process.env.NOREPLY_EMAIL_PASSWORD,
+    },
   });
 
   await transporter.sendMail({
-    from: `"Amin Shabazz Muhammad" <${SMTP_USER}>`,
+    from: `"Amin Shabazz Muhammad" <noreply@masterylevelfasting.com>`,
     to: email,
     subject: "Your Free Guide — Precision Eating",
     html: `
@@ -65,16 +57,17 @@ async function sendGuide(email) {
     </p>
     <p style="color:#8a7a5a;font-size:12px;word-break:break-all;margin-bottom:2rem;">${PDF_URL}</p>
     <hr style="border:none;border-top:1px solid #e0d8cc;margin-bottom:1.5rem;" />
-    <p style="color:#6a6050;font-size:13px;line-height:1.8;margin-bottom:0.5rem;">
-      When you are ready to go deeper, the full platform is available at <a href="https://masterylevelfasting.com" style="color:#8a7a5a;">masterylevelfasting.com</a> — both books with read-aloud, the complete course, a monthly community fast, and personal consultations.
+    <p style="color:#6a6050;font-size:13px;line-height:1.8;">
+      When you are ready to go deeper, the full platform is available at
+      <a href="https://masterylevelfasting.com" style="color:#8a7a5a;">masterylevelfasting.com</a>
+      — both books with read-aloud, the complete course, a monthly community fast, and personal consultations.
     </p>
     <p style="color:#6a6050;font-size:12px;margin-top:2rem;text-align:center;">
       © ASM Productions LLC · masterylevelfasting.com
     </p>
   </div>
 </body>
-</html>
-    `,
+</html>`,
     text: `Thank you for requesting the guide.\n\nDownload Precision Eating here:\n${PDF_URL}\n\nWhen you are ready to go deeper, visit masterylevelfasting.com.\n\n— Amin Shabazz Muhammad`,
   });
 }
@@ -87,9 +80,13 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Valid email required." });
   }
 
+  const clean = email.toLowerCase().trim();
+
   try {
-    await saveEmail(email.toLowerCase().trim());
-    await sendGuide(email.toLowerCase().trim());
+    if (REDIS_URL && REDIS_TOKEN) {
+      await redisCmd("SADD", LIST_KEY, clean);
+    }
+    await sendGuide(clean);
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error("lead-magnet error:", err.message);
