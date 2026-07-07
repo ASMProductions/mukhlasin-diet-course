@@ -1,4 +1,6 @@
 // pages/api/lead-magnet.js
+// Saves email to Redis, initializes sequence tracking, and sends the Precision Eating PDF via SMTP.
+
 import nodemailer from "nodemailer";
 
 const REDIS_URL   = process.env.UPSTASH_REDIS_REST_URL;
@@ -6,6 +8,7 @@ const REDIS_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
 
 const PDF_URL  = "https://masterylevelfasting.com/precision_eating.pdf";
 const LIST_KEY = "leads:precision-eating";
+const FUNNEL_KEY = "precision-eating";
 
 async function redisCmd(...args) {
   const r = await fetch(REDIS_URL, {
@@ -21,17 +24,17 @@ async function redisCmd(...args) {
 
 async function sendGuide(email) {
   const transporter = nodemailer.createTransport({
-    host: "gator3251.hostgator.com",
-    port: 465,
-    secure: true,
+    host: process.env.SMTP_HOST,
+    port: parseInt(process.env.SMTP_PORT || "465"),
+    secure: parseInt(process.env.SMTP_PORT || "465") === 465,
     auth: {
-      user: "noreply@masterylevelfasting.com",
-      pass: process.env.NOREPLY_EMAIL_PASSWORD,
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
     },
   });
 
   await transporter.sendMail({
-    from: `"Amin Shabazz Muhammad" <noreply@masterylevelfasting.com>`,
+    from: `"Amin Shabazz Muhammad" <${process.env.SMTP_USER}>`,
     to: email,
     subject: "Your Free Guide — Precision Eating",
     html: `
@@ -84,8 +87,21 @@ export default async function handler(req, res) {
 
   try {
     if (REDIS_URL && REDIS_TOKEN) {
+      // 1) Store in pending set
       await redisCmd("SADD", LIST_KEY, clean);
+
+      // 2) Initialize sequence tracking data
+      const subscriberData = {
+        email: clean,
+        signup_timestamp: Math.floor(Date.now() / 1000),
+        current_step: 0,
+        sent_emails: [0], // Email 1 (step 0) is sent immediately with PDF
+      };
+
+      await redisCmd("SET", `sequence:${FUNNEL_KEY}:data:${clean}`, JSON.stringify(subscriberData));
     }
+
+    // 3) Send the guide email
     await sendGuide(clean);
     return res.status(200).json({ ok: true });
   } catch (err) {
