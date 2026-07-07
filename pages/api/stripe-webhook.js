@@ -1,61 +1,118 @@
-// pages/api/stripe-webhook.js
-// Receives Stripe payment, saves email → paid in Upstash Redis
+// pages/api/stripe-webhook.js — grants AND revokes course access
+// checkout.session.completed / customer.subscription.created / invoice.payment_succeeded
+//   -> SET paid:{email} true
+// charge.refunded / customer.subscription.deleted
+//   -> DEL paid:{email} + destroy all active sessions for that email
+// Env: STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET
+// Uses raw Upstash fetch (command-in-body) per established pattern.
+
 import Stripe from "stripe";
 export const config = { api: { bodyParser: false } };
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2023-10-16" });
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-async function getRawBody(req) {
+async function redis(cmd) {
+  const r = await fetch(process.env.UPSTASH_REDIS_REST_URL, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(cmd),
+  });
+  if (!r.ok) throw new Error("Redis request failed");
+  return (await r.json()).result;
+}
+
+function rawBody(req) {
   return new Promise((resolve, reject) => {
     const chunks = [];
-    req.on("data", chunk => chunks.push(chunk));
+    req.on("data", (c) => chunks.push(c));
     req.on("end", () => resolve(Buffer.concat(chunks)));
     req.on("error", reject);
   });
 }
 
-async function saveEmailToUpstash(email) {
-  await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/set/paid:${email.toLowerCase()}/true`, {
-    headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` },
-  });
-  console.log("Access recorded for:", email);
+async function grantAccess(email) {
+  const clean = email.toLowerCase().trim();
+  await redis(["SET", `paid:${clean}`, "true"]);
+  console.log("Access granted:", clean);
+}
+
+async function revokeAccess(email) {
+  const clean = email.toLowerCase().trim();
+  // 1. Remove the paid flag — no new magic links can be issued
+  await redis(["DEL", `paid:${clean}`]);
+  // 2. Kill every active session — existing logins stop working immediately
+  try {
+    const tokens = await redis(["SMEMBERS", `mlf:sessions:${clean}`]);
+    if (Array.isArray(tokens)) {
+      for (const t of tokens) {
+        await redis(["DEL", `mlf:session:${t}`]);
+      }
+    }
+    await redis(["DEL", `mlf:sessions:${clean}`]);
+  } catch (err) {
+    console.error("Session revocation error:", err.message);
+  }
+  console.log("Access revoked:", clean);
+}
+
+async function emailFromCustomer(customerId) {
+  try {
+    const customer = await stripe.customers.retrieve(customerId);
+    return customer.email || null;
+  } catch (err) {
+    console.error("Could not retrieve customer:", err.message);
+    return null;
+  }
 }
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
-  const rawBody = await getRawBody(req);
-  const sig = req.headers["stripe-signature"];
+
   let event;
   try {
-    event = stripe.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_WEBHOOK_SECRET);
+    const buf = await rawBody(req);
+    const sig = req.headers["stripe-signature"];
+    event = stripe.webhooks.constructEvent(buf, sig, process.env.STRIPE_WEBHOOK_SECRET);
   } catch (err) {
     console.error("Webhook signature failed:", err.message);
     return res.status(400).json({ error: err.message });
   }
 
-  // One-time payment (course, lifetime)
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
-    const email = session.customer_details?.email;
-    if (email) await saveEmailToUpstash(email);
-  }
-
-  // Subscription created
-  if (event.type === "customer.subscription.created") {
-    const subscription = event.data.object;
-    const customerId = subscription.customer;
-    try {
-      const customer = await stripe.customers.retrieve(customerId);
-      if (customer.email) await saveEmailToUpstash(customer.email);
-    } catch (err) {
-      console.error("Could not retrieve customer:", err.message);
+  try {
+    // ---- GRANTS ----
+    if (event.type === "checkout.session.completed") {
+      const session = event.data.object;
+      const email = session.customer_details?.email || session.customer_email;
+      if (email) await grantAccess(email);
     }
-  }
+    if (event.type === "customer.subscription.created") {
+      const sub = event.data.object;
+      const email = await emailFromCustomer(sub.customer);
+      if (email) await grantAccess(email);
+    }
+    if (event.type === "invoice.payment_succeeded") {
+      const invoice = event.data.object;
+      const email = invoice.customer_email;
+      if (email) await grantAccess(email);
+    }
 
-  // Subscription renewed (monthly/annual renewal)
-  if (event.type === "invoice.payment_succeeded") {
-    const invoice = event.data.object;
-    const email = invoice.customer_email;
-    if (email) await saveEmailToUpstash(email);
+    // ---- REVOCATIONS ----
+    if (event.type === "charge.refunded") {
+      const charge = event.data.object;
+      let email = charge.billing_details?.email || charge.receipt_email;
+      if (!email && charge.customer) email = await emailFromCustomer(charge.customer);
+      if (email) await revokeAccess(email);
+    }
+    if (event.type === "customer.subscription.deleted") {
+      const sub = event.data.object;
+      const email = await emailFromCustomer(sub.customer);
+      if (email) await revokeAccess(email);
+    }
+  } catch (err) {
+    console.error("Webhook handling error:", err.message);
+    return res.status(500).json({ error: "Webhook handler failed" });
   }
 
   return res.status(200).json({ received: true });
