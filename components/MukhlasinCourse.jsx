@@ -1798,7 +1798,7 @@ export default function MukhlasinCourse() {
           </div>
           <div style={{ display: "flex", gap: "0.75rem" }}>
             <button onClick={() => setView("consult")} style={{ background: "none", border: `1px solid ${C.gold}`, color: C.gold, padding: "6px 14px", borderRadius: "20px", cursor: "pointer", fontSize: "12px" }}>Book Consultation</button>
-            <button onClick={() => { fetch("/api/session", { method: "DELETE" }); sessionStorage.clear(); setHasAccess(false); setView("landing"); }} style={{ background: "none", border: `1px solid ${C.border}`, color: C.muted, padding: "6px 14px", borderRadius: "20px", cursor: "pointer", fontSize: "12px" }}>Sign Out</button>
+            
           </div>
         </div>
         <div style={{ maxWidth: "900px", margin: "0 auto", padding: "2rem 1.5rem" }}>
