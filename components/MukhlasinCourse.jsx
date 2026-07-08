@@ -1461,8 +1461,16 @@ export default function MukhlasinCourse() {
   const [leadSending, setLeadSending] = useState(false);
 
   useEffect(() => {
-    const access = sessionStorage.getItem("ml_access");
-    if (access === "true") { setHasAccess(true); setView("library"); }
+    // Access codes grant access for this tab only
+    if (sessionStorage.getItem("ml_access") === "true") {
+      setHasAccess(true); setView("library");
+    } else {
+      // Check the 30-day cookie session on the server
+      fetch("/api/session")
+        .then(r => r.json())
+        .then(d => { if (d.valid) { setHasAccess(true); setView("library"); } })
+        .catch(() => {});
+    }
     const saved = sessionStorage.getItem("ml_progress");
     if (saved) setProgress(JSON.parse(saved));
   }, []);
@@ -1517,7 +1525,7 @@ export default function MukhlasinCourse() {
     if (!email.trim()) { setMsg("Please enter your email address."); return; }
     setSending(true); setMsg("");
     try {
-      const res = await fetch("/api/send-magic-link", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: email.trim().toLowerCase() }) });
+      const res = await fetch("/api/auth", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: email.trim().toLowerCase() }) });
       const data = await res.json();
       if (data.sent) { setMsg("A magic link has been sent to " + email + ". Check your inbox."); }
       else { setMsg(data.error || "No purchase found. Please enroll below or use your access code."); }
@@ -1790,7 +1798,7 @@ export default function MukhlasinCourse() {
           </div>
           <div style={{ display: "flex", gap: "0.75rem" }}>
             <button onClick={() => setView("consult")} style={{ background: "none", border: `1px solid ${C.gold}`, color: C.gold, padding: "6px 14px", borderRadius: "20px", cursor: "pointer", fontSize: "12px" }}>Book Consultation</button>
-            <button onClick={() => { sessionStorage.clear(); setHasAccess(false); setView("landing"); }} style={{ background: "none", border: `1px solid ${C.border}`, color: C.muted, padding: "6px 14px", borderRadius: "20px", cursor: "pointer", fontSize: "12px" }}>Sign Out</button>
+            <button onClick={() => { fetch("/api/session", { method: "DELETE" }); sessionStorage.clear(); setHasAccess(false); setView("landing"); }} style={{ background: "none", border: `1px solid ${C.border}`, color: C.muted, padding: "6px 14px", borderRadius: "20px", cursor: "pointer", fontSize: "12px" }}>Sign Out</button>
           </div>
         </div>
         <div style={{ maxWidth: "900px", margin: "0 auto", padding: "2rem 1.5rem" }}>
