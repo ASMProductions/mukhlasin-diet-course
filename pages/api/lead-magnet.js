@@ -24,17 +24,17 @@ async function redisCmd(...args) {
 
 async function sendGuide(email) {
   const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: parseInt(process.env.SMTP_PORT || "465"),
-    secure: parseInt(process.env.SMTP_PORT || "465") === 465,
+    host: "gator3251.hostgator.com",
+    port: 465,
+    secure: true,
     auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
+      user: "noreply@masterylevelfasting.com",
+      pass: process.env.NOREPLY_EMAIL_PASSWORD,
     },
   });
 
   await transporter.sendMail({
-    from: `"Amin Shabazz Muhammad" <${process.env.SMTP_USER}>`,
+    from: `"Amin Shabazz Muhammad" <noreply@masterylevelfasting.com>`,
     to: email,
     subject: "Your Free Guide — Precision Eating",
     html: `
@@ -62,7 +62,7 @@ async function sendGuide(email) {
     <hr style="border:none;border-top:1px solid #e0d8cc;margin-bottom:1.5rem;" />
     <p style="color:#6a6050;font-size:13px;line-height:1.8;">
       When you are ready to go deeper, the full platform is available at
-      <a href="https://masterylevelfasting.com" style="color:#8a7a5a;">masterylevelfasting.com</a>
+      <a href="https://www.masterylevelfasting.com" style="color:#8a7a5a;">www.masterylevelfasting.com</a>
       — both books with read-aloud, the complete course, a monthly community fast, and personal consultations.
     </p>
     <p style="color:#6a6050;font-size:12px;margin-top:2rem;text-align:center;">
@@ -71,7 +71,7 @@ async function sendGuide(email) {
   </div>
 </body>
 </html>`,
-    text: `Thank you for requesting the guide.\n\nDownload Precision Eating here:\n${PDF_URL}\n\nWhen you are ready to go deeper, visit masterylevelfasting.com.\n\n— Amin Shabazz Muhammad`,
+    text: `Thank you for requesting the guide.\n\nDownload Precision Eating here:\n${PDF_URL}\n\nWhen you are ready to go deeper, visit www.masterylevelfasting.com.\n\n— Amin Shabazz Muhammad`,
   });
 }
 
@@ -87,21 +87,18 @@ export default async function handler(req, res) {
 
   try {
     if (REDIS_URL && REDIS_TOKEN) {
-      // 1) Store in pending set
       await redisCmd("SADD", LIST_KEY, clean);
 
-      // 2) Initialize sequence tracking data
       const subscriberData = {
         email: clean,
         signup_timestamp: Math.floor(Date.now() / 1000),
         current_step: 0,
-        sent_emails: [0], // Email 1 (step 0) is sent immediately with PDF
+        sent_emails: [0],
       };
 
       await redisCmd("SET", `sequence:${FUNNEL_KEY}:data:${clean}`, JSON.stringify(subscriberData));
     }
 
-    // 3) Send the guide email
     await sendGuide(clean);
     return res.status(200).json({ ok: true });
   } catch (err) {
